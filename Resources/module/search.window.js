@@ -57,9 +57,21 @@ exports.create = function() {
 	self.add(self.dummy);
 	self.add(self.tv);
 	self.tv.addEventListener('click', function(_e) {
-		//		var win = require('/modules/window/rezeptwin').create(_e.row.recipe);
-		//		self.tab.open(win);
+		var win = Ti.UI.createWindow({
+			modal : true,
+			height : '90%',
+			bottom : 0,
+			borderRadius : 8,
+			backgroundColor : 'white',
+			navBarHidden : true
+		});
+		require('module/model').getDetail(_e.rowData.data.id, function(_data) {
+			console.log(_data);
+		});
+		win.addEventListener('click', function() {
+			win.close();
+		});
+		win.open();
 	});
-
 	return self;
 }
