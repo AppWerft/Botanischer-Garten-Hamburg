@@ -12,6 +12,7 @@ exports.create = function() {
 		showCancel : true,
 		showBookmark : false,
 		top : 60,
+		height : 50,
 		hintText : 'Suche …'
 	});
 	self.dummy = Titanium.UI.createTableView({
@@ -21,8 +22,9 @@ exports.create = function() {
 		searchHidden : false,
 	});
 	self.tv = Ti.UI.createTableView({
-		top : 110,
-		height : Ti.UI.FILL
+		top : 100,
+		height : Ti.UI.FILL,
+		backgroundColor : 'transparent'
 	});
 	search.addEventListener('focus', function(_e) {
 		self.tv.data = [];
@@ -37,6 +39,7 @@ exports.create = function() {
 					data : r,
 					height : 80,
 					layout : 'vertical',
+					backgroundColor : 'white',
 					height : Ti.UI.SIZE
 				});
 				rows[i].add(Ti.UI.createLabel({
@@ -65,7 +68,7 @@ exports.create = function() {
 	self.tv.addEventListener('click', function(_e) {
 		var win = Ti.UI.createWindow({
 			navBarHidden : true,
-			backgroundColor : 'white'
+
 		});
 		win.add(Ti.UI.createImageView({
 			width : Ti.UI.FILL,
@@ -73,6 +76,7 @@ exports.create = function() {
 			top : 0
 		}));
 		win.tv = Ti.UI.createTableView({
+			backgroundColor : 'transparent',
 			top : 60
 		});
 		win.add(win.tv);

@@ -1,6 +1,6 @@
 exports.create = function(k, v) {
 	var self = Ti.UI.createTableViewRow({
-		layout : 'vertical'
+		layout : 'vertical',backgroundColor : 'white'
 	});
 	self.add(Ti.UI.createLabel({
 		text : k,

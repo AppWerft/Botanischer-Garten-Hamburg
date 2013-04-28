@@ -9,7 +9,8 @@ exports.create = function() {
 	}));
 	self.tv = Ti.UI.createTableView({
 		top : 60,
-		height : Ti.UI.FILL
+		height : Ti.UI.FILL,
+		backgroundImage : '/assets/bg.png'
 	});
 	self.add(self.tv);
 
@@ -19,6 +20,7 @@ exports.create = function() {
 			var e = _events[i];
 			rows[i] = Ti.UI.createTableViewRow({
 				hasChild : true,
+				backgroundColor : 'white',
 				layout : 'vertical',
 				html : e.description
 			});
@@ -26,7 +28,8 @@ exports.create = function() {
 				text : e.title.split(' | ')[0],
 				width : Ti.UI.FILL,
 				color : '#060',
-				left : 10,top:5,
+				left : 10,
+				top : 5,
 				font : {
 					fontWeight : 'bold',
 					fontSize : 20
@@ -35,7 +38,8 @@ exports.create = function() {
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[1],
 				width : Ti.UI.FILL,
-				left : 10,bottom:5
+				left : 10,
+				bottom : 5
 			}));
 		}
 		self.tv.setData(rows);

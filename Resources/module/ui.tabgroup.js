@@ -1,6 +1,6 @@
 exports.create = function() {
 	Ti.UI.iPhone.hideStatusBar();
-	Ti.UI.backgroundColor = 'white';
+	Ti.UI.backgroundImage = '/assets/bg.png';
 	var TabBar = require('me.izen.tabbar');
 	var tabGroup = TabBar.createTabBar({
 		tabBarColor : 'black',
