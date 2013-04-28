@@ -37,7 +37,9 @@
         </splash>
         <theme>default</theme>
     </mobileweb>
-    <modules/>
+    <modules>
+        <module platform="iphone">me.izen.tabbar</module>
+    </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
         <target device="android">true</target>

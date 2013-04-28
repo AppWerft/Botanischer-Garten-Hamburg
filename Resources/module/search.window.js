@@ -1,5 +1,7 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow();
+	var self = Ti.UI.createWindow({
+		navBarHidden : true
+	});
 	var search = Ti.UI.createSearchBar({
 		barColor : '#000',
 		showCancel : true,
@@ -58,20 +60,22 @@ exports.create = function() {
 	self.add(self.tv);
 	self.tv.addEventListener('click', function(_e) {
 		var win = Ti.UI.createWindow({
-			modal : true,
-			height : '90%',
-			bottom : 0,
-			borderRadius : 8,
-			backgroundColor : 'white',
-			navBarHidden : true
+			navBarHidden : true,
+			backgroundColor : 'white'
 		});
 		require('module/model').getDetail(_e.rowData.data.id, function(_data) {
-			console.log(_data);
+			win.add(Ti.UI.createLabel({
+				text : JSON.stringify(_data)
+			}));
 		});
 		win.addEventListener('click', function() {
-			win.close();
+			win.close({
+				animate : true
+			});
 		});
-		win.open();
+		self.tab.open(win,{
+				animate : true
+			});
 	});
 	return self;
 }

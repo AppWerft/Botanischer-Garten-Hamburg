@@ -30,3 +30,6 @@ exports.getDetail = function(_id, _callback) {
 		_callback(res);
 	})
 }
+exports.getCalendar = function() {
+	var url = 'http://bghamburg.de/veranstaltungen';
+}
