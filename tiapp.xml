@@ -11,10 +11,10 @@
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
-    <statusbar-hidden>false</statusbar-hidden>
+    <statusbar-hidden>true</statusbar-hidden>
     <fullscreen>false</fullscreen>
-    <navbar-hidden>false</navbar-hidden>
-    <analytics>true</analytics>
+    <navbar-hidden>true</navbar-hidden>
+    <analytics>false</analytics>
     <guid>da6aea03-b629-43be-bc94-8c3a207593a0</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
     <iphone>

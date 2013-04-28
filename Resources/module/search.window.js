@@ -4,7 +4,7 @@ exports.create = function() {
 	});
 	self.add(Ti.UI.createImageView({
 		width : Ti.UI.FILL,
-		image : '/assets/head1.png',
+		image : '/assets/head2.png',
 		top : 0
 	}));
 	var search = Ti.UI.createSearchBar({
@@ -67,12 +67,31 @@ exports.create = function() {
 			navBarHidden : true,
 			backgroundColor : 'white'
 		});
+		win.add(Ti.UI.createImageView({
+			width : Ti.UI.FILL,
+			image : '/assets/head2.png',
+			top : 0
+		}));
+		win.tv = Ti.UI.createTableView({
+			top : 60
+		});
+		win.add(win.tv);
 		require('module/model').getDetail(_e.rowData.data.id, function(_data) {
-			win.add(Ti.UI.createLabel({
-				text : JSON.stringify(_data)
+			win.tv.appendRow(require('module/row').create('Familie', _data.Familie));
+			win.tv.appendRow(require('module/row').create('Gattung Art', _data.Gattung + ' ' + _data.Art));
+			win.tv.appendRow(require('module/row').create('Unterart', _data.Unterart));
+			win.tv.appendRow(require('module/row').create('Sorte', _data.Sorte));
+			win.tv.appendRow(require('module/row').create('Deutscher Name', _data['Deutscher Name']));
+			win.tv.appendRow(require('module/row').create('Bereich', _data.Bereich));
+			win.tv.appendRow(require('module/row').create('Unterbereich', _data.Unterbereich));
+			win.add(Ti.UI.createImageView({
+				top : 60,
+				right : 0,
+				width : 80,
+				image : '/assets/' + _data.Standort + '.png'
 			}));
 		});
-		win.addEventListener('click', function() {
+		win.addEventListener('swipe', function() {
 			win.close({
 				animate : true
 			});

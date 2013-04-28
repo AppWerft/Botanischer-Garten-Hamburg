@@ -25,8 +25,8 @@ exports.create = function() {
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[0],
 				width : Ti.UI.FILL,
-				color : '#aaa',
-				left : 10,
+				color : '#060',
+				left : 10,top:5,
 				font : {
 					fontWeight : 'bold',
 					fontSize : 20
@@ -35,7 +35,7 @@ exports.create = function() {
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[1],
 				width : Ti.UI.FILL,
-				left : 10
+				left : 10,bottom:5
 			}));
 		}
 		self.tv.setData(rows);
