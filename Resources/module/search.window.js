@@ -2,22 +2,26 @@ exports.create = function() {
 	var self = Ti.UI.createWindow({
 		navBarHidden : true
 	});
+	self.add(Ti.UI.createImageView({
+		width : Ti.UI.FILL,
+		image : '/assets/head1.png',
+		top : 0
+	}));
 	var search = Ti.UI.createSearchBar({
 		barColor : '#000',
 		showCancel : true,
 		showBookmark : false,
-		top : 0,
-
+		top : 60,
 		hintText : 'Suche …'
 	});
 	self.dummy = Titanium.UI.createTableView({
 		search : search,
 		height : 50,
-		top : 0,
+		top : 60,
 		searchHidden : false,
 	});
 	self.tv = Ti.UI.createTableView({
-		top : 50,
+		top : 110,
 		height : Ti.UI.FILL
 	});
 	search.addEventListener('focus', function(_e) {
@@ -73,9 +77,9 @@ exports.create = function() {
 				animate : true
 			});
 		});
-		self.tab.open(win,{
-				animate : true
-			});
+		self.tab.open(win, {
+			animate : true
+		});
 	});
 	return self;
 }

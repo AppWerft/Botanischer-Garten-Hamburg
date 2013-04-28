@@ -11,12 +11,18 @@ exports.create = function() {
 		title : 'Suche',
 		window : require('module/search.window').create('')
 	});
-	tabGroup.addTab(searchTab);
+
 	var calTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
 		window : require('module/calendar.window').create('')
 	});
-	tabGroup.addTab(calTab);
+	var mapTab = TabBar.createTab({
+		icon : 'assets/radar.png',
+		title : 'Plan',
+		window : require('module/map.window').create('')
+	});
+	tabGroup.addTab(searchTab);
+	tabGroup.addTab(calTab);tabGroup.addTab(mapTab);
 	tabGroup.open();
 }

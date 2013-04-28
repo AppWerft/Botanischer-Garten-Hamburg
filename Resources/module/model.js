@@ -30,6 +30,16 @@ exports.getDetail = function(_id, _callback) {
 		_callback(res);
 	})
 }
-exports.getCalendar = function() {
-	var url = 'http://bghamburg.de/veranstaltungen';
+exports.getCalendar = function(_callback) {
+	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			var XMLTools = require("vendor/XMLTools");
+			var parser = new XMLTools(this.responseXML);
+			var res = parser.toObject().channel.item;
+			_callback(res);
+		}
+	});
+	xhr.open('GET', url);
+	xhr.send();
 }
