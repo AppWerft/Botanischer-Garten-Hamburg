@@ -1,4 +1,4 @@
-var DBNAME = 'flora1',DBFILE = '/depot/flora1.sql';
+var DBNAME = 'flora1', DBFILE = '/depot/flora.sql';
 exports.search = function(_needle, _callback) {
 	if (_needle.length < 2)
 		return;
@@ -81,6 +81,18 @@ exports.getFamilien = function(_callback) {
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push(resultSet.fieldByName('familie'));
+		resultSet.next();
+	}
+	resultSet.close();
+	_callback(results);
+	link.close();
+}
+exports.getGattungen = function(_familie, _callback) {
+	var link = Ti.Database.install(DBFILE, DBNAME);
+	var resultSet = link.execute('SELECT DISTINCT gattung FROM flora WHERE familie="' + _familie + '" ORDER BY gattung');
+	var results = [];
+	while (resultSet.isValidRow()) {
+		results.push(resultSet.fieldByName('gattung'));
 		resultSet.next();
 	}
 	resultSet.close();

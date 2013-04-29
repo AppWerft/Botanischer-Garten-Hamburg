@@ -9,7 +9,7 @@ exports.create = function() {
 	var taxoTab = TabBar.createTab({
 		icon : 'assets/cabinet.png',
 		title : 'Taxonomie',
-		window : require('module/taxo.window').create('')
+		window : require('module/taxo.familie.window').create('')
 	});
 	var searchTab = TabBar.createTab({
 		icon : 'assets/magnify.png',

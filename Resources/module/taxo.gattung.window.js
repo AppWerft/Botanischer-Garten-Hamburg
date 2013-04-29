@@ -1,4 +1,4 @@
-exports.create = function() {
+exports.create = function(_familie) {
 	var self = Ti.UI.createWindow({
 		navBarHidden : true
 	});
@@ -14,8 +14,7 @@ exports.create = function() {
 		backgroundColor : 'transparent'
 	});
 	var rows = [];
-	require('module/model').getFamilien(function(_results) {
-		console.log(_results);
+	require('module/model').getGattungen(_familie,function(_results) {
 		for (var i = 0; i < _results.length; i++) {
 			var r = _results[i];
 			rows[i] = Ti.UI.createTableViewRow({
