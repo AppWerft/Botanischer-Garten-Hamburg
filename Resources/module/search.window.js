@@ -81,18 +81,18 @@ exports.create = function() {
 		});
 		win.add(win.tv);
 		require('module/model').getDetail(_e.rowData.data.id, function(_data) {
-			win.tv.appendRow(require('module/row').create('Familie', _data.Familie));
-			win.tv.appendRow(require('module/row').create('Gattung Art', _data.Gattung + ' ' + _data.Art));
-			win.tv.appendRow(require('module/row').create('Unterart', _data.Unterart));
-			win.tv.appendRow(require('module/row').create('Sorte', _data.Sorte));
+			win.tv.appendRow(require('module/row').create('Familie', _data.familie));
+			win.tv.appendRow(require('module/row').create('Gattung Art', _data.gattung + ' ' + _data.art));
+			win.tv.appendRow(require('module/row').create('Unterart', _data.unterart));
+			win.tv.appendRow(require('module/row').create('Sorte', _data.sorte));
 			win.tv.appendRow(require('module/row').create('Deutscher Name', _data['Deutscher Name']));
-			win.tv.appendRow(require('module/row').create('Bereich', _data.Bereich));
-			win.tv.appendRow(require('module/row').create('Unterbereich', _data.Unterbereich));
+			win.tv.appendRow(require('module/row').create('Bereich', _data.bereich));
+			win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));
 			win.add(Ti.UI.createImageView({
 				top : 60,
 				right : 0,
 				width : 80,
-				image : '/assets/' + _data.Standort + '.png'
+				image : '/assets/' + _data.standort + '.png'
 			}));
 		});
 		win.addEventListener('swipe', function() {

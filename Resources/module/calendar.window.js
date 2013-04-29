@@ -57,10 +57,10 @@ exports.create = function() {
 		}));
 		win.add(Ti.UI.createWebView({
 			top : 60,
-			html : '<style>* {font-family:Helvetica}</style>' + _e.rowData.html,
+			html : '<style>* {font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style>' + _e.rowData.html,
 			disableBounce : true
-		}));
-		win.addEventListener('click', function() {
+		}));console.log(_e.rowData.html);
+		win.addEventListener('swipe', function() {
 			win.close({
 				animate : true
 			});

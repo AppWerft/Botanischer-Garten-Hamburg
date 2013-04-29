@@ -6,6 +6,11 @@ exports.create = function() {
 		tabBarColor : 'black',
 		selectedImageTintColor : 'green'
 	});
+	var taxoTab = TabBar.createTab({
+		icon : 'assets/cabinet.png',
+		title : 'Taxonomie',
+		window : require('module/taxo.window').create('')
+	});
 	var searchTab = TabBar.createTab({
 		icon : 'assets/magnify.png',
 		title : 'Suche',
@@ -22,7 +27,9 @@ exports.create = function() {
 		title : 'Plan',
 		window : require('module/map.window').create('')
 	});
+	tabGroup.addTab(taxoTab);
 	tabGroup.addTab(searchTab);
-	tabGroup.addTab(calTab);tabGroup.addTab(mapTab);
+	tabGroup.addTab(calTab);
+	tabGroup.addTab(mapTab);
 	tabGroup.open();
 }
