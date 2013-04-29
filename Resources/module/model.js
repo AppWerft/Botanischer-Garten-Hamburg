@@ -1,9 +1,9 @@
-var DBNAME = 'flora';
+var DBNAME = 'flora1',DBFILE = '/depot/flora1.sql';
 exports.search = function(_needle, _callback) {
-	if (_needle.length < 3)
+	if (_needle.length < 2)
 		return;
-	var link = Ti.Database.install('/depot/flora.db', DBNAME);
-	var resultSet = link.execute('SELECT DISTINCT deutsch,art,gattung,id FROM flora WHERE deutsch like "%' + _needle + '%" GROUP BY deutsch LIMIT 0,500');
+	var link = Ti.Database.install(DBFILE, DBNAME);
+	var resultSet = link.execute('SELECT DISTINCT deutsch,art,gattung,id FROM flora WHERE deutsch like "%' + _needle + '%" GROUP BY deutsch LIMIT 0,100');
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -22,7 +22,7 @@ exports.search = function(_needle, _callback) {
 
 }
 exports.getDetail = function(_id, _callback) {
-	var link = Ti.Database.install('/depot/flora.db', DBNAME);
+	var link = Ti.Database.install(DBFILE, DBNAME);
 	var resultSet = link.execute('SELECT * FROM flora WHERE familie <> "" AND familie <> "undefined" AND id="' + _id + '"');
 	var fields = [];
 	if (resultSet.isValidRow() && resultSet.getRowCount() == 1) {
@@ -76,8 +76,8 @@ exports.getCalendar = function(_callback) {
 	xhr.send();
 }
 exports.getFamilien = function(_callback) {
-	var link = Ti.Database.install('/depot/flora.db', DBNAME);
-	var resultSet = link.execute('SELECT DISTINCT familie FROM flora ORDER BY familie');
+	var link = Ti.Database.install(DBFILE, DBNAME);
+	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie <> "" ORDER BY familie');
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push(resultSet.fieldByName('familie'));
