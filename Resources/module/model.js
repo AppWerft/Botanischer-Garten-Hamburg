@@ -1,8 +1,24 @@
-var DBNAME = 'flora1', DBFILE = '/depot/flora.sql';
+var DBNAME = 'flora3', DBFILE = '/depot/flora.sql';
+var link = undefined;
+exports.getAll = function() {
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+	var resultSet = link.execute('SELECT  id FROM flora ORDER BY id LIMIT 5000,15000');
+	var results = [];
+	while (resultSet.isValidRow()) {
+		require('module/model').getDetail(resultSet.fieldByName('id'), function() {
+		});
+		resultSet.next();
+	}
+	resultSet.close();
+}
+
 exports.search = function(_needle, _callback) {
 	if (_needle.length < 2)
 		return;
-	var link = Ti.Database.install(DBFILE, DBNAME);
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+
 	var resultSet = link.execute('SELECT DISTINCT deutsch,art,gattung,id FROM flora WHERE deutsch like "%' + _needle + '%" GROUP BY deutsch LIMIT 0,100');
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -18,14 +34,16 @@ exports.search = function(_needle, _callback) {
 	}
 	resultSet.close();
 	_callback(results);
-	link.close();
 
 }
 exports.getDetail = function(_id, _callback) {
-	var link = Ti.Database.install(DBFILE, DBNAME);
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+
 	var resultSet = link.execute('SELECT * FROM flora WHERE familie <> "" AND familie <> "undefined" AND id="' + _id + '"');
 	var fields = [];
-	if (resultSet.isValidRow() && resultSet.getRowCount() == 1) {
+	if (resultSet.isValidRow() && resultSet.getRowCount() > 0) {
+	//	console.log('Data found.');
 		for (var i = 0; i < resultSet.fieldCount(); i++) {
 			fields.push(resultSet.fieldName(i));
 		}
@@ -41,9 +59,13 @@ exports.getDetail = function(_id, _callback) {
 	}
 	var results = [];
 	var url = 'http://bghamburg.de/datenbank-detail?detail=' + _id;
-	Titanium.Yahoo.yql('SELECT * FROM html WHERE url="' + url + '" AND xpath="//table"', function(_y) {
-		if (!_y.data)
+	var query = 'SELECT * FROM html WHERE url="' + url + '" AND xpath="//table"';
+	Ti.Yahoo.yql(query, function(_y) {
+		if (!_y.data) {
+			console.log(_y);
 			return;
+		}
+		
 		var tr = _y.data.table.tbody.tr;
 		var res = {};
 		for (var i = 0; i < tr.length; i++) {
@@ -51,13 +73,13 @@ exports.getDetail = function(_id, _callback) {
 			var val = tr[i].td[1].p;
 			res[key] = val;
 		}
-		var q = 'UPDATE flora SET familie="' + res.familie + '", bereich="' + res.bereich + '",unterbereich="' + res.unterbereich + '" WHERE id=' + _id;
+		var q = 'UPDATE flora SET standort="' + res.standort + '", familie="' + res.familie + '", bereich="' + res.bereich + '",unterbereich="' + res.unterbereich + '" WHERE id=' + _id;
 		console.log(q);
 		try {
 			link.execute(q);
 		} catch(E) {
 		}
-		link.close();
+
 		if (_callback)
 			_callback(res);
 	})
@@ -76,7 +98,9 @@ exports.getCalendar = function(_callback) {
 	xhr.send();
 }
 exports.getFamilien = function(_callback) {
-	var link = Ti.Database.install(DBFILE, DBNAME);
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+
 	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie <> "" ORDER BY familie');
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -85,10 +109,12 @@ exports.getFamilien = function(_callback) {
 	}
 	resultSet.close();
 	_callback(results);
-	link.close();
+
 }
 exports.getGattungen = function(_familie, _callback) {
-	var link = Ti.Database.install(DBFILE, DBNAME);
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+
 	var resultSet = link.execute('SELECT DISTINCT gattung FROM flora WHERE familie="' + _familie + '" ORDER BY gattung');
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -97,5 +123,5 @@ exports.getGattungen = function(_familie, _callback) {
 	}
 	resultSet.close();
 	_callback(results);
-	link.close();
+
 }
