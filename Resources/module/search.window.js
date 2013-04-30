@@ -34,7 +34,7 @@ exports.create = function() {
 		require('module/model').search(search.value, function(_results) {
 			for (var i = 0; i < _results.length; i++) {
 				var r = _results[i];
-				require('module/artrow').create(r);
+				rows.push(require('module/artrow').create(r));
 			}
 			self.tv.data = rows;
 		});

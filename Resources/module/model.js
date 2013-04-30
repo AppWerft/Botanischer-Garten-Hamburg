@@ -34,7 +34,7 @@ exports.getAll = function() {
 }
 
 exports.search = function(_needle, _callback) {
-	if (_needle.length < 2)
+	if (_needle.length < 4)
 		return;
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
@@ -54,7 +54,6 @@ exports.search = function(_needle, _callback) {
 	}
 	resultSet.close();
 	_callback(results);
-
 }
 
 exports.getDetail = function(_id, _callback) {
@@ -72,7 +71,6 @@ exports.getDetail = function(_id, _callback) {
 				var field = fields[i];
 				data[field] = resultSet.fieldByName(field);
 			}
-			console.log(data);
 			if (_callback)
 				_callback(data);
 			resultSet.close();
@@ -95,7 +93,6 @@ exports.getDetail = function(_id, _callback) {
 			}
 
 			var q = 'UPDATE flora SET standort="' + res.standort + '"  WHERE id=' + _id;
-			console.log(q);
 			try {
 				link.execute('BEGIN TRANSACTION;');
 				link.execute(q);
@@ -130,7 +127,7 @@ exports.getFamilien = function(_callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 
-	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie <> "" ORDER BY familie');
+	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie NOT LIKE "?%" ORDER BY familie');
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push(resultSet.fieldByName('familie'));
@@ -143,11 +140,8 @@ exports.getFamilien = function(_callback) {
 exports.getGattungenByFamilie = function(_familie, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	console.log(link);
 	var q = 'SELECT DISTINCT gattung FROM flora WHERE familie="' + _familie + '" ORDER BY gattung';
-	console.log(q);
 	var resultSet = link.execute(q);
-	console.log(resultSet);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push(resultSet.fieldByName('gattung'));
@@ -162,7 +156,6 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var q = 'SELECT DISTINCT id,art,gattung,deutsch FROM flora WHERE gattung="' + _gattung + '" GROUP BY art,subart ORDER BY art';
 	var resultSet = link.execute(q);
-	console.log(resultSet);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -176,6 +169,25 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 	resultSet.close();
 	_callback(results);
 	return results;
+}
+exports.getArtenByBereich = function(_bereich, _callback) {
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+	var q = 'SELECT DISTINCT id,art,gattung,deutsch FROM flora WHERE bereich="' + _bereich + '" GROUP BY art,subart ORDER BY art';
+	var resultSet = link.execute(q);
+	console.log(resultSet);
+	var results = [];
+	while (resultSet.isValidRow()) {
+		results.push({
+			art : resultSet.fieldByName('art'),
+			gattung : resultSet.fieldByName('gattung'),
+			id : resultSet.fieldByName('id'),
+			deutsch : resultSet.fieldByName('deutsch')
+		});
+		resultSet.next();
+	}
+	resultSet.close();
+	_callback(results);
 }
 
 exports.getBereiche = function() {
