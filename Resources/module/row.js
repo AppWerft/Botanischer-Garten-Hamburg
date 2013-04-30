@@ -6,7 +6,9 @@ exports.create = function(k, v) {
 		text : k,
 		left : 10,
 		width : Ti.UI.FILL,
-		top : 5
+		top : 5,font : {
+			fontSize : 10
+		}
 	}));
 	self.add(Ti.UI.createLabel({
 		text : v,

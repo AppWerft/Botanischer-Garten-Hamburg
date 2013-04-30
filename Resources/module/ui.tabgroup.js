@@ -16,7 +16,11 @@ exports.create = function() {
 		title : 'Suche',
 		window : require('module/search.window').create('')
 	});
-
+	var pickerTab = TabBar.createTab({
+		icon : '',
+		title : 'Picker',
+		window : require('module/picker.window').create('')
+	});
 	var calTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
@@ -28,6 +32,7 @@ exports.create = function() {
 		window : require('module/map.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
+	tabGroup.addTab(pickerTab);
 	tabGroup.addTab(searchTab);
 	tabGroup.addTab(calTab);
 	tabGroup.addTab(mapTab);
