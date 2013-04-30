@@ -1,22 +1,29 @@
 exports.get = function(_item, _callback) {
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
-			var search = JSON.parse(xhr.responseText).query.search;
+			try {
+				var search = JSON.parse(xhr.responseText).query.search;
+			} catch (E) {
+				return;
+			}
 			var titles = [];
 			for (var i = 0; i < search.length; i++) {
 				titles.push(encodeURI(search[i].title));
 			}
 			var sub = Ti.Network.createHTTPClient({
 				onload : function() {
-					var res = JSON.parse(sub.responseText).query.pages;
-					var images = [];
-					for (var key in res) {
-						if (key < 0)
-							continue;
-						console.log(res[key].imageinfo);
-						images.push(res[key].imageinfo[0].url);
+					try {
+						var res = JSON.parse(sub.responseText).query.pages;
+						var images = [];
+						for (var key in res) {
+							if (key < 0)
+								continue;
+							console.log(res[key].imageinfo);
+							images.push(res[key].imageinfo[0].url);
+						}
+						_callback(images);
+					} catch(E) {
 					}
-					_callback(images);
 				}
 			});
 			sub.open('POST', 'https://commons.wikimedia.org/w/api.php');

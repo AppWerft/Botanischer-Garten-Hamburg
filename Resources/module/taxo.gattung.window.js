@@ -14,28 +14,16 @@ exports.create = function(_familie) {
 		backgroundColor : 'transparent'
 	});
 	var rows = [];
-	require('module/model').getGattungen(_familie,function(_results) {
+	require('module/model').getGattungenByFamilie(_familie, function(_results) {
 		for (var i = 0; i < _results.length; i++) {
 			var r = _results[i];
-			rows[i] = Ti.UI.createTableViewRow({
-				hasChild : true,
-				data : r,
-				height : 50,
-				layout : 'vertical',
-				backgroundColor : 'white',
+			rows[i] = Ti.UI.createTableViewSection({
+				headerTitle : r,
 			});
-			rows[i].add(Ti.UI.createLabel({
-				text : r,
-				top : 10,bottom:10,
-				color : '#444',
-				width : Ti.UI.FILL,
-				font : {
-					fontWeight : 'bold',
-					fontSize : 20
-				},
-				left : 10
-			}));
-
+			var arten = require('module/model').getArtenByGattung(r);
+			for (var a = 0; a < arten.length; a++) {
+				rows[i].add(require('module/artrow').create(arten[a]));
+			}
 		}
 		self.tv.data = rows;
 	});
