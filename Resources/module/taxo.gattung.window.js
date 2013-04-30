@@ -14,19 +14,23 @@ exports.create = function(_familie) {
 		backgroundColor : 'transparent'
 	});
 	var rows = [];
-	require('module/model').getGattungenByFamilie(_familie, function(_results) {
-		for (var i = 0; i < _results.length; i++) {
-			var r = _results[i];
-			rows[i] = Ti.UI.createTableViewSection({
-				headerTitle : r,
-			});
-			var arten = require('module/model').getArtenByGattung(r);
-			for (var a = 0; a < arten.length; a++) {
-				rows[i].add(require('module/artrow').create(arten[a]));
+	setTimeout(function() {
+		require('module/model').getGattungenByFamilie(_familie, function(_results) {
+			for (var i = 0; i < _results.length; i++) {
+				var r = _results[i];
+				rows[i] = Ti.UI.createTableViewSection({
+					headerTitle : r,
+				});
+				require('module/model').getArtenByGattung(r, function(_arten) {
+					for (var a = 0; a < _arten.length; a++) {
+						rows[i].add(require('module/artrow').create(_arten[a]));
+					}self.tv.setData(rows);
+				});
+
 			}
-		}
-		self.tv.data = rows;
-	});
+			self.tv.data = rows;
+		});
+	}, 100);
 	self.add(self.tv);
 	return self;
 }

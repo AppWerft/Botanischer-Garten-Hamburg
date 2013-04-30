@@ -17,7 +17,7 @@ exports.create = function() {
 		window : require('module/search.window').create('')
 	});
 	var pickerTab = TabBar.createTab({
-		icon : '',
+		icon : 'assets/signpost.png',
 		title : 'Picker',
 		window : require('module/picker.window').create('')
 	});

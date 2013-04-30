@@ -157,10 +157,10 @@ exports.getGattungenByFamilie = function(_familie, _callback) {
 	_callback(results);
 }
 
-exports.getArtenByGattung = function(_gattung) {
+exports.getArtenByGattung = function(_gattung, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var q = 'SELECT DISTINCT id,art,gattung,deutsch FROM flora WHERE gattung="' + _gattung + '" GROUP BY id ORDER BY art';
+	var q = 'SELECT DISTINCT id,art,gattung,deutsch FROM flora WHERE gattung="' + _gattung + '" GROUP BY art,subart ORDER BY art';
 	var resultSet = link.execute(q);
 	console.log(resultSet);
 	var results = [];
@@ -174,6 +174,7 @@ exports.getArtenByGattung = function(_gattung) {
 		resultSet.next();
 	}
 	resultSet.close();
+	_callback(results);
 	return results;
 }
 
