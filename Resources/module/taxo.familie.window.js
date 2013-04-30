@@ -1,14 +1,7 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow({
-		navBarHidden : true
-	});
-	self.add(Ti.UI.createImageView({
-		width : Ti.UI.FILL,
-		image : '/assets/head2.png',
-		top : 0
-	}));
+	var self = require('module/win').create('Übersicht');
 	self.tv = Ti.UI.createTableView({
-		top : 60,
+		top : 0,
 		height : Ti.UI.FILL,
 		backgroundColor : 'transparent'
 	});

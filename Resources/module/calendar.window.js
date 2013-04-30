@@ -1,7 +1,5 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow({
-		navBarHidden : true
-	});
+	var self = require('module/win').create('Kalender');
 	self.add(Ti.UI.createImageView({
 		width : Ti.UI.FILL,
 		image : '/assets/head1.png',
