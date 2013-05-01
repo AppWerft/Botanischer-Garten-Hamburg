@@ -31,7 +31,6 @@ exports.create = function(_familie) {
 					headerTitle : gattung,
 				});
 				addRows(gattung, i);
-
 			}
 			self.tv.data = sections;
 		});

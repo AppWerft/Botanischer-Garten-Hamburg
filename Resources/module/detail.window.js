@@ -1,12 +1,24 @@
 exports.create = function(_id) {
 	function addImage(_img) {
 		var row = Ti.UI.createTableViewRow();
-		row.add(Ti.UI.createImageView({
-			image : _img[0],
-			width : Ti.UI.FILL,
-			height : Ti.UI.SIZE
-		}));
 		sections[0].add(row);
+		var img = Ti.UI.createImageView({
+			image : _img[0],
+			width : 320,
+			height : Ti.UI.SIZE
+		});
+		var scroll_view = Titanium.UI.createScrollView({
+			width : Ti.UI.FILL,
+			height : Ti.UI.SIZE,
+			top : 0,
+			showHorizontalScrollIndicator : false,
+			showVerticalScrollIndicator : false,
+			maxZoomScale : 5,
+			minZoomScale : 1.0,
+			backgroundColor : "transparent",
+		});
+		scroll_view.add(img);
+		row.add(scroll_view);
 		win.tv.data = sections;
 	}
 

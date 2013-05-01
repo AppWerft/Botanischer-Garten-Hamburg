@@ -6,7 +6,7 @@ exports.create = function(_title, _back) {
 	});
 	self.addEventListener('swipe', function(_e) {
 		if (_e.direction == 'right')
-			win.close({
+			self.close({
 				animated : true
 			});
 	});
