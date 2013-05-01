@@ -39,7 +39,6 @@ exports.search = function(_needle, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var resultSet = link.execute('SELECT DISTINCT deutsch,art,gattung,id FROM flora WHERE deutsch like "%' + _needle + '%" GROUP BY deutsch LIMIT 0,100');
-	//var resultSet = link.execute('SELECT * FROM flora WHERE standort <> "" ORDER BY id LIMIT 0,60');
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -60,6 +59,7 @@ exports.getDetail = function(_id, _callback) {
 	try {
 		if (!link)
 			link = Ti.Database.install(DBFILE, DBNAME);
+		console.log('SELECT * FROM flora WHERE id="' + _id + '"');
 		var resultSet = link.execute('SELECT * FROM flora WHERE id="' + _id + '"');
 		var fields = [];
 		if (resultSet.isValidRow() && resultSet.getRowCount() > 0) {

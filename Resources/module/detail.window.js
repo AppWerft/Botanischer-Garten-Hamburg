@@ -1,12 +1,24 @@
 exports.create = function(_id) {
+	function addImage(_img) {
+		var row = Ti.UI.createTableViewRow();
+		row.add(Ti.UI.createImageView({
+			image : _img[0],
+			width : Ti.UI.FILL,
+			height : Ti.UI.SIZE
+		}));
+		sections[0].add(row);
+		win.tv.data = sections;
+	}
+
 	var win = require('module/win').create('');
+	var sections = [];
 	win.tv = Ti.UI.createTableView({
 		backgroundColor : 'transparent',
 		top : 0
 	});
 	win.add(win.tv);
 	require('module/model').getDetail(_id, function(_data) {
-		var sections = [Ti.UI.createTableViewSection({
+		sections = [Ti.UI.createTableViewSection({
 			headerTitle : 'Pflanzenlichtbild'
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Pflanzendaten'
@@ -33,23 +45,18 @@ exports.create = function(_id) {
 			image : '/assets/' + _data.standort + '.png'
 		}));
 
-		require('vendor/wikipedia').getImages(_data.gattung, function(_img) {
-			if (_img.length == 0)
+		require('vendor/wikipedia').getImages(_data.gattung + ' ' + _data.art, function(_img) {
+			if (_img.length == 0) {
+				require('vendor/wikipedia').getImages(_data.gattung, function(_img) {
+					if (_img.length == 0)
+						return;
+					addImage(_img);
+				});
 				return;
-			var row = Ti.UI.createTableViewRow();
-			row.add(Ti.UI.createImageView({
-				image : _img[0],
-				width : Ti.UI.FILL,
-				height : Ti.UI.SIZE
-			}));
-			sections[0].add(row);
-			win.tv.data = sections;
+			}
+			addImage(_img);
 		});
 	});
-	win.addEventListener('swipe', function() {
-		win.close({
-			animate : true
-		});
-	});
+
 	return win;
 }

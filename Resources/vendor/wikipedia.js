@@ -12,7 +12,6 @@ exports.getImages = function(_item, _callback) {
 			}
 			var sub = Ti.Network.createHTTPClient({
 				onload : function() {
-					console.log(sub.responseText);
 					try {
 						var res = JSON.parse(sub.responseText).query.pages;
 						var images = [];
@@ -33,6 +32,7 @@ exports.getImages = function(_item, _callback) {
 				titles : titles.join('|'),
 				prop : 'imageinfo',
 				iiprop : 'url',
+				iiurlwidth : '800',
 				format : 'json'
 			});
 

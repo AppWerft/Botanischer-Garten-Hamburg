@@ -4,5 +4,11 @@ exports.create = function(_title, _back) {
 		barColor : 'black',
 		titleImage : 'assets/titlebg.png'
 	});
+	self.addEventListener('swipe', function(_e) {
+		if (_e.direction == 'right')
+			win.close({
+				animated : true
+			});
+	});
 	return self;
 }
