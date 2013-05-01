@@ -1,8 +1,7 @@
 exports.create = function() {
 	var self = require('module/win').create('Veranstaltungskalender');
-	
 	self.tv = Ti.UI.createTableView({
-		top : 60,
+		top : 0,
 		height : Ti.UI.FILL,
 		backgroundImage : '/assets/bg.png'
 	});
@@ -16,7 +15,8 @@ exports.create = function() {
 				hasChild : true,
 				backgroundColor : 'white',
 				layout : 'vertical',
-				html : e.description
+				html : e.description,
+				titletext : e.title.split(' | ')[0]
 			});
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[0],
@@ -40,20 +40,13 @@ exports.create = function() {
 	})
 
 	self.tv.addEventListener('click', function(_e) {
-		var win = Ti.UI.createWindow({
-			navBarHidden : true,
-			backgroundColor : 'white'
-		});
-		win.add(Ti.UI.createImageView({
-			width : Ti.UI.FILL,
-			image : '/assets/head1.png',
-			top : 0
-		}));
+		var win = require('module/win').create(_e.rowData.titletext);
 		win.add(Ti.UI.createWebView({
-			top : 60,
+			top : 0,
 			html : '<style>* {font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style>' + _e.rowData.html,
 			disableBounce : true
-		}));console.log(_e.rowData.html);
+		}));
+		console.log(_e.rowData.html);
 		win.addEventListener('swipe', function() {
 			win.close({
 				animate : true
