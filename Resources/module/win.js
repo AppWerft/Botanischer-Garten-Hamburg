@@ -17,7 +17,7 @@ exports.create = function(_title, _back) {
 		width : 280,
 		height : 80,
 		font : {
-			fontWeight : 'bold'
+			//fontWeight : 'bold'
 		},
 		opacity : 0.8,
 		zIndex : 999,
