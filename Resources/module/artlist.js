@@ -1,5 +1,5 @@
 exports.create = function(r) {
-	var self = Ti.UI.createTableViewRow({
+	var self = Ti.UI.createListItem({
 		hasChild : true,
 		data : r,
 		height : 80,
@@ -22,9 +22,6 @@ exports.create = function(r) {
 		width : Ti.UI.FILL,
 		text : r.gattung + ' ' + r.art,
 		left : 10,
-		font : {
-			fontFamily : 'FreeSerifItalic'
-		},
 		bottom : 5
 	}));
 	return self;
