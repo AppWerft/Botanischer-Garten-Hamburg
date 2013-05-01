@@ -6,24 +6,34 @@ exports.create = function(_id) {
 	});
 	win.add(win.tv);
 	require('module/model').getDetail(_id, function(_data) {
-		win.tv.appendRow(require('module/row').create('Familie', _data.familie, win));
-		win.tv.appendRow(require('module/row').create('Gattung Art', _data.gattung + ' ' + _data.art));
+		var sections = [Ti.UI.createTableViewSection({
+			headerTitle : 'Pflanzenlichtbild'
+		}), Ti.UI.createTableViewSection({
+			headerTitle : 'Pflanzendaten'
+		}), Ti.UI.createTableViewSection({
+			headerTitle : 'Standorte im Botanischen Garten'
+		})];
+		win.tv.setData(sections);
+		sections[1].add(require('module/row').create('Familie', _data.familie, win));
+		sections[1].add(require('module/row').create('Gattung Art', _data.gattung + ' ' + _data.art));
 		win.title = _data.gattung + ' ' + _data.art
 		if (_data.unterart)
-			win.tv.appendRow(require('module/row').create('Unterart', _data.unterart));
+			sections[1].add(require('module/row').create('Unterart', _data.unterart));
 		if (_data.sorte)
-			win.tv.appendRow(require('module/row').create('Sorte', _data.sorte));
-		win.tv.appendRow(require('module/row').create('Deutscher Name', _data.deutsch));
-		win.tv.appendRow(require('module/row').create('Bereich', _data.bereich, win));
+			sections[1].add(require('module/row').create('Sorte', _data.sorte));
+		sections[1].add(require('module/row').create('Deutscher Name', _data.deutsch));
+		sections[2].add(require('module/row').create('Bereich', _data.bereich, win));
+		win.tv.data = sections;
 		//	win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));
 		win.add(Ti.UI.createImageView({
-			top : 60,
+			bottom : 0,
 			right : 0,
 			width : 80,
 			defaultImage : '',
 			image : '/assets/' + _data.standort + '.png'
 		}));
-		require('vendor/wikiimages').get(_data.gattung, function(_img) {
+
+		require('vendor/wikipedia').getImages(_data.gattung, function(_img) {
 			if (_img.length == 0)
 				return;
 			var row = Ti.UI.createTableViewRow();
@@ -32,7 +42,8 @@ exports.create = function(_id) {
 				width : Ti.UI.FILL,
 				height : Ti.UI.SIZE
 			}));
-			win.tv.insertRowBefore(0, row);
+			sections[0].add(row);
+			win.tv.data = sections;
 		});
 	});
 	win.addEventListener('swipe', function() {

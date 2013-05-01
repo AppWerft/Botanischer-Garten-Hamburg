@@ -1,4 +1,4 @@
-exports.get = function(_item, _callback) {
+exports.getImages = function(_item, _callback) {
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			try {
@@ -12,17 +12,18 @@ exports.get = function(_item, _callback) {
 			}
 			var sub = Ti.Network.createHTTPClient({
 				onload : function() {
+					console.log(sub.responseText);
 					try {
 						var res = JSON.parse(sub.responseText).query.pages;
 						var images = [];
 						for (var key in res) {
 							if (key < 0)
 								continue;
-							console.log(res[key].imageinfo);
 							images.push(res[key].imageinfo[0].url);
 						}
 						_callback(images);
 					} catch(E) {
+						console.log(E);
 					}
 				}
 			});

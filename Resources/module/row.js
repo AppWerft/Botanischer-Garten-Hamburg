@@ -12,7 +12,7 @@ exports.create = function(k, v,parent) {
 		width : Ti.UI.FILL,
 		top : 5,
 		font : {
-			fontSize : 10
+			fontSize : 12
 		}
 	}));
 	self.add(Ti.UI.createLabel({
