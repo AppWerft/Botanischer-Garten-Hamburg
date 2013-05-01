@@ -1,10 +1,6 @@
 exports.create = function() {
-	var self = require('module/win').create('Kalender');
-	self.add(Ti.UI.createImageView({
-		width : Ti.UI.FILL,
-		image : '/assets/head1.png',
-		top : 0
-	}));
+	var self = require('module/win').create('Veranstaltungskalender');
+	
 	self.tv = Ti.UI.createTableView({
 		top : 60,
 		height : Ti.UI.FILL,

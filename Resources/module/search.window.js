@@ -1,22 +1,22 @@
 exports.create = function() {
-	var self = require('module/win').create('Kalender');
+	var self = require('module/win').create('Pflanzensuche');
 
 	var search = Ti.UI.createSearchBar({
 		barColor : '#000',
 		showCancel : true,
 		showBookmark : false,
-		top : 60,
+		top : 0,
 		height : 50,
 		hintText : 'Suche …'
 	});
 	self.dummy = Titanium.UI.createTableView({
 		search : search,
 		height : 50,
-		top : 60,
+		top : 0,
 		searchHidden : false,
 	});
 	self.tv = Ti.UI.createTableView({
-		top : 100,
+		top : 50,
 		height : Ti.UI.FILL,
 		backgroundColor : 'transparent'
 	});
