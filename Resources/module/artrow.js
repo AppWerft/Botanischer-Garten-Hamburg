@@ -23,7 +23,8 @@ exports.create = function(r) {
 		text : r.gattung + ' ' + r.art,
 		left : 10,
 		font : {
-			fontFamily : 'FreeSerifItalic'
+			fontFamily : 'FreeSerifItalic',
+			fontStyle : 'italic'
 		},
 		bottom : 5
 	}));

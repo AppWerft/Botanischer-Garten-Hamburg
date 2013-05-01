@@ -25,7 +25,6 @@ exports.create = function(_id) {
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Standorte im Botanischen Garten'
 		})];
-		win.tv.setData(sections);
 		sections[1].add(require('module/row').create('Familie', _data.familie, win));
 		sections[1].add(require('module/row').create('Gattung Art', _data.gattung + ' ' + _data.art));
 		win.title = _data.gattung + ' ' + _data.art

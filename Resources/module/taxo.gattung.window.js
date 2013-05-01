@@ -12,8 +12,14 @@ exports.create = function(_familie) {
 
 	var self = require('module/win').create(_familie);
 	var sections = [];
-	
-
+	try {
+		self.actind.setMessage('Lade Pflanzen der Familie „' + _familie + '“')
+		self.actind.show();
+		setTimeout(function() {
+			self.actind.hide()
+		}, 3000);
+	} catch(E) {
+	}
 	self.tv = Ti.UI.createTableView({
 		top : 0,
 		height : Ti.UI.FILL,

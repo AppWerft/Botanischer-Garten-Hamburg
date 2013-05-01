@@ -19,7 +19,7 @@ exports.create = function(_bereich) {
 	self.tv.addEventListener('click', function(_e) {
 		var win = require('module/detail.window').create(_e.rowData.data.id);
 		self.tab.open(win, {
-			animate : true
+			animated : true
 		});
 	});
 	return self;
