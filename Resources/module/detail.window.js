@@ -4,21 +4,13 @@ exports.create = function(_id) {
 		sections[0].add(row);
 		var img = Ti.UI.createImageView({
 			image : _img[0],
-			width : 320,
+			width : Ti.UI.FILL,
 			height : Ti.UI.SIZE
 		});
-		var scroll_view = Titanium.UI.createScrollView({
-			width : Ti.UI.FILL,
-			height : Ti.UI.SIZE,
-			top : 0,
-			showHorizontalScrollIndicator : false,
-			showVerticalScrollIndicator : false,
-			maxZoomScale : 5,
-			minZoomScale : 1.0,
-			backgroundColor : "transparent",
-		});
-		scroll_view.add(img);
-		row.add(scroll_view);
+		img.addEventListener('click', function(_e) {
+			win.tab.open(require('module/image.window').create(_img[0], ''))
+		})
+		row.add(img);
 		win.tv.data = sections;
 	}
 

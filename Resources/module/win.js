@@ -16,13 +16,10 @@ exports.create = function(_title, _back) {
 		borderRadius : 8,
 		width : 280,
 		height : 80,
-		font : {
-			//fontWeight : 'bold'
-		},
 		opacity : 0.8,
 		zIndex : 999,
 		font : {
-			fontSize : 13
+			fontSize : 12
 		},
 		borderColor : 'black',
 		borderWidth : 2,
