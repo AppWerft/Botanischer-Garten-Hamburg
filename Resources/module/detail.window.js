@@ -8,12 +8,11 @@ exports.create = function(_id) {
 			height : Ti.UI.SIZE
 		});
 		img.addEventListener('click', function(_e) {
-			win.tab.open(require('module/image.window').create(_img[0], ''))
+			win.tab.open(require('module/image.window').create(_img,win.title))
 		})
 		row.add(img);
 		win.tv.data = sections;
 	}
-
 	var win = require('module/win').create('');
 	var sections = [];
 	win.tv = Ti.UI.createTableView({
@@ -47,7 +46,6 @@ exports.create = function(_id) {
 			defaultImage : '',
 			image : '/assets/' + _data.standort + '.png'
 		}));
-
 		require('vendor/wikipedia').getImages(_data.gattung + ' ' + _data.art, function(_img) {
 			if (_img.length == 0) {
 				require('vendor/wikipedia').getImages(_data.gattung, function(_img) {
@@ -60,6 +58,5 @@ exports.create = function(_id) {
 			addImage(_img);
 		});
 	});
-
 	return win;
 }
