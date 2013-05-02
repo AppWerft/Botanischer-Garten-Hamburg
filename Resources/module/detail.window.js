@@ -1,4 +1,4 @@
-exports.create = function(_id) {
+exports.create = function(_data) {
 	function addImage(_img) {
 		var row = Ti.UI.createTableViewRow();
 		sections[0].add(row);
@@ -8,11 +8,12 @@ exports.create = function(_id) {
 			height : Ti.UI.SIZE
 		});
 		img.addEventListener('click', function(_e) {
-			win.tab.open(require('module/image.window').create(_img,win.title))
+			win.tab.open(require('module/image.window').create(_img, win.title))
 		})
 		row.add(img);
 		win.tv.data = sections;
 	}
+
 	var win = require('module/win').create('');
 	var sections = [];
 	win.tv = Ti.UI.createTableView({
@@ -20,7 +21,10 @@ exports.create = function(_id) {
 		top : 0
 	});
 	win.add(win.tv);
-	require('module/model').getDetail(_id, function(_data) {
+	require('module/model').getDetail(_data, function(_data) {
+		var plant = _data.plantinfo;
+		var standorte = _data.standorte;
+		var latein = plant.gattung + ' ' + plant.art;
 		sections = [Ti.UI.createTableViewSection({
 			headerTitle : 'Pflanzenlichtbild'
 		}), Ti.UI.createTableViewSection({
@@ -28,15 +32,17 @@ exports.create = function(_id) {
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Standorte im Botanischen Garten'
 		})];
-		sections[1].add(require('module/row').create('Familie', _data.familie, win));
-		sections[1].add(require('module/row').create('Gattung Art', _data.gattung + ' ' + _data.art));
-		win.title = _data.gattung + ' ' + _data.art
-		if (_data.unterart)
-			sections[1].add(require('module/row').create('Unterart', _data.unterart));
-		if (_data.sorte)
-			sections[1].add(require('module/row').create('Sorte', _data.sorte));
-		sections[1].add(require('module/row').create('Deutscher Name', _data.deutsch));
-		sections[2].add(require('module/row').create('Bereich', _data.bereich, win));
+		sections[1].add(require('module/row').create('Familie', plant.familie, win));
+		sections[1].add(require('module/row').create('Gattung Art', latein));
+		win.title = plant.gattung + ' ' + plant.art
+		if (plant.unterart)
+			sections[1].add(require('module/row').create('Unterart', plant.unterart));
+		if (plant.sorte)
+			sections[1].add(require('module/row').create('Sorte', plant.sorte));
+		sections[1].add(require('module/row').create('Deutscher Name', plant.deutsch));
+		for (var key in standorte) {
+			sections[2].add(require('module/row').create('Bereich', standorte[key].bereich + ' [' + standorte[key].total + ']', win,standorte[key].bereich));
+		}
 		win.tv.data = sections;
 		//	win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));
 		win.add(Ti.UI.createImageView({
@@ -44,11 +50,11 @@ exports.create = function(_id) {
 			right : 0,
 			width : 80,
 			defaultImage : '',
-			image : '/assets/' + _data.standort + '.png'
+			image : '/assets/' + plant.standort + '.png'
 		}));
-		require('vendor/wikipedia').getImages(_data.gattung + ' ' + _data.art, function(_img) {
+		require('vendor/wikipedia').getImages(latein, function(_img) {
 			if (_img.length == 0) {
-				require('vendor/wikipedia').getImages(_data.gattung, function(_img) {
+				require('vendor/wikipedia').getImages(plant.gattung, function(_img) {
 					if (_img.length == 0)
 						return;
 					addImage(_img);

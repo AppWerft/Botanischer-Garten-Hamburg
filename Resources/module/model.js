@@ -55,60 +55,78 @@ exports.search = function(_needle, _callback) {
 	_callback(results);
 }
 
-exports.getDetail = function(_id, _callback) {
+exports.getDetail = function(_data, _callback) {
 	try {
 		if (!link)
 			link = Ti.Database.install(DBFILE, DBNAME);
-		console.log('SELECT * FROM flora WHERE id="' + _id + '"');
-		var resultSet = link.execute('SELECT * FROM flora WHERE id="' + _id + '"');
-		var fields = [];
-		if (resultSet.isValidRow() && resultSet.getRowCount() > 0) {
-			for (var i = 0; i < resultSet.fieldCount(); i++) {
-				fields.push(resultSet.fieldName(i));
+		var q = 'SELECT * FROM flora WHERE gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
+		console.log(q);
+		if (_data.subart)
+			q += ' AND subart="' + _data.subart + '"';
+		var resultSet = link.execute(q);
+		var rowcount = 0;
+		var res = {
+			plantinfo : {},
+			standorte : {}
+		};
+		while (resultSet.isValidRow()) {
+			if (rowcount === 0) {
+				res.plantinfo = {
+					art : resultSet.fieldByName('art'),
+					subart : resultSet.fieldByName('subart'),
+					familie : resultSet.fieldByName('familie'),
+					deutsch : resultSet.fieldByName('deutsch'),
+					gattung : resultSet.fieldByName('gattung'),
+					standort : resultSet.fieldByName('standort')
+				}
 			}
-			var data = {};
-			for (var i = 0; i < fields.length; i++) {
-				var field = fields[i];
-				data[field] = resultSet.fieldByName(field);
-			}
-			if (_callback)
-				_callback(data);
-			resultSet.close();
-			return;
-		} else
-			console.log('no result');
-		var results = [];
-		var url = 'http://bghamburg.de/datenbank-detail?detail=' + _id;
-		var query = 'SELECT * FROM html WHERE url="' + url + '" AND xpath="//table"';
-		Ti.Yahoo.yql(query, function(_y) {
-			if (!_y.data) {
-				return;
-			}
-			var tr = _y.data.table.tbody.tr;
-			var res = {};
-			for (var i = 0; i < tr.length; i++) {
-				var key = tr[i].td[0].p.toLowerCase();
-				var val = tr[i].td[1].p;
-				res[key] = val;
-			}
-
-			var q = 'UPDATE flora SET standort="' + res.standort + '"  WHERE id=' + _id;
-			try {
-				link.execute('BEGIN TRANSACTION;');
-				link.execute(q);
-				link.execute('COMMIT;');
-			} catch(E) {
-				console.log(E);
-			}
-
-			if (_callback)
-				_callback(res);
-		});
+			if ( typeof res.standorte[resultSet.fieldByName('unterbereich')] == 'undefined')
+				res.standorte[resultSet.fieldByName('unterbereich')] = {
+					total : 1,
+					bereich : resultSet.fieldByName('bereich')
+				}
+			else
+				res.standorte[resultSet.fieldByName('bereich')].total += 1;
+			resultSet.next();
+			rowcount++;
+		}
+		if (_callback)
+			_callback(res);
+		resultSet.close();
 	} catch(E) {
 		console.log(E)
 	}
 }
 
+exports.getDetailFromNet = function() {
+	var results = [];
+	var url = 'http://bghamburg.de/datenbank-detail?detail=' + _id;
+	var query = 'SELECT * FROM html WHERE url="' + url + '" AND xpath="//table"';
+	Ti.Yahoo.yql(query, function(_y) {
+		if (!_y.data) {
+			return;
+		}
+		var tr = _y.data.table.tbody.tr;
+		var res = {};
+		for (var i = 0; i < tr.length; i++) {
+			var key = tr[i].td[0].p.toLowerCase();
+			var val = tr[i].td[1].p;
+			res[key] = val;
+		}
+
+		var q = 'UPDATE flora SET standort="' + res.standort + '"  WHERE id=' + _id;
+		try {
+			link.execute('BEGIN TRANSACTION;');
+			link.execute(q);
+			link.execute('COMMIT;');
+		} catch(E) {
+			console.log(E);
+		}
+
+		if (_callback)
+			_callback(res);
+	});
+}
 exports.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
 	var xhr = Ti.Network.createHTTPClient({
@@ -154,14 +172,15 @@ exports.getGattungenByFamilie = function(_familie, _callback) {
 exports.getArtenByGattung = function(_gattung, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var q = 'SELECT DISTINCT id,art,gattung,deutsch FROM flora WHERE gattung="' + _gattung + '" GROUP BY art,subart ORDER BY art';
+	var q = 'SELECT gattung,art,subart,deutsch FROM flora WHERE gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
+	console.log(q);
 	var resultSet = link.execute(q);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
 			art : resultSet.fieldByName('art'),
+			subart : resultSet.fieldByName('subart'),
 			gattung : _gattung,
-			id : resultSet.fieldByName('id'),
 			deutsch : resultSet.fieldByName('deutsch')
 		});
 		resultSet.next();
@@ -170,6 +189,7 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 	_callback(results);
 	return results;
 }
+
 exports.getArtenByBereich = function(_bereich, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);

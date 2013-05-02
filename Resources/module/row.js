@@ -1,9 +1,9 @@
-exports.create = function(k, v,parent) {
+exports.create = function(k, v,parent,bereich) {
 	var self = Ti.UI.createTableViewRow({
 		layout : 'vertical',
 		backgroundColor : 'white',
 		familie : (k == 'Familie') ? v : null,
-		bereich : (k == 'Bereich') ? v : null,
+		bereich : (k == 'Bereich') ? bereich : null,
 		hasChild : (k == 'Familie' || k == 'Bereich') ? true : false,
 	});
 	self.add(Ti.UI.createLabel({

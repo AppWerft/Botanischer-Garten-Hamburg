@@ -1,5 +1,6 @@
 exports.getImages = function(_item, _callback) {
 	var xhr = Ti.Network.createHTTPClient({
+		tlsVersion : Ti.Network.TLS_VERSION_1_2,
 		onload : function() {
 			try {
 				var search = JSON.parse(xhr.responseText).query.search;
@@ -11,6 +12,7 @@ exports.getImages = function(_item, _callback) {
 				titles.push(encodeURI(search[i].title));
 			}
 			var sub = Ti.Network.createHTTPClient({
+				tlsVersion : Ti.Network.TLS_VERSION_1_2,
 				onload : function() {
 					try {
 						var res = JSON.parse(sub.responseText).query.pages;

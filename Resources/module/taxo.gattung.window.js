@@ -1,9 +1,9 @@
 exports.create = function(_familie) {
 	function addRows(r, i) {
 		//	setTimeout(function() {
-		require('module/model').getArtenByGattung(r, function(_arten) {
-			for (var a = 0; a < _arten.length; a++) {
-				sections[i].add(require('module/artrow').create(_arten[a]));
+		require('module/model').getArtenByGattung(r, function(_items) {
+			for (var a = 0; a < _items.length; a++) {
+				sections[i].add(require('module/artrow').create(_items[a]));
 			}
 			self.tv.setData(sections);
 		});
@@ -40,7 +40,7 @@ exports.create = function(_familie) {
 		self = null;
 	});
 	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/detail.window').create(_e.rowData.data.id);
+		var win = require('module/detail.window').create(_e.rowData.data);
 		self.tab.open(win, {
 			animate : true
 		});
