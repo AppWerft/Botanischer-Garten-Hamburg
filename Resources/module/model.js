@@ -59,7 +59,7 @@ exports.getDetail = function(_data, _callback) {
 	try {
 		if (!link)
 			link = Ti.Database.install(DBFILE, DBNAME);
-		var q = 'SELECT * FROM flora WHERE gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
+		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
 		console.log(q);
 		if (_data.subart)
 			q += ' AND subart="' + _data.subart + '"';
@@ -80,13 +80,13 @@ exports.getDetail = function(_data, _callback) {
 					standort : resultSet.fieldByName('standort')
 				}
 			}
-			if ( typeof res.standorte[resultSet.fieldByName('unterbereich')] == 'undefined')
+			if (!res.standorte[resultSet.fieldByName('unterbereich')])
 				res.standorte[resultSet.fieldByName('unterbereich')] = {
 					total : 1,
 					bereich : resultSet.fieldByName('bereich')
 				}
 			else
-				res.standorte[resultSet.fieldByName('bereich')].total += 1;
+				res.standorte[resultSet.fieldByName('unterbereich')].total += 1;
 			resultSet.next();
 			rowcount++;
 		}
