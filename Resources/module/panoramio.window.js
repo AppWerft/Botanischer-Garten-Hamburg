@@ -1,8 +1,6 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow({
-		navBarHidden : true
-	});
-	self.annotations = [];
+	var self = require('module/win').create('Panoramio-Bilder');
+	var annotations = [];
 	self.map = Ti.Map.createView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		region : {
@@ -16,25 +14,33 @@ exports.create = function() {
 
 	});
 	self.add(self.map);
+	self.map.addEventListener('click', function(_e) {
+		if (_e.clicksource != 'pin') {
+			self.tab.open(require('module/panoramioimage.window').create(_e.annotation));
+		}
+	});
 	self.addEventListener('focus', function() {
+		if (annotations.length)
+			return;
 		require('vendor/panoramio').get({
 			lat : 53.5614057,
 			lon : 9.8614097,
-			delta : 0.003
+			delta : 0.004
 		}, function(_datas) {
 			for (var i = 0; i < _datas.length; i++) {
 				var p = _datas[i];
-				self.annotations[i] = Ti.Map.createAnnotation({
+				annotations[i] = Ti.Map.createAnnotation({
 					latitude : p.lat,
 					longitude : p.lon,
 					title : p.title,
 					image : '/assets/pin.png',
 					animate : true,
-					subtitle : p.owner
+					subtitle : p.owner,
+					imageurl : p.image,
+					ratio : p.ratio
 				});
 			};
-			console.log(self.annotations);
-			self.map.addAnnotations(self.annotations);
+			self.map.addAnnotations(annotations);
 		});
 	});
 	return self;

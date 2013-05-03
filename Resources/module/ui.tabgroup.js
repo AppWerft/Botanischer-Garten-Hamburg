@@ -28,7 +28,7 @@ exports.create = function() {
 	});
 	var mapTab = TabBar.createTab({
 		icon : 'assets/panoramio.png',
-		title : 'Plan',
+		title : 'Panoramio',
 		window : require('module/panoramio.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
