@@ -27,9 +27,9 @@ exports.create = function() {
 		window : require('module/calendar.window').create('')
 	});
 	var mapTab = TabBar.createTab({
-		icon : 'assets/radar.png',
+		icon : 'assets/panoramio.png',
 		title : 'Plan',
-		window : require('module/map.window').create('')
+		window : require('module/panoramio.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
 	tabGroup.addTab(pickerTab);
