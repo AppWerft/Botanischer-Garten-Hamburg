@@ -1,9 +1,8 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow({
-		navBarHidden : true
-	});
+	var self = require('module/win').create('Gartenplan');
 
-	self.map = Ti.Map.createView({
+	var Map = require('netfunctional.mapoverlay');
+	self.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		region : {
 			latitude : 53.5614057,
@@ -12,6 +11,20 @@ exports.create = function() {
 			longitudeDelta : 0.003
 		}
 	});
+	var overlays = {};
+	var vertices = require('vendor/kml').getPolygonsFromLocalKML();
+	for (var name in vertices) {
+		overlays[name] = {
+			name : name,
+			type : "polygon",
+			points : vertices[name],
+			strokeColor : "red",
+			strokeAlpha : 1,
+			fillColor : "red",
+			fillAlpha : 0.2
+		};
+		self.map.addOverlay(overlays[name]);
+	}
 	var picker = Ti.UI.createPicker({
 		minified : true,
 		top : 0,

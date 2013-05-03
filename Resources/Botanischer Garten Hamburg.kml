@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">
+<Document>
+	<name>Botanischer Garten Hamburg.kml</name>
+	<Style id="sh_ylw-pushpin">
+		<IconStyle>
+			<scale>1.3</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>fc4362ff</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>b346ff65</color>
+		</PolyStyle>
+	</Style>
+	<StyleMap id="msn_ylw-pushpin">
+		<Pair>
+			<key>normal</key>
+			<styleUrl>#sn_ylw-pushpin</styleUrl>
+		</Pair>
+		<Pair>
+			<key>highlight</key>
+			<styleUrl>#sh_ylw-pushpin</styleUrl>
+		</Pair>
+	</StyleMap>
+	<Style id="sn_ylw-pushpin">
+		<IconStyle>
+			<scale>1.1</scale>
+			<Icon>
+				<href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+			</Icon>
+			<hotSpot x="20" y="2" xunits="pixels" yunits="pixels"/>
+		</IconStyle>
+		<LineStyle>
+			<color>fc4362ff</color>
+		</LineStyle>
+		<PolyStyle>
+			<color>b346ff65</color>
+		</PolyStyle>
+	</Style>
+	<Folder>
+		<name>Botanischer Garten Hamburg</name>
+		<open>1</open>
+		<Placemark>
+			<name>Duft- und Tastgarten</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.861337895092619,53.56016375174122,0 9.861492568272483,53.56018847617074,0 9.861691739664643,53.56013932346572,0 9.861837744002962,53.56021552317862,0 9.86188285968719,53.56036226126708,0 9.861507644608004,53.56046689462212,0 9.861210182242763,53.56042667316936,0 9.861337895092619,53.56016375174122,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Nutzplanzen</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.862261863036395,53.55981396005731,0 9.862767057105872,53.55963080165802,0 9.863312726118567,53.55968081690722,0 9.863445554637252,53.55996281197908,0 9.863310576814113,53.56031526746021,0 9.862504807927259,53.56009989183368,0 9.862261863036395,53.55981396005731,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Bibelgarten</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.861502596246455,53.56059802926776,0 9.861972617773793,53.56043553662985,0 9.861992580746108,53.56051559907678,0 9.861948575216267,53.56053985733569,0 9.861964140894155,53.56062309019578,0 9.862024190388333,53.56079069408796,0 9.861444831649369,53.56101070731535,0 9.861426898985314,53.5609189074306,0 9.861502596246455,53.56059802926776,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Giftpflanzen</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.862645699915536,53.56067723656314,0 9.863111063721385,53.56046741602285,0 9.863268090634719,53.56065362790087,0 9.863176570612278,53.56084536432544,0 9.862748945879414,53.56087080056069,0 9.862645699915536,53.56067723656314,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Rosengarten</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.861901895417581,53.56152479643742,0 9.862133714099672,53.56120953563925,0 9.862558189478619,53.5613895717561,0 9.863010180246912,53.5616230496594,0 9.862936171021783,53.56180264964409,0 9.862727981642808,53.56182081198811,0 9.862646125918209,53.56197202961244,0 9.862533351096747,53.5620488696195,0 9.86224917800519,53.5619227948315,0 9.861901895417581,53.56152479643742,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Bauerngarten</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.85760394648597,53.56172946039622,0 9.857677595264045,53.56153229386268,0 9.858651385701391,53.56166273983739,0 9.858519442256222,53.56184665975805,0 9.85760394648597,53.56172946039622,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Placemark>
+			<name>Wüstengarten</name>
+			<styleUrl>#msn_ylw-pushpin</styleUrl>
+			<Polygon>
+				<tessellate>1</tessellate>
+				<outerBoundaryIs>
+					<LinearRing>
+						<coordinates>
+							9.862495648214292,53.56101357301894,0 9.8626115469994,53.56095089482647,0 9.862799438864148,53.56090118039456,0 9.86314134223816,53.5609261427218,0 9.86314314586209,53.56111202970747,0 9.863139944323196,53.56148040265806,0 9.862948085978084,53.56150578576523,0 9.862324740269635,53.56121048836475,0 9.862495648214292,53.56101357301894,0 
+						</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+	</Folder>
+</Document>
+</kml>

@@ -39,6 +39,7 @@
     </mobileweb>
     <modules>
         <module platform="iphone">me.izen.tabbar</module>
+        <module platform="iphone">netfunctional.mapoverlay</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

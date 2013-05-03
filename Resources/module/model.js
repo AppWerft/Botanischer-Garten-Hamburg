@@ -58,7 +58,6 @@ exports.getDetail = function(_data, _callback) {
 		if (!link)
 			link = Ti.Database.install(DBFILE, DBNAME);
 		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
-		console.log(q);
 		if (_data.subart)
 			q += ' AND subart="' + _data.subart + '"';
 		var resultSet = link.execute(q);
@@ -171,7 +170,6 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var q = 'SELECT * FROM flora WHERE bereich <> "" AND gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
-	console.log(q);
 	var resultSet = link.execute(q);
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -195,7 +193,6 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 	var q = 'SELECT * FROM flora WHERE bereich="' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
 	console.log(q);
 	var resultSet = link.execute(q);
-	console.log(resultSet);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -223,3 +220,4 @@ exports.getBereiche = function() {
 	resultSet.close();
 	return (results);
 }
+
