@@ -4,8 +4,13 @@ exports.create = function(_data) {
 		sections[0].add(row);
 		var img = Ti.UI.createImageView({
 			image : _img[0],
+			defaultImage : 'assets/tree.png',
 			width : Ti.UI.FILL,
 			height : Ti.UI.SIZE
+		});
+		require('vendor/imageprogress').get({
+			view : img,
+			url : _img[0]
 		});
 		img.addEventListener('click', function(_e) {
 			win.tab.open(require('module/image.window').create(_img, win.title))
@@ -41,7 +46,7 @@ exports.create = function(_data) {
 			sections[1].add(require('module/row').create('Sorte', plant.sorte));
 		sections[1].add(require('module/row').create('Deutscher Name', plant.deutsch));
 		for (var key in standorte) {
-			sections[2].add(require('module/row').create('Bereich', standorte[key].bereich + ' [' + standorte[key].total + ']', win,standorte[key].bereich));
+			sections[2].add(require('module/row').create('Bereich', standorte[key].bereich + ' [' + standorte[key].total + ']', win, standorte[key].bereich));
 		}
 		win.tv.data = sections;
 		//	win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));

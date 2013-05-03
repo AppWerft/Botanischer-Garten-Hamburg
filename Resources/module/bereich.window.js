@@ -1,5 +1,6 @@
 exports.create = function(_bereich) {
-	var self= require('module/win').create(_bereich);
+	var bereich = /^(.*) \[/.exec(_bereich)[1];
+	var self = require('module/win').create(bereich);
 	self.tv = Ti.UI.createTableView({
 		top : 0,
 		height : Ti.UI.FILL,
@@ -17,7 +18,7 @@ exports.create = function(_bereich) {
 		});
 	}, 0);
 	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/detail.window').create(_e.rowData.data.id);
+		var win = require('module/detail.window').create(_e.rowData.data);
 		self.tab.open(win, {
 			animated : true
 		});

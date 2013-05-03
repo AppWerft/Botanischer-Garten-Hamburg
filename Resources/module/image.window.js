@@ -27,15 +27,22 @@ exports.create = function(_img, _title) {
 		showHorizontalScrollIndicator : true,
 		backgroundColor : "transparent",
 	});
+	var thumbs = [];
 	for (var i = 0; i < _img.length; i++) {
-		thumbContainer.add(Ti.UI.createImageView({
+		thumbs[i] = Ti.UI.createImageView({
 			height : 80,
 			borderWidth : 1,
 			borderColor : 'white',
 			width : 80,
-			image : _img[i],
-			left : i * 80
-		}))
+			left : i * 80,
+			defaultImage : 'assets/tree.png'
+			//image : _img[i]
+		});
+		require('vendor/imageprogress').get({
+			view : thumbs[i],
+			url : _img[i]
+		});
+		thumbContainer.add(thumbs[i]);
 	}
 	imageContainer.add(imgView);
 	win.add(imageContainer);
