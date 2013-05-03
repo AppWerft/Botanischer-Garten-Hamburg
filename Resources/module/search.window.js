@@ -25,18 +25,20 @@ exports.create = function() {
 	});
 	search.addEventListener('return', function(_e) {
 		var rows = [];
-		require('module/model').search(search.value, function(_results) {
+		require('module/model').search({
+			needle : search.value,
+			limit : [0, 50]
+		}, function(_results) {
 			for (var i = 0; i < _results.length; i++) {
-				var r = _results[i];
-				rows.push(require('module/artrow').create(r));
+				rows.push(require('module/artrow').create(_results[i]));
 			}
-			self.tv.data = rows;
+			self.tv.setData(rows);
 		});
 	});
 	self.add(self.dummy);
 	self.add(self.tv);
 	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/detail.window').create(_e.rowData.data.id);
+		var win = require('module/detail.window').create(_e.rowData.data);
 		self.tab.open(win, {
 			animate : true
 		});

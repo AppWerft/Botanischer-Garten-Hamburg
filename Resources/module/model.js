@@ -33,22 +33,20 @@ exports.getAll = function() {
 	link.close();
 }
 
-exports.search = function(_needle, _callback) {
-	if (_needle.length < 4)
+exports.search = function(_options, _callback) {
+	if (_options.needle.length < 4)
 		return;
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = link.execute('SELECT DISTINCT deutsch,art,gattung,id FROM flora WHERE deutsch like "%' + _needle + '%" GROUP BY deutsch LIMIT 0,100');
+	var resultSet = link.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
 			deutsch : resultSet.fieldByName('deutsch'),
 			gattung : resultSet.fieldByName('gattung'),
 			art : resultSet.fieldByName('art'),
-			id : resultSet.fieldByName('id'),
+			subart : resultSet.fieldByName('subart'),
 		});
-		//require('module/model').getDetail(resultSet.fieldByName('id'), function() {
-		//});
 		resultSet.next();
 	}
 	resultSet.close();
@@ -172,7 +170,7 @@ exports.getGattungenByFamilie = function(_familie, _callback) {
 exports.getArtenByGattung = function(_gattung, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var q = 'SELECT gattung,art,subart,deutsch FROM flora WHERE bereich <> "" AND gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
+	var q = 'SELECT * FROM flora WHERE bereich <> "" AND gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
 	console.log(q);
 	var resultSet = link.execute(q);
 	var results = [];
@@ -204,7 +202,7 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 			art : resultSet.fieldByName('art'),
 			subart : resultSet.fieldByName('subart'),
 			gattung : resultSet.fieldByName('gattung'),
-			
+
 			deutsch : resultSet.fieldByName('deutsch')
 		});
 		resultSet.next();
