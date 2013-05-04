@@ -1,5 +1,11 @@
 var DBNAME = 'flora', DBFILE = '/depot/flora6.sql';
 var link = undefined;
+Array.prototype.in_array = function(needle) {
+	for (var i = 0; i < this.length; i++)
+		if (this[i] === needle)
+			return true;
+	return false;
+}
 
 exports.getAll = function() {
 	return;
@@ -124,6 +130,7 @@ exports.getDetailFromNet = function() {
 			_callback(res);
 	});
 }
+
 exports.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
 	var xhr = Ti.Network.createHTTPClient({
@@ -141,17 +148,21 @@ exports.getCalendar = function(_callback) {
 exports.getFamilien = function(_callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-
-	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie NOT LIKE "?%" ORDER BY familie');
-	var results = [];
+	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie NOT LIKE "?%"');
+	var families = [];
 	while (resultSet.isValidRow()) {
-		results.push(resultSet.fieldByName('familie'));
+		families.push(resultSet.fieldByName('familie'));
 		resultSet.next();
 	}
 	resultSet.close();
-	_callback(results);
-
+	var res = {};
+	var orders = require('depot/ordersfamilies').orders;
+	for (var order in orders) {
+		res[order] = orders[order].split(' ');
+	}
+	_callback(res);
 }
+
 exports.getGattungenByFamilie = function(_familie, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);

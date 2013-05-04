@@ -22,6 +22,7 @@ exports.create = function() {
 	self.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
+		bubbleParent : true,
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
@@ -30,7 +31,6 @@ exports.create = function() {
 		}
 
 	});
-
 	var overlays = {};
 	var Polygons = require('vendor/kml').getPolygonsFromLocalKML();
 	var regions = Polygons.regions;
@@ -94,7 +94,7 @@ exports.create = function() {
 			})
 		});
 	});
-	
+
 	var bereiche = require('module/model').getBereiche();
 	var color = ['red', 'green', 'blue', 'orange'];
 	var column1 = Ti.UI.createPickerColumn();
@@ -124,9 +124,9 @@ exports.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	Map.addEventListener('touch', function(_e) {
+	self.addEventListener('touch', function(_e) {
 		console.log(_e)
-	}); 
+	});
 
 	Ti.Gesture.addEventListener('shake', function() {
 		require('module/model').savePOI(self.getTitle());

@@ -6,30 +6,37 @@ exports.create = function() {
 		backgroundColor : 'transparent'
 	});
 	var rows = [];
-	require('module/model').getFamilien(function(_results) {
-		for (var i = 0; i < _results.length; i++) {
-			var r = _results[i];
-			rows[i] = Ti.UI.createTableViewRow({
-				hasChild : true,
-				familie : r,
-				height : 50,
-				layout : 'vertical',
-				backgroundColor : 'white',
+	require('module/model').getFamilien(function(_orders) {
+		var orders = _orders, sections = [], i = 0;
+		for (var o in orders) {
+			sections[i] = Ti.UI.createTableViewSection({
+				headerTitle : o
 			});
-			rows[i].add(Ti.UI.createLabel({
-				text : r,
-				top : 10,
-				bottom : 10,
-				color : '#444',
-				width : Ti.UI.FILL,
-				font : {
-					fontWeight : 'bold',
-					fontSize : 20
-				},
-				left : 10
-			}));
+			for (var f = 0; f < orders[o].length; f++) {
+				var row = Ti.UI.createTableViewRow({
+					hasChild : true,
+					familie : orders[o][f],
+					height : 50,
+					layout : 'vertical',
+					backgroundColor : 'white',
+				});
+				row.add(Ti.UI.createLabel({
+					text : orders[o][f],
+					top : 5,
+					bottom : 5,
+					color : '#060',
+					width : Ti.UI.FILL,
+					font : {
+						fontWeight : 'bold',
+						fontSize : 20
+					},
+					left : 15
+				}));
+				sections[i].add(row);
+			}
+			i++;
 		}
-		self.tv.data = rows;
+		self.tv.setData(sections);
 	});
 	self.tv.addEventListener('click', function(_e) {
 		self.tab.open(require('module/taxo.gattung.window').create(_e.rowData.familie));
