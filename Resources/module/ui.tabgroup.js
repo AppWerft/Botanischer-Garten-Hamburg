@@ -11,10 +11,10 @@ exports.create = function() {
 		title : 'Taxonomie',
 		window : require('module/taxo.familie.window').create('')
 	});
-	var searchTab = TabBar.createTab({
-		icon : 'assets/magnify.png',
-		title : 'Suche',
-		window : require('module/search.window').create('')
+	var uhhTab = TabBar.createTab({
+		icon : 'assets/uhh.png',
+		title : 'Intern',
+		window : require('module/uhh.window').create('')
 	});
 	var pickerTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
@@ -32,9 +32,9 @@ exports.create = function() {
 		window : require('module/panoramio.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
-	tabGroup.addTab(searchTab);
 	tabGroup.addTab(pickerTab);
 	tabGroup.addTab(calTab);
 	tabGroup.addTab(mapTab);
+	tabGroup.addTab(uhhTab);
 	tabGroup.open();
 }
