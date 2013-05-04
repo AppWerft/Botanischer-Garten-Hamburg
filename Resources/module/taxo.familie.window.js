@@ -10,7 +10,7 @@ exports.create = function() {
 					var row = Ti.UI.createTableViewRow({
 						hasChild : true,
 						familie : orders[o][f],
-						height : 50,
+						height : 40,
 						layout : 'vertical',
 						backgroundColor : 'white',
 					});
@@ -19,7 +19,7 @@ exports.create = function() {
 						top : 5,
 						bottom : 5,
 						color : '#060',
-						width : Ti.UI.FILL,
+						width : Ti.UI.FILL,height:Ti.UI.SIZE,
 						font : {
 							fontWeight : 'bold',
 							fontSize : 20
@@ -67,7 +67,7 @@ exports.create = function() {
 		});
 	});
 	self.tv = Ti.UI.createTableView({
-		top : 50,
+		top : 45,
 		height : Ti.UI.FILL,
 		backgroundColor : 'transparent'
 	});
