@@ -206,7 +206,18 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 	}
 	resultSet.close();
 	_callback(results);
-}
+};
+
+exports.savePOI = function(_poi) {
+	Ti.Geolocation.purpose = "Recieve User Location";
+	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
+	Ti.Geolocation.distanceFilter = 10;
+	Ti.Geolocation.getCurrentPosition(function(_e) {
+		Ti.Media.vibrate();
+		Ti.App.Properties.setString('POI_' + _poi, JSON.stringify(_e.coords));
+		console.log(_e.coords);
+	});
+};
 
 exports.getBereiche = function() {
 	if (!link)

@@ -1,16 +1,35 @@
 exports.create = function() {
 	var self = require('module/win').create('Gartenplan');
-
+	var icons = [{
+		name : 'cafe',
+		latlon : '53.5612591,9.8610395',
+		title : 'Café Palme'
+	}, {
+		name : 'wc',
+		latlon : '53.5618549,9.8600739',
+		title : 'Toiletten'
+	}, {
+		name : 'wc',
+		latlon : '53.5592772,9.8624182',
+		title : 'Toiletten'
+	}, {
+		name : 'velo',
+		latlon : '53.5592549,9.8626864',
+		title : 'Toiletten'
+	}];
 	var Map = require('netfunctional.mapoverlay');
 	self.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
+		userLocation : true,
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
 			latitudeDelta : 0.003,
 			longitudeDelta : 0.003
 		}
+
 	});
+
 	var overlays = {};
 	var Polygons = require('vendor/kml').getPolygonsFromLocalKML();
 	var regions = Polygons.regions;
@@ -19,12 +38,13 @@ exports.create = function() {
 			name : name,
 			type : "polygon",
 			points : Polygons.polygons[name],
-			strokeColor : "red",
+			strokeColor : "green",
 			strokeAlpha : 1,
 			fillColor : "red",
 			fillAlpha : 0.2
 		};
 		self.map.addOverlay(overlays[name]);
+
 	}
 	var picker = Ti.UI.createPicker({
 		minified : true,
@@ -36,14 +56,14 @@ exports.create = function() {
 		},
 		useSpinner : true,
 		transform : Ti.UI.create2DMatrix({
-			scale : 0.3
+			scale : 0.4
 		})
 	});
 	picker.addEventListener('change', function(_e) {
 		picker.animate({
 			duration : 700,
 			transform : Ti.UI.create2DMatrix({
-				scale : 0.3
+				scale : 0.4
 			})
 		});
 		self.setTitle(picker.getSelectedRow(0).title);
@@ -69,7 +89,7 @@ exports.create = function() {
 	cover.addEventListener('click', function() {
 		picker.animate({
 			transform : Ti.UI.create2DMatrix({
-				scale : 0.8
+				scale : 1
 			})
 		});
 	});
@@ -77,7 +97,6 @@ exports.create = function() {
 	var bereiche = require('module/model').getBereiche();
 	var color = ['red', 'green', 'blue', 'orange'];
 	var column1 = Ti.UI.createPickerColumn();
-	console.log(bereiche);
 	for (var i = 0, ilen = bereiche.length; i < ilen; i++) {
 		var row = Ti.UI.createPickerRow({
 			title : bereiche[i]
@@ -95,5 +114,20 @@ exports.create = function() {
 	self.add(self.map);
 	self.add(picker);
 	self.add(cover);
+	for (var i = 0; i < icons.length; i++) {
+		self.map.addAnnotation(Map.createAnnotation({
+			latitude : icons[i].latlon.split(',')[0],
+			title : icons[i].title,
+			animate : true,
+			longitude : icons[i].latlon.split(',')[1],
+			image : 'assets/' + icons[i].name + '.png'
+		}));
+	}
+	self.map.addEventListener('click', function(_e) {
+		console.log(_e)
+	});
+	Ti.Gesture.addEventListener('shake', function() {
+		require('module/model').savePOI(self.getTitle());
+	});
 	return self;
 }
