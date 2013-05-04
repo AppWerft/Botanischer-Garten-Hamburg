@@ -1,3 +1,4 @@
+//http://www.netfunctional.ca/apps/mapoverlay/documentation/
 exports.create = function() {
 	var self = require('module/win').create('Gartenplan');
 	var icons = [{
@@ -93,7 +94,7 @@ exports.create = function() {
 			})
 		});
 	});
-
+	
 	var bereiche = require('module/model').getBereiche();
 	var color = ['red', 'green', 'blue', 'orange'];
 	var column1 = Ti.UI.createPickerColumn();
@@ -123,9 +124,10 @@ exports.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	self.map.addEventListener('click', function(_e) {
+	Map.addEventListener('touch', function(_e) {
 		console.log(_e)
-	});
+	}); 
+
 	Ti.Gesture.addEventListener('shake', function() {
 		require('module/model').savePOI(self.getTitle());
 	});

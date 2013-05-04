@@ -32,8 +32,8 @@ exports.create = function() {
 		window : require('module/panoramio.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
-	tabGroup.addTab(pickerTab);
 	tabGroup.addTab(searchTab);
+	tabGroup.addTab(pickerTab);
 	tabGroup.addTab(calTab);
 	tabGroup.addTab(mapTab);
 	tabGroup.open();
