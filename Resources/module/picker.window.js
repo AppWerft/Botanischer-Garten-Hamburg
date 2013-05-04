@@ -12,12 +12,13 @@ exports.create = function() {
 		}
 	});
 	var overlays = {};
-	var vertices = require('vendor/kml').getPolygonsFromLocalKML();
-	for (var name in vertices) {
+	var Polygons = require('vendor/kml').getPolygonsFromLocalKML();
+	var regions = Polygons.regions;
+	for (var name in Polygons.polygons) {
 		overlays[name] = {
 			name : name,
 			type : "polygon",
-			points : vertices[name],
+			points : Polygons.polygons[name],
 			strokeColor : "red",
 			strokeAlpha : 1,
 			fillColor : "red",
@@ -45,6 +46,18 @@ exports.create = function() {
 				scale : 0.3
 			})
 		});
+		self.setTitle(picker.getSelectedRow(0).title);
+		setTimeout(function() {
+			if (regions[self.title]) {
+				self.map.setLocation({
+					animate : true,
+					latitude : regions[self.title].latitude,
+					longitude : regions[self.title].longitude,
+					latitudeDelta : 0.001,
+					longitudeDelta : 0.001
+				});
+			}
+		}, 700);
 	});
 	var cover = Ti.UI.createView({
 		right : 0,
