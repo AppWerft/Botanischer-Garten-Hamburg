@@ -36,6 +36,7 @@ exports.create = function() {
 					image : '/assets/pin.png',
 					animate : true,
 					subtitle : p.owner,
+					data : p,
 					imageurl : p.image,
 					ratio : p.ratio
 				});

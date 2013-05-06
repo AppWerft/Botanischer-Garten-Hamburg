@@ -9,7 +9,7 @@ exports.create = function(_options, _callback) {
 	}
 	var animations = require('uhhlogin/animations');
 	var cron = null;
-	var win = Ti.UI.createWindow({
+	var win = Ti.UI.createView({
 		borderColor : '#eceded',
 		borderWidth : 2,
 		borderRadius : 10,
@@ -144,7 +144,7 @@ exports.create = function(_options, _callback) {
 		}, 50);
 	});
 	cancelBtn.addEventListener('click', function() {
-		win.close();
+		win.hide();
 	});
 	win.addEventListener('focus', function() {
 		win.animate(animations.moveCenter);

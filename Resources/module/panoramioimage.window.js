@@ -4,7 +4,7 @@ exports.create = function(_annotation) {
 	win.backButtonTitle = 'Zurück';
 	var imgView = Ti.UI.createImageView({
 		width : Ti.Platform.displayCaps.platformWidth,
-		height : Ti.Platform.displayCaps.platformWidth/a.ratio,
+		height : Ti.Platform.displayCaps.platformWidth / a.ratio,
 		image : '/assets/tree.png'
 	});
 	require('vendor/imageprogress').get({
@@ -13,7 +13,7 @@ exports.create = function(_annotation) {
 	});
 	var imageContainer = Titanium.UI.createScrollView({
 		width : Ti.Platform.displayCaps.platformWidth,
-		height : Ti.Platform.displayCaps.platformWidth/a.ratio,
+		height : Ti.Platform.displayCaps.platformWidth / a.ratio,
 		top : 0,
 		borderRadius : 7,
 		showHorizontalScrollIndicator : false,
@@ -22,9 +22,13 @@ exports.create = function(_annotation) {
 		maxZoomScale : 8,
 		minZoomScale : 1.0,
 		backgroundColor : "transparent"
-
 	});
 	imageContainer.add(imgView);
 	win.add(imageContainer);
+	win.add(Ti.UI.createImageView({
+		bottom : 0,right:10,
+		width : 160,
+		image : 'http://www.panoramio.com/img/glass/components/logo_bar/panoramio.png'
+	}));
 	return win;
 }

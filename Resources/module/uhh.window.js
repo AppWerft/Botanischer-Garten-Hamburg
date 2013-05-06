@@ -2,9 +2,9 @@ exports.create = function() {
 	var self = require('module/win').create('UHH✦intern');
 	self.backgroundImage = 'Default.png';
 	var active = false;
-	var dialogwindow = require('uhhlogin/dialog.window').create();
+	var dialogView = require('uhhlogin/dialog').create();
 	self.addEventListener('focus', function() {
-		dialogwindow.open();
+		self.add(dialogView);dialogView.show();
 		console.log('FOCUS');
 		active = true;
 		setTimeout(function() {
@@ -14,7 +14,7 @@ exports.create = function() {
 	self.addEventListener('blur', function() {
 		console.log('BLUR');
 		if (!active)
-			dialogwindow.close();
+			self.remove(dialogView);
 	});
 
 	return self;
