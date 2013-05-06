@@ -9,11 +9,11 @@ exports.create = function(_options, _callback) {
 	}
 	var animations = require('uhhlogin/animations');
 	var cron = null;
-	var win = Ti.UI.createView({
+	var dialog = Ti.UI.createView({
 		borderColor : '#eceded',
 		borderWidth : 2,
 		borderRadius : 10,
-		width : 272,
+		width : 272,visible:false,
 		height : 200,
 		backgroundImage : '/uhhlogin/alert-bg.png'
 	});
@@ -29,8 +29,8 @@ exports.create = function(_options, _callback) {
 			fontWeight : 'bold'
 		}
 	});
-	win.add(cancelBtn);
-	win.add(Ti.UI.createLabel({
+	dialog.add(cancelBtn);
+	dialog.add(Ti.UI.createLabel({
 		color : '#fff',
 		top : 15,
 		width : 260,
@@ -41,7 +41,7 @@ exports.create = function(_options, _callback) {
 		},
 		text : 'UHH-Identität'
 	}));
-	win.add(Ti.UI.createLabel({
+	dialog.add(Ti.UI.createLabel({
 		color : '#fff',
 		top : 50,
 		width : 260,
@@ -60,7 +60,7 @@ exports.create = function(_options, _callback) {
 		value : 1,
 		width : '95%'
 	});
-	win.add(progressBar);
+	dialog.add(progressBar);
 	var passwordField = Ti.UI.createTextField({
 		width : 260,
 		height : 28,
@@ -75,7 +75,7 @@ exports.create = function(_options, _callback) {
 		borderStyle : Ti.UI.INPUT_BORDERSTYLE_BEZEL,
 		passwordMask : true
 	});
-	win.add(passwordField);
+	dialog.add(passwordField);
 	var loginField = Ti.UI.createTextField({
 		width : 260,
 		height : 28,
@@ -91,18 +91,18 @@ exports.create = function(_options, _callback) {
 		enableReturnKey : true,
 		borderStyle : Ti.UI.INPUT_BORDERSTYLE_BEZEL
 	});
-	win.add(loginField);
+	dialog.add(loginField);
 	loginField.addEventListener('focus', function() {
-		win.animate(animations.moveUp);
+		dialog.animate(animations.moveUp);
 	});
 	passwordField.addEventListener('focus', function() {
-		win.animate(animations.moveUp);
+		dialog.animate(animations.moveUp);
 	});
 	loginField.addEventListener('blur', function() {
-		win.animate(animations.moveCenter);
+		dialog.animate(animations.moveCenter);
 	});
 	passwordField.addEventListener('blur', function() {
-		win.animate(animations.moveCenter);
+		dialog.animate(animations.moveCenter);
 	});
 	var okBtn = Ti.UI.createButton({
 		backgroundImage : '/uhhlogin/btn-active.png',
@@ -116,7 +116,7 @@ exports.create = function(_options, _callback) {
 		},
 		title : 'OK'
 	});
-	win.add(okBtn);
+	dialog.add(okBtn);
 	okBtn.addEventListener('click', function() {
 		passwordField.blur();
 		loginField.value = loginField.value.replace('@uni-hamburg.de', '');
@@ -129,7 +129,7 @@ exports.create = function(_options, _callback) {
 				console.log('Wrong credentials');
 			} else {
 				resetProgress();
-				win.close();
+				dialog.close();
 				if (_callback)
 					_callback(_user);
 			}
@@ -137,18 +137,18 @@ exports.create = function(_options, _callback) {
 		cron = setInterval(function() {
 			progressBar.value = progressBar.value + 0.1;
 			if (progressBar.value > 10) {
-				require('uhhlogin/animations').shake(win, function() {
+				require('uhhlogin/animations').shake(dialog, function() {
 					resetProgress();
 				});
 			}
 		}, 50);
 	});
 	cancelBtn.addEventListener('click', function() {
-		win.hide();
+		dialog.hide();
 	});
-	win.addEventListener('focus', function() {
-		win.animate(animations.moveCenter);
-		require('alloy/animation').popIn(win);
+	dialog.addEventListener('focus', function() {
+		dialog.animate(animations.moveCenter);
+		require('alloy/animation').popIn(dialog);
 	});
-	return win;
+	return dialog;
 };
