@@ -31,6 +31,7 @@ exports.create = function() {
 		}
 
 	});
+	self.locked = false;
 	var overlays = {};
 	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
@@ -61,12 +62,18 @@ exports.create = function() {
 		})
 	});
 	picker.addEventListener('change', function(_e) {
-		picker.animate({
-			duration : 700,
-			transform : Ti.UI.create2DMatrix({
-				scale : 0.4
-			})
-		});
+		if (self.locked == true)
+			return;
+		self.locked = true;
+		setTimeout(function() {
+			picker.animate({
+				duration : 700,
+				transform : Ti.UI.create2DMatrix({
+					scale : 0.4
+				})
+			});
+			self.locked = false;
+		}, 1000);
 		self.setTitle(picker.getSelectedRow(0).title);
 		setTimeout(function() {
 			if (regions[self.title]) {
@@ -88,6 +95,8 @@ exports.create = function() {
 	});
 
 	cover.addEventListener('click', function() {
+		if (self.locked == true)
+			return;
 		picker.animate({
 			transform : Ti.UI.create2DMatrix({
 				scale : 1
