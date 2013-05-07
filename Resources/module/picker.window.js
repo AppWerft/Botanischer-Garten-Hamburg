@@ -1,23 +1,8 @@
 //http://www.netfunctional.ca/apps/mapoverlay/documentation/
 exports.create = function() {
 	var self = require('module/win').create('Gartenplan');
-	var icons = [{
-		name : 'cafe',
-		latlon : '53.5612591,9.8610395',
-		title : 'Café Palme'
-	}, {
-		name : 'wc',
-		latlon : '53.5618549,9.8600739',
-		title : 'Toiletten'
-	}, {
-		name : 'wc',
-		latlon : '53.5592772,9.8624182',
-		title : 'Toiletten'
-	}, {
-		name : 'velo',
-		latlon : '53.5592549,9.8626864',
-		title : 'Toiletten'
-	}];
+	self.oldarea = null;
+	Ti.include('/depot/icons.js');
 	var Map = require('netfunctional.mapoverlay');
 	self.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
@@ -62,6 +47,7 @@ exports.create = function() {
 		})
 	});
 	picker.addEventListener('change', function(_e) {
+		var area = picker.getSelectedRow(0).title;
 		if (self.locked == true)
 			return;
 		self.locked = true;
@@ -73,19 +59,19 @@ exports.create = function() {
 				})
 			});
 			self.locked = false;
-		}, 1000);
-		self.setTitle(picker.getSelectedRow(0).title);
-		setTimeout(function() {
-			if (regions[self.title]) {
-				self.map.setLocation({
-					animate : true,
-					latitude : regions[self.title].latitude,
-					longitude : regions[self.title].longitude,
-					latitudeDelta : 0.001,
-					longitudeDelta : 0.001
-				});
-			}
-		}, 700);
+		}, 100);
+		self.setTitle(area);
+		if (regions[area] && regions[area].latitude) {
+			self.map.setLocation({
+				animate : true,
+				latitude : regions[area].latitude,
+				longitude : regions[area].longitude,
+				latitudeDelta : 0.001,
+				longitudeDelta : 0.001
+			});
+			overlays[area].fillColor = 'yellow';
+		}
+
 	});
 	var cover = Ti.UI.createView({
 		right : 0,
