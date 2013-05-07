@@ -1,4 +1,4 @@
-exports.create = function(k, v,parent,bereich) {
+exports.create = function(k, v, parent, bereich) {
 	var self = Ti.UI.createTableViewRow({
 		layout : 'vertical',
 		backgroundColor : 'white',
@@ -26,9 +26,15 @@ exports.create = function(k, v,parent,bereich) {
 			fontWeight : 'bold'
 		}
 	}));
-	if (k == 'Bereich')
+	if (k == 'Bereich') {
 		self.addEventListener('click', function(_e) {
-			parent.tab.open(require('module/bereich.window').create(v));
+			// es gibt eine Arrea auf der Karte:
+			if (_e.rowData.bereich.area) {
+				parent.tab.open(require('module/picker.window').create(_e.rowData.bereich));
+			} else {
+				parent.tab.open(require('module/bereich.window').create(v));
+			}
 		});
+	}
 	return self;
 }

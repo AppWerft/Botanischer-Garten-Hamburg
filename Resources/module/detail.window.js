@@ -39,7 +39,7 @@ exports.create = function(_data) {
 		})];
 		sections[1].add(require('module/row').create('Familie', plant.familie, win));
 		sections[1].add(require('module/row').create('Gattung Art', latein));
-		win.title = plant.gattung + ' ' + plant.art
+		win.title = plant.deutsch;
 		if (plant.unterart)
 			sections[1].add(require('module/row').create('Unterart', plant.unterart));
 		if (plant.sorte)

@@ -12,8 +12,8 @@ exports.getPolygon = function(_name) {
 	}
 }
 
-exports.getPolygonsFromLocalKML = function() {
-	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Botanischer Garten Hamburg.kml').read().toString();
+exports.getPolygonsFromLocalKML = function(filename) {
+	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,filename).read().toString();
 	var XMLTools = require("vendor/XMLTools");
 	var kml = new XMLTools(kmlstring);
 	var polygones = kml.toObject().Document.Folder.Placemark;

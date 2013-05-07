@@ -32,7 +32,7 @@ exports.create = function() {
 
 	});
 	var overlays = {};
-	var Polygons = require('vendor/kml').getPolygonsFromLocalKML();
+	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
 	for (var name in Polygons.polygons) {
 		overlays[name] = {

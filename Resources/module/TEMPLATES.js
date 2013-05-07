@@ -6,15 +6,17 @@ exports.plantrow = {
 	},
 	childTemplates : [{
 		type : 'Ti.UI.View',
-		height : Ti.UI.FILL,
-		width : Ti.UI.FILL,
-		layout : 'vertical',
+		properties : {
+			height : Ti.UI.SIZE,
+			width : Ti.UI.FILL,
+			layout : 'vertical'
+		},
 		childTemplates : [{
 			type : 'Ti.UI.Label',
 			bindId : 'deutsch',
 			properties : {
 				color : '#060',
-				height : 30,
+				height : 24,
 				font : {
 					fontSize : 20,
 					fontWeight : 'bold'
@@ -33,7 +35,7 @@ exports.plantrow = {
 					fontStyle : 'italic'
 				},
 				left : 10,
-				top : 35,
+				top : 5,
 				width : Ti.UI.FILL,
 				height : Ti.UI.SIZE
 			},

@@ -6,7 +6,12 @@ Array.prototype.in_array = function(needle) {
 			return true;
 	return false;
 }
+var Areas = require('vendor/kml').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
+console.log(Areas);
 
+exports.getAreas = function() {
+	return Areas;
+}
 exports.getAll = function() {
 	return;
 	if (!link)
@@ -60,7 +65,9 @@ exports.search = function(_options, _callback) {
 }
 
 exports.getDetail = function(_data, _callback) {
+
 	try {
+		var areas = Areas.regions;
 		if (!link)
 			link = Ti.Database.install(DBFILE, DBNAME);
 		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
@@ -83,16 +90,19 @@ exports.getDetail = function(_data, _callback) {
 					standort : resultSet.fieldByName('standort')
 				}
 			}
-			if (!res.standorte[resultSet.fieldByName('unterbereich')])
+			if (!res.standorte[resultSet.fieldByName('unterbereich')]) {
 				res.standorte[resultSet.fieldByName('unterbereich')] = {
 					total : 1,
-					bereich : resultSet.fieldByName('bereich')
+					bereich : resultSet.fieldByName('bereich'),
+					area : (areas[resultSet.fieldByName('bereich')]) ? true : false
 				}
-			else
+			} else {
 				res.standorte[resultSet.fieldByName('unterbereich')].total += 1;
+			}
 			resultSet.next();
 			rowcount++;
 		}
+		console.log(res);
 		if (_callback)
 			_callback(res);
 		resultSet.close();
@@ -218,7 +228,6 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 			art : resultSet.fieldByName('art'),
 			subart : resultSet.fieldByName('subart'),
 			gattung : resultSet.fieldByName('gattung'),
-
 			deutsch : resultSet.fieldByName('deutsch')
 		});
 		resultSet.next();
