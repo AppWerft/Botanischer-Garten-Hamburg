@@ -1,49 +1,80 @@
 exports.create = function(_familie) {
-	function addRows(r, i) {
-		//	setTimeout(function() {
-		require('module/model').getArtenByGattung(r, function(_items) {
-			for (var a = 0; a < _items.length; a++) {
-				sections[i].add(require('module/artrow').create(_items[a]));
-			}
-			self.tv.setData(sections);
-		});
-		//	}, i * 10);
-	}
 	var self = require('module/win').create(_familie);
+	var plantsTemplate = {
+		properties : {
+			onDisplayItem : function() {
+			},
+			selectedBackgroundColor : 'green',
+			height : 80,
+			height : Ti.UI.SIZE,
+			backgroundColor : 'white',
+			layout : 'vertical'
+		},
+		events : {},
+		childTemplates : [{
+			type : 'Ti.UI.Label',
+			bindId : 'deutsch',
+			properties : {
+				color : '#060',
+				font : {
+					fontSize : 20,
+					fontWeight : 'bold'
+				},
+				left : 10,
+				top : 5,
+				width : Ti.UI.FILL,
+			},
+			events : {}
+		}, {
+			type : 'Ti.UI.Label',
+			bindId : 'latein',
+			properties : {
+				font : {
+					fontFamily : 'FreeSerifItalic',
+					fontStyle : 'italic'
+				},
+				left : 10,
+				top : 5,
+				width : Ti.UI.FILL,
+			},
+			events : {}
+		}]
+	};
 	var sections = [];
-	self.actind.setMessage('Lade Pflanzen der Familie „' + _familie + '“')
-	self.actind.show();
-	setTimeout(function() {
-		if (self && self.actind)
-			self.actind.hide()
-	}, 2000);
-	self.tv = Ti.UI.createTableView({
-		top : 0,
-		height : Ti.UI.FILL,
-		backgroundColor : 'transparent'
+	require('module/model').getGattungenByFamilie(_familie, function(_results) {
+		for (var i = 0; i < _results.length; i++) {
+			var data = [];
+			require('module/model').getArtenByGattung(_results[i], function(_items) {
+				for (var a = 0; a < _items.length; a++) {
+					data.push({
+						deutsch : {
+							text : _items[a].deutsch
+						},
+						latein : {
+							text : _items[a].gattung + ' ' + _items[a].art
+						},
+						properties : {
+							itemId : _items[a],
+							accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+						}
+					});
+				}
+			});
+			sections[i] = Ti.UI.createListSection({
+				headerTitle : _results[i],
+				items : data,
+				backgroundColor : 'white'
+			});
+		}
 	});
-	
-	setTimeout(function() {
-		require('module/model').getGattungenByFamilie(_familie, function(_results) {
-			for (var i = 0; i < _results.length; i++) {
-				var gattung = _results[i];
-				sections[i] = Ti.UI.createTableViewSection({
-					headerTitle : gattung,
-				});
-				addRows(gattung, i);
-			}
-			self.tv.data = sections;
-		});
-	}, 100);
-	self.add(self.tv);
-	self.addEventListener('close', function() {
-		self = null;
+	self.listView = Ti.UI.createListView({
+		sections : sections,
+		templates : {
+			'plants' : plantsTemplate
+		},
+		backgroundColor : 'transparent',
+		defaultItemTemplate : 'plants',
 	});
-	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/detail.window').create(_e.rowData.data);
-		self.tab.open(win, {
-			animate : true
-		});
-	});
+	self.add(self.listView);
 	return self;
 }
