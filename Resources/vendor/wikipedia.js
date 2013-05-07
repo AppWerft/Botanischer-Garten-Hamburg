@@ -14,7 +14,7 @@ exports.getImages = function(_item, _callback) {
 			}
 			var sub = Ti.Network.createHTTPClient({
 				tlsVersion : Ti.Network.TLS_VERSION_1_2,
-				onload : function() {
+				onload : function() {console.log(sub.responseText);
 					try {
 						var res = JSON.parse(sub.responseText).query.pages;
 						var images = [];
@@ -25,7 +25,7 @@ exports.getImages = function(_item, _callback) {
 						}
 						_callback(images);
 					} catch(E) {
-						console.log(E);
+						
 					}
 				}
 			});
@@ -35,7 +35,6 @@ exports.getImages = function(_item, _callback) {
 				titles : titles.join('|'),
 				prop : 'imageinfo',
 				iiprop : 'url',
-				iiurlwidth : '800',
 				format : 'json'
 			});
 

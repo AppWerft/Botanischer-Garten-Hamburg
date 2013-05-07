@@ -45,18 +45,18 @@ exports.create = function(_data) {
 		if (plant.sorte)
 			sections[1].add(require('module/row').create('Sorte', plant.sorte));
 		sections[1].add(require('module/row').create('Deutscher Name', plant.deutsch));
-		for (var key in standorte) {
-			sections[2].add(require('module/row').create('Bereich', standorte[key].bereich + ' [' + standorte[key].total + ']', win, standorte[key].bereich));
+		for (var area in standorte) {
+			sections[2].add(require('module/row').create('Bereich', area + ' [' + standorte[area] + ']', win, area));
 		}
 		win.tv.data = sections;
 		//	win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));
-		win.add(Ti.UI.createImageView({
+		/*win.add(Ti.UI.createImageView({
 			bottom : 0,
 			right : 0,
 			width : 80,
 			defaultImage : '',
 			image : '/assets/' + plant.standort + '.png'
-		}));
+		}));*/
 		require('vendor/wikipedia').getImages(latein, function(_img) {
 			if (_img.length == 0) {
 				require('vendor/wikipedia').getImages(plant.deutsch, function(_img) {

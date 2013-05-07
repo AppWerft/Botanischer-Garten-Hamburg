@@ -50,22 +50,24 @@ exports.search = function(_options, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var resultSet = link.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
-	var results = [];
+	var familien = {};
 	while (resultSet.isValidRow()) {
-		results.push({
+		var familie = resultSet.fieldByName('familie');
+		if (!familien[familie]) familien[familie] = [];
+		familien[familie].push({
 			deutsch : resultSet.fieldByName('deutsch'),
 			gattung : resultSet.fieldByName('gattung'),
 			art : resultSet.fieldByName('art'),
 			subart : resultSet.fieldByName('subart'),
+			familie: familie
 		});
 		resultSet.next();
 	}
 	resultSet.close();
-	_callback(results);
+	_callback(familien);
 }
 
 exports.getDetail = function(_data, _callback) {
-
 	try {
 		var areas = Areas.regions;
 		if (!link)
@@ -75,11 +77,14 @@ exports.getDetail = function(_data, _callback) {
 			q += ' AND subart="' + _data.subart + '"';
 		var resultSet = link.execute(q);
 		var rowcount = 0;
+		// preparing of result:
 		var res = {
 			plantinfo : {},
 			standorte : {}
 		};
+		// walking thrue all results
 		while (resultSet.isValidRow()) {
+			// basics data:
 			if (rowcount === 0) {
 				res.plantinfo = {
 					art : resultSet.fieldByName('art'),
@@ -90,19 +95,16 @@ exports.getDetail = function(_data, _callback) {
 					standort : resultSet.fieldByName('standort')
 				}
 			}
-			if (!res.standorte[resultSet.fieldByName('unterbereich')]) {
-				res.standorte[resultSet.fieldByName('unterbereich')] = {
-					total : 1,
-					bereich : resultSet.fieldByName('bereich'),
-					area : (areas[resultSet.fieldByName('bereich')]) ? true : false
-				}
+			// collecting of area datas
+			var bereich = resultSet.fieldByName('bereich');
+			if (!res.standorte[bereich]) {
+				res.standorte[bereich] = 1;
 			} else {
-				res.standorte[resultSet.fieldByName('unterbereich')].total += 1;
+				res.standorte[bereich] += 1;
 			}
 			resultSet.next();
 			rowcount++;
 		}
-		console.log(res);
 		if (_callback)
 			_callback(res);
 		resultSet.close();
