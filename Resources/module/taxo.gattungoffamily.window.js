@@ -36,6 +36,11 @@ exports.create = function(_familie) {
 		backgroundColor : 'white',
 		defaultItemTemplate : 'plants',
 	});
+	self.listView.addEventListener('itemclick', function(_e) {
+		self.tab.open(require('module/detail.window').create(_e.itemId), {
+			animate : true
+		});
+	});
 	self.add(self.listView);
 	return self;
 }

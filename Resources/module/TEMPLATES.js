@@ -1,13 +1,9 @@
 exports.plantrow = {
 	properties : {
-		onDisplayItem : function() {
-		},
 		selectedBackgroundColor : 'green',
 		height : 60,
-		backgroundColor : 'white',
-		layout : 'vertical'
+		backgroundColor : 'white'
 	},
-	events : {},
 	childTemplates : [{
 		type : 'Ti.UI.Label',
 		bindId : 'deutsch',
@@ -15,7 +11,7 @@ exports.plantrow = {
 			color : '#060',
 			height : 30,
 			font : {
-				fontSize : 18,
+				fontSize : 20,
 				fontWeight : 'bold'
 			},
 			left : 10,
@@ -38,4 +34,4 @@ exports.plantrow = {
 		},
 		events : {}
 	}]
-}; 
+};
