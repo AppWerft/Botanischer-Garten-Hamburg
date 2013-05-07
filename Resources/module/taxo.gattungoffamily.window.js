@@ -1,45 +1,6 @@
 exports.create = function(_familie) {
 	var self = require('module/win').create(_familie);
-	var plantsTemplate = {
-		properties : {
-			onDisplayItem : function() {
-			},
-			selectedBackgroundColor : 'green',
-			height : 80,
-			height : Ti.UI.SIZE,
-			backgroundColor : 'white',
-			layout : 'vertical'
-		},
-		events : {},
-		childTemplates : [{
-			type : 'Ti.UI.Label',
-			bindId : 'deutsch',
-			properties : {
-				color : '#060',
-				font : {
-					fontSize : 20,
-					fontWeight : 'bold'
-				},
-				left : 10,
-				top : 5,
-				width : Ti.UI.FILL,
-			},
-			events : {}
-		}, {
-			type : 'Ti.UI.Label',
-			bindId : 'latein',
-			properties : {
-				font : {
-					fontFamily : 'FreeSerifItalic',
-					fontStyle : 'italic'
-				},
-				left : 10,
-				top : 5,
-				width : Ti.UI.FILL,
-			},
-			events : {}
-		}]
-	};
+	var plantsTemplate = require('module/TEMPLATES').plantrow;
 	var sections = [];
 	require('module/model').getGattungenByFamilie(_familie, function(_results) {
 		for (var i = 0; i < _results.length; i++) {
@@ -72,7 +33,7 @@ exports.create = function(_familie) {
 		templates : {
 			'plants' : plantsTemplate
 		},
-		backgroundColor : 'transparent',
+		backgroundColor : 'white',
 		defaultItemTemplate : 'plants',
 	});
 	self.add(self.listView);
