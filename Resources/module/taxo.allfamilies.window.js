@@ -15,7 +15,7 @@ exports.create = function() {
 						backgroundColor : 'white',
 					});
 					row.add(Ti.UI.createLabel({
-						text : (orders[o][f].total) ? orders[o][f].name  + ' (' + orders[o][f].total + ')': orders[o][f].name,
+						text : (orders[o][f].total) ? orders[o][f].name + ' (' + orders[o][f].total + ')' : orders[o][f].name,
 						top : 5,
 						bottom : 5,
 						color : orders[o][f].total ? '#060' : '#999',
@@ -62,6 +62,7 @@ exports.create = function() {
 			limit : [0, 50]
 		}, function(_results) {
 			for (var i = 0; i < _results.length; i++) {
+				console.log(_results);
 				rows.push(require('module/artrow').create(_results[i]));
 			}
 			self.tv.setData(rows);

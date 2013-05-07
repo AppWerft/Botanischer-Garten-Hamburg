@@ -51,20 +51,24 @@ exports.search = function(_options, _callback) {
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var resultSet = link.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
 	var familien = {};
+	var results = [];
 	while (resultSet.isValidRow()) {
 		var familie = resultSet.fieldByName('familie');
-		if (!familien[familie]) familien[familie] = [];
-		familien[familie].push({
+		if (!familien[familie])
+			familien[familie] = [];
+		var item = {
 			deutsch : resultSet.fieldByName('deutsch'),
 			gattung : resultSet.fieldByName('gattung'),
 			art : resultSet.fieldByName('art'),
 			subart : resultSet.fieldByName('subart'),
-			familie: familie
-		});
+			familie : familie
+		};
+		familien[familie].push(item);
+		results.push(item);
 		resultSet.next();
 	}
 	resultSet.close();
-	_callback(familien);
+	_callback(results);
 }
 
 exports.getDetail = function(_data, _callback) {

@@ -32,7 +32,7 @@ exports.orders = {
 	Ebenales : "Sapotaceae Ebenaceae Styracaceae",
 	Primulales : "Primulaceae Myrsinaceae",
 	Rosales : "Cunoniaceae Pittosporaceae Droseraceae Brunelliaceae Eucryphiaceae Bruniaceae Rosaceae Crassulaceae Cephalotaceae Chrosobalanaceae",
-	Fabales : " Papilionaceae Caesalpiniaceae Mimosaceae",
+	Fabales : "Papilionaceae Caesalpiniaceae Mimosaceae",
 	Podostemales : "Podostemaceae",
 	Haloragales : "Theligonaceae Haloragaceae Hippuridaceae",
 	Myrtales : "Sonneratiaceae Trapaceae Lythraceae Rhizophoraceae Penaeaceae Thymelaeaceae Myrtaceae Punicaceae Onagraceae Oliniaceae Melastomataceae Combretaceae",
