@@ -148,17 +148,25 @@ exports.getCalendar = function(_callback) {
 exports.getFamilien = function(_callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = link.execute('SELECT DISTINCT familie FROM flora WHERE familie NOT LIKE "?%"');
-	var families = [];
+	var resultSet = link.execute('SELECT DISTINCT familie,count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie');
+	var families = {};
 	while (resultSet.isValidRow()) {
-		families.push(resultSet.fieldByName('familie'));
+		families[resultSet.fieldByName('familie')] = resultSet.fieldByName('total');
 		resultSet.next();
 	}
 	resultSet.close();
 	var res = {};
-	var orders = require('depot/ordersfamilies').orders;
-	for (var order in orders) {
-		res[order] = orders[order].split(' ');
+	var allorders = require('depot/ordersfamilies').orders;
+	for (var order in allorders) {
+		var orders = allorders[order].split(' ');
+		for (var i = 0; i < orders.length; i++) {
+			if (!res[order])
+				res[order] = [];
+			res[order][i] = {
+				name : orders[i],
+				total : (families[orders[i]]) ? families[orders[i]] : 0
+			};
+		}
 	}
 	_callback(res);
 }

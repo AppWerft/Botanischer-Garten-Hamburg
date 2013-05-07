@@ -1,4 +1,5 @@
 exports.getImages = function(_item, _callback) {
+	console.log(_item);
 	var xhr = Ti.Network.createHTTPClient({
 		tlsVersion : Ti.Network.TLS_VERSION_1_2,
 		onload : function() {

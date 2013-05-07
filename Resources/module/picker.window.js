@@ -82,8 +82,8 @@ exports.create = function() {
 	});
 	var cover = Ti.UI.createView({
 		right : 0,
-		width : 100,
-		height : 60,
+		width : 200,
+		height : 200,
 		top : 0,
 	});
 

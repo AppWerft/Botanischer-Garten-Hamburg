@@ -8,18 +8,19 @@ exports.create = function() {
 				});
 				for (var f = 0; f < orders[o].length; f++) {
 					var row = Ti.UI.createTableViewRow({
-						hasChild : true,
-						familie : orders[o][f],
+						hasChild : orders[o][f].total ? true : false,
+						familie : orders[o][f].name,
 						height : 40,
 						layout : 'vertical',
 						backgroundColor : 'white',
 					});
 					row.add(Ti.UI.createLabel({
-						text : orders[o][f],
+						text : orders[o][f].name,
 						top : 5,
 						bottom : 5,
-						color : '#060',
-						width : Ti.UI.FILL,height:Ti.UI.SIZE,
+						color : orders[o][f].total ? '#060' : '#999',
+						width : Ti.UI.FILL,
+						height : Ti.UI.SIZE,
 						font : {
 							fontWeight : 'bold',
 							fontSize : 20
@@ -78,8 +79,8 @@ exports.create = function() {
 		getFamilien();
 	})
 	self.tv.addEventListener('click', function(_e) {
-		if (_e.rowData.familie)
-			self.tab.open(require('module/taxo.gattung.window').create(_e.rowData.familie));
+		if (_e.rowData.familie && _e.rowData.hasChild === true)
+			self.tab.open(require('module/taxo.gattungoffamily.window').create(_e.rowData.familie));
 		if (_e.rowData.data)
 			self.tab.open(require('module/detail.window').create(_e.rowData.data));
 	});

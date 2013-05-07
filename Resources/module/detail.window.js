@@ -59,10 +59,15 @@ exports.create = function(_data) {
 		}));
 		require('vendor/wikipedia').getImages(latein, function(_img) {
 			if (_img.length == 0) {
-				require('vendor/wikipedia').getImages(plant.gattung, function(_img) {
-					if (_img.length == 0)
-						return;
-					addImage(_img);
+				require('vendor/wikipedia').getImages(plant.deutsch, function(_img) {
+					if (_img.length == 0) {
+						require('vendor/wikipedia').getImages(plant.gattung, function(_img) {
+							if (_img.length == 0)
+								return;
+							addImage(_img);
+						});
+						addImage(_img);
+					}
 				});
 				return;
 			}
