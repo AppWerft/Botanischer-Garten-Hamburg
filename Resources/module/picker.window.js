@@ -21,13 +21,13 @@ Map.prototype.create = function() {
 		}
 
 	});
-	var overlays = {};
+	var overlays_passive = {}, overlays_active = {};
 	// retrieving araas from KML-file:
 	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
 	// build all polygons:
 	for (var name in Polygons.polygons) {
-		overlays[name] = {
+		overlays_passive[name] = {
 			name : name,
 			type : "polygon",
 			points : Polygons.polygons[name],
@@ -36,7 +36,16 @@ Map.prototype.create = function() {
 			fillColor : "red",
 			fillAlpha : 0.2
 		};
-		this.win.map.addOverlay(overlays[name]);
+		overlays_active[name] = {
+			name : name,
+			type : "polygon",
+			points : Polygons.polygons[name],
+			strokeColor : "green",
+			strokeAlpha : 1,
+			fillColor : "yellow",
+			fillAlpha : 0.2
+		};
+		this.win.map.addOverlay(overlays_passive[name]);
 	}
 	var picker = Ti.UI.createPicker({
 		minified : true,
@@ -54,9 +63,9 @@ Map.prototype.create = function() {
 	picker.addEventListener('change', function(_e) {
 		var area = picker.getSelectedRow(0).title;
 		// avoiding of hazards:
-		if (this.win.locked == true)
+		if (that.win.locked == true)
 			return;
-		this.win.locked = true;
+		that.win.locked = true;
 		setTimeout(function() {
 			picker.animate({
 				duration : 700,
@@ -64,19 +73,27 @@ Map.prototype.create = function() {
 					scale : 0.4
 				})
 			});
-			this.win.locked = false;
+			that.win.locked = false;
 		}, 100);
 		// changing of window title
-		this.win.setTitle(area);
+		that.win.setTitle(area);
 		if (regions[area] && regions[area].latitude) {
-			this.win.map.setLocation({
+			that.win.map.setLocation({
 				animate : true,
 				latitude : regions[area].latitude,
 				longitude : regions[area].longitude,
 				latitudeDelta : 0.001,
 				longitudeDelta : 0.001
 			});
-			overlays[area].fillColor = 'yellow';
+		}
+		try {
+			if (that.win.oldarea) {
+				that.win.map.removeOverlay(overlays_passive[that.win.oldarea]);
+			}
+			that.win.map.removeOverlay(overlays_passive[area]);
+			that.win.map.addOverlay(overlays_active[area]);
+			that.win.oldarea = area;
+		} catch (E) {
 		}
 	});
 	// trigger for picker, because picker has no click event:
@@ -86,8 +103,9 @@ Map.prototype.create = function() {
 		height : 200,
 		top : 0,
 	});
+	var that = this;
 	cover.addEventListener('click', function() {
-		if (this.win.locked == true)
+		if (that.win.locked === true)
 			return;
 		picker.animate({
 			transform : Ti.UI.create2DMatrix({
@@ -121,6 +139,5 @@ Map.prototype.create = function() {
 	});
 	return this.win;
 }
-
 
 module.exports = Map;
