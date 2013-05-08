@@ -2,7 +2,6 @@
 var Map = function() {
 	return this.create();
 }
-
 Map.prototype.create = function() {
 	this.win = require('module/win').create('Gartenplan');
 	this.win.oldarea = null;
@@ -16,37 +15,40 @@ Map.prototype.create = function() {
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
-			latitudeDelta : 0.003,
-			longitudeDelta : 0.003
+			latitudeDelta : 0.004,
+			longitudeDelta : 0.004
 		}
-
 	});
+	//	this.win.map.myregion = this.win.map.getRegion();
 	var overlays_passive = {}, overlays_active = {};
 	// retrieving araas from KML-file:
 	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
+	var polygons = Polygons.polygons;
 	// build all polygons:
-	for (var name in Polygons.polygons) {
-		overlays_passive[name] = {
-			name : name,
-			type : "polygon",
-			points : Polygons.polygons[name],
-			strokeColor : "green",
-			strokeAlpha : 1,
-			fillColor : "red",
-			fillAlpha : 0.2
-		};
-		overlays_active[name] = {
-			name : name,
-			type : "polygon",
-			points : Polygons.polygons[name],
-			strokeColor : "green",
-			strokeAlpha : 1,
-			fillColor : "yellow",
-			fillAlpha : 0.2
-		};
-		this.win.map.addOverlay(overlays_passive[name]);
-	}
+	this.win.map.addEventListener('complete', function() {
+		for (var name in polygons) {
+			overlays_passive[name] = {
+				name : name,
+				type : "polygon",
+				points : Polygons.polygons[name],
+				strokeColor : "green",
+				strokeAlpha : 1,
+				fillColor : "green",
+				fillAlpha : 0.1
+			};
+			overlays_active[name] = {
+				name : name,
+				type : "polygon",
+				points : Polygons.polygons[name],
+				strokeColor : "white",
+				strokeAlpha : 1,
+				fillColor : "white",
+				fillAlpha : 0.2
+			};
+			that.win.map.addOverlay(overlays_passive[name]);
+		}
+	});
 	var picker = Ti.UI.createPicker({
 		minified : true,
 		top : 0,
@@ -82,8 +84,8 @@ Map.prototype.create = function() {
 				animate : true,
 				latitude : regions[area].latitude,
 				longitude : regions[area].longitude,
-				latitudeDelta : 0.001,
-				longitudeDelta : 0.001
+				latitudeDelta : 0.003,
+				longitudeDelta : 0.003
 			});
 		}
 		try {
@@ -134,9 +136,8 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	// this event doesnt work!!
-	this.win.addEventListener('click', function(_e) {
-		console.log(_e)
+	this.win.map.addEventListener('longpress', function(_e) {
+		var area = require('vendor/mapposition').getArea(require('vendor/mapposition').getPosition(_e),polygons);
 	});
 	return this.win;
 }
