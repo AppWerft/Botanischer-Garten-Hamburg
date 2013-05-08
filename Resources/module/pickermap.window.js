@@ -12,11 +12,12 @@ Map.prototype.create = function() {
 	this.win.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
+		regionFit : true,
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
-			latitudeDelta : 0.004,
-			longitudeDelta : 0.004
+			latitudeDelta : 0.005,
+			longitudeDelta : 0.005
 		}
 	});
 	//	this.win.map.myregion = this.win.map.getRegion();
@@ -101,8 +102,8 @@ Map.prototype.create = function() {
 	// trigger for picker, because picker has no click event:
 	var cover = Ti.UI.createView({
 		right : 0,
-		width : 200,
-		height : 200,
+		width : 120,
+		height : 100,
 		top : 0,
 	});
 	var that = this;
@@ -137,7 +138,18 @@ Map.prototype.create = function() {
 		}));
 	}
 	this.win.map.addEventListener('longpress', function(_e) {
-		var area = require('vendor/mapposition').getArea(require('vendor/mapposition').getPosition(_e),polygons);
+		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+		var nameofclickedarea = undefined;
+		for (var name in polygons) {
+			if (require('vendor/map.polygonclick').isPointInPoly(polygons[name], clickpoint) === true) {
+				nameofclickedarea = name;
+				break;
+			};
+		}
+		if (nameofclickedarea) {
+			that.win.setTitle(nameofclickedarea);
+			//picker.setSelectedRow(nameofclickedarea);
+		}
 	});
 	return this.win;
 }
