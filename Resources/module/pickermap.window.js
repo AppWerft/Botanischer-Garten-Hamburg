@@ -4,6 +4,9 @@ var Map = function() {
 }
 Map.prototype.create = function() {
 	this.win = require('module/win').create('Gartenplan');
+	var rightButton = Ti.UI.createButton({
+		title : 'Liste'
+	});
 	this.win.oldarea = null;
 	this.win.locked = false;
 	Ti.include('/depot/icons.js');
@@ -147,9 +150,23 @@ Map.prototype.create = function() {
 			};
 		}
 		if (nameofclickedarea) {
+			if (!that.win.rightNavButton) {
+				that.win.rightNavButton = rightButton;
+			}
 			that.win.setTitle(nameofclickedarea);
-			//picker.setSelectedRow(nameofclickedarea);
+			var regiondx = 0;
+			for (var name in polygons) {
+				if (name == nameofclickedarea) {
+					//picker.setSelectedRow(0, regiondx);
+				}
+				regiondx++;
+			}
+
 		}
+	});
+	rightButton.addEventListener('click', function() {
+		var name = that.win.getTitle();
+		that.win.tab.open(require('module/bereich.window').create(name))
 	});
 	return this.win;
 }

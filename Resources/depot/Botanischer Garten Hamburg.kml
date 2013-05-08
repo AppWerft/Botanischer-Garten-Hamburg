@@ -254,7 +254,7 @@
 			</Polygon>
 		</Placemark>
 		<Placemark>
-			<name>Nutzplanzen</name>
+			<name>Nutzpflanzen</name>
 			<styleUrl>#msn_ylw-pushpin</styleUrl>
 			<Polygon>
 				<tessellate>1</tessellate>
@@ -268,7 +268,7 @@
 			</Polygon>
 		</Placemark>
 		<Placemark>
-			<name>Rosengarten</name>
+			<name>Rosenhügel</name>
 			<styleUrl>#msn_ylw-pushpin</styleUrl>
 			<Polygon>
 				<tessellate>1</tessellate>

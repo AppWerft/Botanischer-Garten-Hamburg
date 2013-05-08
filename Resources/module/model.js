@@ -224,8 +224,13 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 exports.getArtenByBereich = function(_bereich, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var bereich = /^(.*) \[/.exec(_bereich)[1];
-	var q = 'SELECT * FROM flora WHERE bereich="' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
+	var bereich = undefined;
+	try {
+		bereich = /^(.*) \[/.exec(_bereich)[1];
+	} catch(E) {
+		bereich = _bereich;
+	}
+	var q = 'SELECT * FROM flora WHERE bereich LIKE "' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
 	console.log(q);
 	var resultSet = link.execute(q);
 	var results = [];
