@@ -134,11 +134,12 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	// this event doesnt  work!!
+	// this event doesnt work!!
 	this.win.addEventListener('click', function(_e) {
 		console.log(_e)
 	});
 	return this.win;
 }
-
+Map.prototype.setArea = function(_area) {if (!_area) return
+}
 module.exports = Map;
