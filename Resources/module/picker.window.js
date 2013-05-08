@@ -134,6 +134,7 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
+	// this event doesnt  work!!
 	this.win.addEventListener('click', function(_e) {
 		console.log(_e)
 	});
