@@ -2,10 +2,13 @@
 var Map = function() {
 	return this.create();
 }
+
 Map.prototype.create = function() {
 	this.win = require('module/win').create('Gartenplan');
 	this.win.oldarea = null;
+	this.win.locked = false;
 	Ti.include('/depot/icons.js');
+	// special Map with overlays
 	var Map = require('netfunctional.mapoverlay');
 	this.win.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
@@ -18,10 +21,11 @@ Map.prototype.create = function() {
 		}
 
 	});
-	this.win.locked = false;
 	var overlays = {};
+	// retrieving araas from KML-file:
 	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
+	// build all polygons:
 	for (var name in Polygons.polygons) {
 		overlays[name] = {
 			name : name,
@@ -33,7 +37,6 @@ Map.prototype.create = function() {
 			fillAlpha : 0.2
 		};
 		this.win.map.addOverlay(overlays[name]);
-
 	}
 	var picker = Ti.UI.createPicker({
 		minified : true,
@@ -50,6 +53,7 @@ Map.prototype.create = function() {
 	});
 	picker.addEventListener('change', function(_e) {
 		var area = picker.getSelectedRow(0).title;
+		// avoiding of hazards:
 		if (this.win.locked == true)
 			return;
 		this.win.locked = true;
@@ -62,6 +66,7 @@ Map.prototype.create = function() {
 			});
 			this.win.locked = false;
 		}, 100);
+		// changing of window title
 		this.win.setTitle(area);
 		if (regions[area] && regions[area].latitude) {
 			this.win.map.setLocation({
@@ -73,15 +78,14 @@ Map.prototype.create = function() {
 			});
 			overlays[area].fillColor = 'yellow';
 		}
-
 	});
+	// trigger for picker, because picker has no click event:
 	var cover = Ti.UI.createView({
 		right : 0,
 		width : 200,
 		height : 200,
 		top : 0,
 	});
-
 	cover.addEventListener('click', function() {
 		if (this.win.locked == true)
 			return;
@@ -91,22 +95,13 @@ Map.prototype.create = function() {
 			})
 		});
 	});
-
 	var bereiche = require('module/model').getBereiche();
-	var color = ['red', 'green', 'blue', 'orange'];
 	var column1 = Ti.UI.createPickerColumn();
 	for (var i = 0, ilen = bereiche.length; i < ilen; i++) {
 		var row = Ti.UI.createPickerRow({
 			title : bereiche[i]
 		});
 		column1.addRow(row);
-	}
-	var column2 = Ti.UI.createPickerColumn();
-	for (var i = 0, ilen = color.length; i < ilen; i++) {
-		var row = Ti.UI.createPickerRow({
-			title : color[i]
-		});
-		column2.addRow(row);
 	}
 	picker.add([column1]);
 	this.win.add(this.win.map);
@@ -121,12 +116,8 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	this.win.addEventListener('touch', function(_e) {
+	this.win.addEventListener('click', function(_e) {
 		console.log(_e)
-	});
-
-	Ti.Gesture.addEventListener('shake', function() {
-		require('module/model').savePOI(this.win.getTitle());
 	});
 	return this.win;
 }
