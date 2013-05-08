@@ -1,21 +1,6 @@
-exports.getPolygon = function(_name) {
-	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Botanischer Garten Hamburg.kml').read().toString();
+function _parseKML(_kmlstring) {
 	var XMLTools = require("vendor/XMLTools");
-	var kml = new XMLTools(kmlstring);
-	var polygones = kml.toObject().Document.Folder.Placemark;
-	for (var i = 0; i < polygones.length; i++) {
-		if (polygones[i].name == _name) {
-			var coords = polygones[i].Polygon.outerBoundaryIs.LinearRing.coordinates.split(' ');
-			console.log(polygones[i].Polygon);
-		}
-
-	}
-}
-
-exports.getPolygonsFromLocalKML = function(filename) {
-	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory,filename).read().toString();
-	var XMLTools = require("vendor/XMLTools");
-	var kml = new XMLTools(kmlstring);
+	var kml = new XMLTools(_kmlstring);
 	var polygones = kml.toObject().Document.Folder.Placemark;
 	var vertices = {}, regions = {};
 	for (var i = 0; i < polygones.length; i++) {
@@ -33,10 +18,30 @@ exports.getPolygonsFromLocalKML = function(filename) {
 		}
 		regions[polygones[i].name].latitude = sumlat / (coords.length - 1);
 		regions[polygones[i].name].longitude = sumlon / (coords.length - 1);
-
 	}
 	return {
 		polygons : vertices,
 		regions : regions
-	};
+	}
+}
+
+exports._parseKML = _parseKML;
+
+exports.getPolygon = function(_name) {
+	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'Botanischer Garten Hamburg.kml').read().toString();
+	var XMLTools = require("vendor/XMLTools");
+	var kml = new XMLTools(kmlstring);
+	var polygones = kml.toObject().Document.Folder.Placemark;
+	for (var i = 0; i < polygones.length; i++) {
+		if (polygones[i].name == _name) {
+			var coords = polygones[i].Polygon.outerBoundaryIs.LinearRing.coordinates.split(' ');
+			console.log(polygones[i].Polygon);
+		}
+	}
+}
+
+exports.getPolygonsFromLocalKML = function(filename) {
+	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, filename).read().toString();
+	var res = _parseKML(kmlstring);
+	return res;
 }

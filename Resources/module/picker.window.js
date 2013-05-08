@@ -140,6 +140,9 @@ Map.prototype.create = function() {
 	});
 	return this.win;
 }
-Map.prototype.setArea = function(_area) {if (!_area) return
+
+Map.prototype.setArea = function(_area) {
+	if (!_area)
+		return
 }
 module.exports = Map;
