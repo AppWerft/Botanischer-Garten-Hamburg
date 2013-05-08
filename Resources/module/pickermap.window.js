@@ -157,7 +157,11 @@ Map.prototype.create = function() {
 			var regiondx = 0;
 			for (var name in polygons) {
 				if (name == nameofclickedarea) {
-					//picker.setSelectedRow(0, regiondx);
+					that.win.locked = true;
+					picker.setSelectedRow(0, regiondx);
+					setTimeout(function() {
+						that.win.locked = false;
+					}, 2000);
 				}
 				regiondx++;
 			}
