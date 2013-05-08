@@ -16,10 +16,11 @@ exports.create = function() {
 		title : 'Intern',
 		window : require('module/uhh.window').create('')
 	});
+	var Mapwin = require('module/picker.window');
 	var pickerTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
 		title : 'Picker',
-		window : require('module/picker.window').create('')
+		window : new Mapwin()
 	});
 	var calTab = TabBar.createTab({
 		icon : 'assets/calendar.png',

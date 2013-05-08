@@ -1,13 +1,15 @@
 //http://www.netfunctional.ca/apps/mapoverlay/documentation/
-exports.create = function() {
-	var self = require('module/win').create('Gartenplan');
-	self.oldarea = null;
+var Map = function() {
+	return this.create();
+}
+Map.prototype.create = function() {
+	this.win = require('module/win').create('Gartenplan');
+	this.win.oldarea = null;
 	Ti.include('/depot/icons.js');
 	var Map = require('netfunctional.mapoverlay');
-	self.map = Map.createMapView({
+	this.win.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
-		bubbleParent : true,
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
@@ -16,7 +18,7 @@ exports.create = function() {
 		}
 
 	});
-	self.locked = false;
+	this.win.locked = false;
 	var overlays = {};
 	var Polygons = require('module/model').getAreas();
 	var regions = Polygons.regions;
@@ -30,7 +32,7 @@ exports.create = function() {
 			fillColor : "red",
 			fillAlpha : 0.2
 		};
-		self.map.addOverlay(overlays[name]);
+		this.win.map.addOverlay(overlays[name]);
 
 	}
 	var picker = Ti.UI.createPicker({
@@ -48,9 +50,9 @@ exports.create = function() {
 	});
 	picker.addEventListener('change', function(_e) {
 		var area = picker.getSelectedRow(0).title;
-		if (self.locked == true)
+		if (this.win.locked == true)
 			return;
-		self.locked = true;
+		this.win.locked = true;
 		setTimeout(function() {
 			picker.animate({
 				duration : 700,
@@ -58,11 +60,11 @@ exports.create = function() {
 					scale : 0.4
 				})
 			});
-			self.locked = false;
+			this.win.locked = false;
 		}, 100);
-		self.setTitle(area);
+		this.win.setTitle(area);
 		if (regions[area] && regions[area].latitude) {
-			self.map.setLocation({
+			this.win.map.setLocation({
 				animate : true,
 				latitude : regions[area].latitude,
 				longitude : regions[area].longitude,
@@ -81,7 +83,7 @@ exports.create = function() {
 	});
 
 	cover.addEventListener('click', function() {
-		if (self.locked == true)
+		if (this.win.locked == true)
 			return;
 		picker.animate({
 			transform : Ti.UI.create2DMatrix({
@@ -107,11 +109,11 @@ exports.create = function() {
 		column2.addRow(row);
 	}
 	picker.add([column1]);
-	self.add(self.map);
-	self.add(picker);
-	self.add(cover);
+	this.win.add(this.win.map);
+	this.win.add(picker);
+	this.win.add(cover);
 	for (var i = 0; i < icons.length; i++) {
-		self.map.addAnnotation(Map.createAnnotation({
+		this.win.map.addAnnotation(Map.createAnnotation({
 			latitude : icons[i].latlon.split(',')[0],
 			title : icons[i].title,
 			animate : true,
@@ -119,12 +121,15 @@ exports.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	self.addEventListener('touch', function(_e) {
+	this.win.addEventListener('touch', function(_e) {
 		console.log(_e)
 	});
 
 	Ti.Gesture.addEventListener('shake', function() {
-		require('module/model').savePOI(self.getTitle());
+		require('module/model').savePOI(this.win.getTitle());
 	});
-	return self;
+	return this.win;
 }
+
+
+module.exports = Map;
