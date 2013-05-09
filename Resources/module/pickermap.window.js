@@ -26,16 +26,17 @@ Map.prototype.create = function() {
 	//	this.win.map.myregion = this.win.map.getRegion();
 	var overlays_passive = {}, overlays_active = {};
 	// retrieving araas from KML-file:
-	var Polygons = require('module/model').getAreas();
-	var regions = Polygons.regions;
-	var polygons = Polygons.polygons;
+	//var Polygons = require('module/model').getAreas();
+	var areas = require('module/model').getAreas().polygons;
+	var centers_of_areas = require('module/model').getAreas().centers;
+
 	// build all polygons:
 	this.win.map.addEventListener('complete', function() {
-		for (var name in polygons) {
+		for (var name in areas) {
 			overlays_passive[name] = {
 				name : name,
 				type : "polygon",
-				points : Polygons.polygons[name],
+				points : areas[name],
 				strokeColor : "green",
 				strokeAlpha : 1,
 				fillColor : "green",
@@ -44,7 +45,7 @@ Map.prototype.create = function() {
 			overlays_active[name] = {
 				name : name,
 				type : "polygon",
-				points : Polygons.polygons[name],
+				points : areas[name],
 				strokeColor : "white",
 				strokeAlpha : 1,
 				fillColor : "white",
@@ -83,11 +84,11 @@ Map.prototype.create = function() {
 		}, 100);
 		// changing of window title
 		that.win.setTitle(area);
-		if (regions[area] && regions[area].latitude) {
+		if (centers_of_areas[area] && areas[area].latitude) {
 			that.win.map.setLocation({
 				animate : true,
-				latitude : regions[area].latitude,
-				longitude : regions[area].longitude,
+				latitude : areas[area].latitude,
+				longitude : areas[area].longitude,
 				latitudeDelta : 0.003,
 				longitudeDelta : 0.003
 			});
@@ -140,11 +141,19 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
+	for (var name in centers_of_areas) {
+		this.win.map.addAnnotation(Map.createAnnotation({
+			latitude : centers_of_areas[name].latitude,
+			title : name,
+			longitude : centers_of_areas[name].longitude,
+			image : 'assets/null.png'
+		}));
+	}
 	this.win.map.addEventListener('longpress', function(_e) {
 		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 		var nameofclickedarea = undefined;
-		for (var name in polygons) {
-			if (require('vendor/map.polygonclick').isPointInPoly(polygons[name], clickpoint) === true) {
+		for (var name in areas) {
+			if (require('vendor/map.polygonclick').isPointInPoly(areas[name], clickpoint) === true) {
 				nameofclickedarea = name;
 				break;
 			};
@@ -153,9 +162,10 @@ Map.prototype.create = function() {
 			if (!that.win.rightNavButton) {
 				that.win.rightNavButton = rightButton;
 			}
+			that.win.map.selectAnnotation(nameofclickedarea);
 			that.win.setTitle(nameofclickedarea);
 			var regiondx = 0;
-			for (var name in polygons) {
+			for (var name in areas) {
 				if (name == nameofclickedarea) {
 					that.win.locked = true;
 					picker.setSelectedRow(0, regiondx);

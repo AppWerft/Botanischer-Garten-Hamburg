@@ -6,8 +6,7 @@ Array.prototype.in_array = function(needle) {
 			return true;
 	return false;
 }
-var Areas = require('vendor/kml').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
-console.log(Areas);
+var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 
 exports.getAreas = function() {
 	return Areas;
