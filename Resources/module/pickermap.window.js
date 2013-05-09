@@ -175,7 +175,12 @@ Map.prototype.create = function() {
 		picker.animate({
 			opacity : 1
 		})
-		//	that.win.tab.open(require('module/bereich.window').create(name))
+		//
+	});
+	this.win.map.addEventListener('click', function(_e) {
+		if (_e.clicksource != 'pin') {
+			that.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
+		}
 	});
 	return this.win;
 }
