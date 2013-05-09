@@ -9,6 +9,7 @@
 			break;
 		};
 	}
+	if (nameofclickedarea) this.map.changeArea(nameofclickedarea);
   });		
  *  
  */
