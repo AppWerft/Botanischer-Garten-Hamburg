@@ -4,11 +4,15 @@ var Map = function() {
 }
 Map.prototype.create = function() {
 	this.win = require('module/win').create('Gartenplan');
-	var rightButton = Ti.UI.createButton({
-		title : 'Liste'
-	});
 	this.win.oldarea = null;
 	this.win.locked = false;
+	var rightButton = Ti.UI.createButton({
+		width : 50,
+		height : 40,
+		backgroundImage : 'assets/picker.png'
+	});
+	this.win.rightNavButton = rightButton;
+
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
 	var Map = require('netfunctional.mapoverlay');
@@ -58,14 +62,8 @@ Map.prototype.create = function() {
 		minified : true,
 		top : 0,
 		selectionIndicator : true,
-		anchorPoint : {
-			x : 1,
-			y : 0
-		},
 		useSpinner : true,
-		transform : Ti.UI.create2DMatrix({
-			scale : 0.4
-		})
+		opacity : 0,
 	});
 	picker.addEventListener('change', function(_e) {
 		var area = picker.getSelectedRow(0).title;
@@ -76,9 +74,7 @@ Map.prototype.create = function() {
 		setTimeout(function() {
 			picker.animate({
 				duration : 700,
-				transform : Ti.UI.create2DMatrix({
-					scale : 0.4
-				})
+				opacity : 0
 			});
 			that.win.locked = false;
 		}, 100);
@@ -159,9 +155,6 @@ Map.prototype.create = function() {
 			};
 		}
 		if (nameofclickedarea) {
-			if (!that.win.rightNavButton) {
-				that.win.rightNavButton = rightButton;
-			}
 			that.win.map.selectAnnotation(nameofclickedarea);
 			that.win.setTitle(nameofclickedarea);
 			var regiondx = 0;
@@ -179,8 +172,10 @@ Map.prototype.create = function() {
 		}
 	});
 	rightButton.addEventListener('click', function() {
-		var name = that.win.getTitle();
-		that.win.tab.open(require('module/bereich.window').create(name))
+		picker.animate({
+			opacity : 1
+		})
+		//	that.win.tab.open(require('module/bereich.window').create(name))
 	});
 	return this.win;
 }

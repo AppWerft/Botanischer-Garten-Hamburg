@@ -19,7 +19,7 @@ exports.create = function() {
 	var Mapwin = require('module/pickermap.window');
 	var pickerTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
-		title : 'Picker',
+		title : 'Übersicht',
 		window : new Mapwin()
 	});
 	var calTab = TabBar.createTab({
@@ -38,4 +38,5 @@ exports.create = function() {
 	tabGroup.addTab(mapTab);
 	tabGroup.addTab(uhhTab);
 	tabGroup.open();
+	tabGroup.setActiveTab(1);
 }
