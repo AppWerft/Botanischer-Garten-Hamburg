@@ -1,14 +1,14 @@
 /*
- * USING:
+ * USAGE:
  * this.win.map.addEventListener('longpress', function(_e) {
-		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
-		var nameofclickedarea = undefined;
-		for (var name in areas) {
-			if (require('vendor/map.polygonclick').isPointInPoly(areas[name], clickpoint) === true) {
-				nameofclickedarea = name;
-				break;
-			};
-		}
+	var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+	var nameofclickedarea = undefined;
+	for (var name in areas) {
+		if (require('vendor/map.polygonclick').isPointInPoly(areas[name], clickpoint) === true) {
+			nameofclickedarea = name;
+			break;
+		};
+	}
   });		
  * 
  * 
