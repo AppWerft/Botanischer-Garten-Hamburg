@@ -10,11 +10,9 @@
 		};
 	}
   });		
- * 
- * 
- * 
- * 
- */exports.getClickPosition = function(_options) {
+ *  
+ */
+exports.getClickPosition = function(_options) {
 	var region = _options.source.region, x = _options.x, y = _options.y, width = _options.source.rect.width, height = _options.source.rect.height;
 	return {
 		latitude : region.latitude + region.latitudeDelta / 2 - y * parseFloat(region.latitudeDelta) / height,
