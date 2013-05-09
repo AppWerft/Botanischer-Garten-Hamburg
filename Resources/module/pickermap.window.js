@@ -8,8 +8,8 @@ Map.prototype.create = function() {
 	this.win = require('module/win').create('Gartenplan');
 	this.activearea = null;
 	this.locked = false;
+	// for picker.
 	this.bereiche = require('module/model').getBereiche();
-	//	this.win.map.myregion = this.win.map.getRegion();
 	this.overlays_passive = {}, this.overlays_active = {};
 	var rightButton = Ti.UI.createButton({
 		width : 50,
@@ -154,12 +154,11 @@ Map.prototype.setArea = function(_area) {
 		});
 		that.locked = false;
 	}, 100);
-	if (this.centers_of_areas[_area] && this.areas[_area].latitude) {
-		console.log('MOVING');
+	if (this.centers_of_areas[_area] && this.centers_of_areas[_area].latitude) {
 		that.win.map.setLocation({
 			animate : true,
-			latitude : areas[_area].latitude,
-			longitude : areas[_area].longitude,
+			latitude : this.centers_of_areas[_area].latitude,
+			longitude : this.centers_of_areas[_area].longitude,
 			latitudeDelta : 0.003,
 			longitudeDelta : 0.003
 		});

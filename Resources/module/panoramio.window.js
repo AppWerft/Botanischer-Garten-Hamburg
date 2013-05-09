@@ -6,8 +6,8 @@ exports.create = function() {
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
-			latitudeDelta : 0.003,
-			longitudeDelta : 0.003
+			latitudeDelta : 0.002,
+			longitudeDelta : 0.002
 		},
 		regionFit : true,
 		userLocation : false,
@@ -34,7 +34,7 @@ exports.create = function() {
 					longitude : p.lon,
 					title : p.title,
 					image : '/assets/pin.png',
-					animate : true,
+					animate : false,
 					subtitle : p.owner,
 					data : p,
 					imageurl : p.image,
