@@ -1,4 +1,20 @@
-exports.getClickPosition = function(_options) {
+/*
+ * USING:
+ * this.win.map.addEventListener('longpress', function(_e) {
+		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+		var nameofclickedarea = undefined;
+		for (var name in areas) {
+			if (require('vendor/map.polygonclick').isPointInPoly(areas[name], clickpoint) === true) {
+				nameofclickedarea = name;
+				break;
+			};
+		}
+  });		
+ * 
+ * 
+ * 
+ * 
+ */exports.getClickPosition = function(_options) {
 	var region = _options.source.region, x = _options.x, y = _options.y, width = _options.source.rect.width, height = _options.source.rect.height;
 	return {
 		latitude : region.latitude + region.latitudeDelta / 2 - y * parseFloat(region.latitudeDelta) / height,
