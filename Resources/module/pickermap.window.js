@@ -2,10 +2,15 @@
 var Map = function() {
 	return this.create();
 }
+
 Map.prototype.create = function() {
+	var that = this;
 	this.win = require('module/win').create('Gartenplan');
-	this.win.oldarea = null;
-	this.win.locked = false;
+	this.activearea = null;
+	this.locked = false;
+	this.bereiche = require('module/model').getBereiche();
+	//	this.win.map.myregion = this.win.map.getRegion();
+	this.overlays_passive = {}, this.overlays_active = {};
 	var rightButton = Ti.UI.createButton({
 		width : 50,
 		height : 40,
@@ -27,107 +32,59 @@ Map.prototype.create = function() {
 			longitudeDelta : 0.005
 		}
 	});
-	//	this.win.map.myregion = this.win.map.getRegion();
-	var overlays_passive = {}, overlays_active = {};
+
 	// retrieving araas from KML-file:
 	//var Polygons = require('module/model').getAreas();
-	var areas = require('module/model').getAreas().polygons;
-	var centers_of_areas = require('module/model').getAreas().centers;
+	this.areas = require('module/model').getAreas().areas;
+	this.centers_of_areas = require('module/model').getAreas().centers_of_areas;
 
 	// build all polygons:
 	this.win.map.addEventListener('complete', function() {
-		for (var name in areas) {
-			overlays_passive[name] = {
+		for (var name in that.areas) {
+			that.overlays_passive[name] = {
 				name : name,
 				type : "polygon",
-				points : areas[name],
+				points : that.areas[name],
 				strokeColor : "green",
 				strokeAlpha : 1,
 				fillColor : "green",
-				fillAlpha : 0.1
+				fillAlpha : 0
 			};
-			overlays_active[name] = {
-				name : name,
+			that.overlays_active[name] = {
+				name : name + '_',
 				type : "polygon",
-				points : areas[name],
+				points : that.areas[name],
 				strokeColor : "white",
+				strokeWidth : 2,
 				strokeAlpha : 1,
-				fillColor : "white",
-				fillAlpha : 0.2
+				fillColor : "black",
+				fillAlpha : 0
 			};
-			that.win.map.addOverlay(overlays_passive[name]);
+			that.win.map.addOverlay(that.overlays_passive[name]);
 		}
 	});
-	var picker = Ti.UI.createPicker({
+	this.picker = Ti.UI.createPicker({
 		minified : true,
 		top : 0,
 		selectionIndicator : true,
 		useSpinner : true,
 		opacity : 0,
 	});
-	picker.addEventListener('change', function(_e) {
-		var area = picker.getSelectedRow(0).title;
-		// avoiding of hazards:
-		if (that.win.locked == true)
-			return;
-		that.win.locked = true;
-		setTimeout(function() {
-			picker.animate({
-				duration : 700,
-				opacity : 0
-			});
-			that.win.locked = false;
-		}, 100);
-		// changing of window title
-		that.win.setTitle(area);
-		if (centers_of_areas[area] && areas[area].latitude) {
-			that.win.map.setLocation({
-				animate : true,
-				latitude : areas[area].latitude,
-				longitude : areas[area].longitude,
-				latitudeDelta : 0.003,
-				longitudeDelta : 0.003
-			});
-		}
-		try {
-			if (that.win.oldarea) {
-				that.win.map.removeOverlay(overlays_passive[that.win.oldarea]);
-			}
-			that.win.map.removeOverlay(overlays_passive[area]);
-			that.win.map.addOverlay(overlays_active[area]);
-			that.win.oldarea = area;
-		} catch (E) {
-		}
+	this.picker.addEventListener('change', function(_e) {
+		var area = that.picker.getSelectedRow(0).title;
+		that.setArea(area);
 	});
 	// trigger for picker, because picker has no click event:
-	var cover = Ti.UI.createView({
-		right : 0,
-		width : 120,
-		height : 100,
-		top : 0,
-	});
-	var that = this;
-	cover.addEventListener('click', function() {
-		if (that.win.locked === true)
-			return;
-		picker.animate({
-			transform : Ti.UI.create2DMatrix({
-				scale : 1
-			})
-		});
-	});
-	var bereiche = require('module/model').getBereiche();
 	var column1 = Ti.UI.createPickerColumn();
-	for (var i = 0, ilen = bereiche.length; i < ilen; i++) {
+	for (var i = 0, ilen = this.bereiche.length; i < ilen; i++) {
 		var row = Ti.UI.createPickerRow({
-			title : bereiche[i]
+			title : this.bereiche[i]
 		});
 		column1.addRow(row);
 	}
-	picker.add([column1]);
+	this.picker.add([column1]);
 	this.win.add(this.win.map);
-	this.win.add(picker);
-	this.win.add(cover);
+	this.win.add(this.picker);
 	for (var i = 0; i < icons.length; i++) {
 		this.win.map.addAnnotation(Map.createAnnotation({
 			latitude : icons[i].latlon.split(',')[0],
@@ -137,56 +94,104 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	for (var name in centers_of_areas) {
+	for (var name in this.centers_of_areas) {
 		this.win.map.addAnnotation(Map.createAnnotation({
-			latitude : centers_of_areas[name].latitude,
+			latitude : this.centers_of_areas[name].latitude,
 			title : name,
-			longitude : centers_of_areas[name].longitude,
+			subtitle : require('module/model').getArtenByBereich(name).length + ' Pflanzen',
+			rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
+			layer : 'area',
+			longitude : this.centers_of_areas[name].longitude,
 			image : 'assets/null.png'
 		}));
 	}
 	this.win.map.addEventListener('longpress', function(_e) {
 		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 		var nameofclickedarea = undefined;
-		for (var name in areas) {
-			if (require('vendor/map.polygonclick').isPointInPoly(areas[name], clickpoint) === true) {
+		for (var name in that.areas) {
+			if (require('vendor/map.polygonclick').isPointInPoly(that.areas[name], clickpoint) === true) {
 				nameofclickedarea = name;
 				break;
 			};
 		}
-		if (nameofclickedarea) {
-			that.win.map.selectAnnotation(nameofclickedarea);
-			that.win.setTitle(nameofclickedarea);
-			var regiondx = 0;
-			for (var name in areas) {
-				if (name == nameofclickedarea) {
-					that.win.locked = true;
-					picker.setSelectedRow(0, regiondx);
-					setTimeout(function() {
-						that.win.locked = false;
-					}, 2000);
-				}
-				regiondx++;
-			}
-
-		}
+		that.setArea(nameofclickedarea);
 	});
 	rightButton.addEventListener('click', function() {
-		picker.animate({
+		that.picker.animate({
 			opacity : 1
-		})
+		});
+		setTimeout(function() {
+			that.picker.animate({
+				opacity : 0
+			})
+		}, 20000);
 		//
 	});
 	this.win.map.addEventListener('click', function(_e) {
-		if (_e.clicksource != 'pin') {
+		if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
+			that.setArea(_e.annotation.title);
+		}
+		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
 			that.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
 		}
 	});
 	return this.win;
 }
-
+/*
+ *
+ *
+ *
+ */
 Map.prototype.setArea = function(_area) {
-	if (!_area)
-		return
+	if (!_area || this.locked == true)
+		return;
+	this.locked = true;
+	var that = this;
+	setTimeout(function() {
+		that.picker.animate({
+			duration : 700,
+			opacity : 0
+		});
+		that.locked = false;
+	}, 100);
+	if (this.centers_of_areas[_area] && this.areas[_area].latitude) {
+		console.log('MOVING');
+		that.win.map.setLocation({
+			animate : true,
+			latitude : areas[_area].latitude,
+			longitude : areas[_area].longitude,
+			latitudeDelta : 0.003,
+			longitudeDelta : 0.003
+		});
+	}
+
+	if (this.activearea && this.overlays_active[this.activearea]) {
+		this.win.map.removeOverlay(this.overlays_active[this.activearea]);
+		this.win.map.addOverlay(this.overlays_passive[this.activearea]);
+	}
+	try {
+		this.win.map.removeOverlay(this.overlays_passive[_area]);
+		this.win.map.addOverlay(this.overlays_active[_area]);
+		this.win.map.selectAnnotation(_area);
+		this.activearea = _area;
+	} catch(E) {
+	}
+	var regiondx = 0;
+	for (var name in that.areas) {
+		if (name == _area) {
+			that.locked = true;
+			that.picker.setSelectedRow(0, regiondx);
+			setTimeout(function() {
+				that.locked = false;
+			}, 2000);
+		}
+		regiondx++;
+	}
 }
+/*
+ *
+ *
+ *
+ *
+ */
 module.exports = Map;

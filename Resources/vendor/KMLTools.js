@@ -20,8 +20,8 @@ function _parseKML(_kmlstring) {
 		regions[polygones[i].name].longitude = sumlon / (coords.length - 1);
 	}
 	return {
-		polygons : vertices,
-		centers : regions
+		areas : vertices,
+		centers_of_areas : regions
 	}
 }
 
