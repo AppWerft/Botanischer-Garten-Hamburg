@@ -32,11 +32,10 @@ exports.create = function() {
 		title : 'Panoramio',
 		window : require('module/panoramio.window').create('')
 	});
-	tabGroup.addTab(taxoTab);
 	tabGroup.addTab(pickerTab);
+	tabGroup.addTab(taxoTab);
 	tabGroup.addTab(calTab);
 	tabGroup.addTab(mapTab);
 	tabGroup.addTab(uhhTab);
 	tabGroup.open();
-	tabGroup.setActiveTab(1);
 }

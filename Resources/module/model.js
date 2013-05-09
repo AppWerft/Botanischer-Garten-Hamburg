@@ -230,7 +230,6 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 		bereich = _bereich;
 	}
 	var q = 'SELECT * FROM flora WHERE bereich LIKE "' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
-	console.log(q);
 	var resultSet = link.execute(q);
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -243,7 +242,10 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 		resultSet.next();
 	}
 	resultSet.close();
-	_callback(results);
+	if (_callback && typeof (_callback) == 'function')
+		_callback(results);
+	else
+		return results
 };
 
 exports.savePOI = function(_poi) {

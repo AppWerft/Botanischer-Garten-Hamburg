@@ -1,6 +1,7 @@
 /*
  * USAGE:
- * this.win.map.addEventListener('longpress', function(_e) {
+ * 
+    this.win.map.addEventListener('longpress', function(_e) {
 	var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 	var nameofclickedarea = undefined;
 	for (var name in areas) {

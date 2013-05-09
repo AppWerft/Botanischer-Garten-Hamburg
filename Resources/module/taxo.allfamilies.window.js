@@ -80,6 +80,7 @@ exports.create = function() {
 		getFamilien();
 	})
 	self.tv.addEventListener('click', function(_e) {
+		console.log(_e.rowData);
 		if (_e.rowData.familie && _e.rowData.hasChild === true)
 			self.tab.open(require('module/taxo.gattungoffamily.window').create(_e.rowData.familie));
 		if (_e.rowData.data)
