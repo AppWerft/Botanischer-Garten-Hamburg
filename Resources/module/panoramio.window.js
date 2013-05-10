@@ -1,13 +1,38 @@
 exports.create = function() {
 	var self = require('module/win').create('Panoramio-Bilder');
-	var annotations = [];
+	var LAT = 53.5614057, LON = 9.8614097, DELTA = 0.004;
+	var Panoramio = require('vendor/panoramio');
+	var locked = false;
+	var annotations = {};
+	var updateAnnotations = function(_datas) {
+		for (var id in _datas) {
+			if (!annotations[id]) {
+				var p = _datas[id];
+				annotations[id] = Ti.Map.createAnnotation({
+					latitude : p.lat,
+					longitude : p.lon,
+					title : p.title,
+					image : '/assets/pin.png',
+					animate : false,
+					subtitle : p.owner + ' ' + p.cdate,
+					data : p,
+					imageurl : p.image,
+					ratio : p.ratio
+				});
+				Panoramio.setThumb(annotations[id]);
+				self.map.addAnnotation(annotations[id]);
+			}
+		};
+		locked = false;
+
+	};
 	self.map = Ti.Map.createView({
-		mapType : Titanium.Map.HYBRID_TYPE,
+		mapType : Titanium.Map.STANDARD_TYPE,
 		region : {
-			latitude : 53.5614057,
-			longitude : 9.8614097,
-			latitudeDelta : 0.002,
-			longitudeDelta : 0.002
+			latitude : LAT,
+			longitude : LON,
+			latitudeDelta : DELTA,
+			longitudeDelta : DELTA
 		},
 		regionFit : true,
 		userLocation : false,
@@ -20,29 +45,30 @@ exports.create = function() {
 		}
 	});
 	self.addEventListener('focus', function() {
-		if (annotations.length)
-			return;
-		require('vendor/panoramio').get({
-			lat : 53.5614057,
-			lon : 9.8614097,
-			delta : 0.004
-		}, function(_datas) {
-			for (var i = 0; i < _datas.length; i++) {
-				var p = _datas[i];
-				annotations[i] = Ti.Map.createAnnotation({
-					latitude : p.lat,
-					longitude : p.lon,
-					title : p.title,
-					image : '/assets/pin.png',
-					animate : false,
-					subtitle : p.owner,
-					data : p,
-					imageurl : p.image,
-					ratio : p.ratio
-				});
-			};
-			self.map.addAnnotations(annotations);
-		});
+		locked = true;
+		Panoramio.get({
+			lat : LAT,
+			lon : LON,
+			delta : DELTA
+		}, updateAnnotations)
 	});
+	self.map.addEventListener('regionchanged', function(_e) {
+		if (locked === true)
+			return;
+		locked = true;
+		Panoramio.get({
+			lat : _e.latitude,
+			lon : _e.longitude,
+			delta : _e.latitudeDelta
+		}, updateAnnotations);
+		// Garbage Collection:
+		for (var id in annotations) {
+			var a = annotations[id];
+			if (a.getLatitude() > _e.latitude + _e.latitudeDelta/2 || a.getLatitude() < _e.latitude - _e.latitudeDelta/2 || a.getLongitude() > _e.longitude + _e.longitudeDelta/2 || a.getLongitude() < _e.longitude - _e.longitudeDelta/2) {
+				self.map.removeAnnotation(a);
+				delete a;
+			}
+		}
+	})
 	return self;
 }
