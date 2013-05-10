@@ -19,7 +19,8 @@ exports.plantrow = {
 				height : 24,
 				font : {
 					fontSize : 20,
-					fontWeight : 'bold'
+					fontWeight : 'bold',
+					fontFamily : 'TheSans-B6Plain'
 				},
 				left : 10,
 				top : 5,
@@ -31,7 +32,7 @@ exports.plantrow = {
 			bindId : 'latein',
 			properties : {
 				font : {
-					fontFamily : 'FreeSerifItalic',
+					fontFamily : 'TheSansSemiBoldItalic',
 					fontStyle : 'italic'
 				},
 				left : 10,

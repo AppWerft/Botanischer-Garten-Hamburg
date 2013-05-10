@@ -11,12 +11,12 @@ Map.prototype.create = function() {
 	// for picker.
 	this.bereiche = require('module/model').getBereiche();
 	this.overlays_passive = {}, this.overlays_active = {};
-	var rightButton = Ti.UI.createButton({
+	var pickerButton = Ti.UI.createButton({
 		width : 50,
 		height : 40,
 		backgroundImage : 'assets/picker.png'
 	});
-	this.win.rightNavButton = rightButton;
+	this.win.leftNavButton = pickerButton;
 
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
@@ -99,7 +99,7 @@ Map.prototype.create = function() {
 			latitude : this.centers_of_areas[name].latitude,
 			title : name,
 			subtitle : require('module/model').getArtenByBereich(name).length + ' Pflanzen',
-			rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
+			pickerButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
 			layer : 'area',
 			longitude : this.centers_of_areas[name].longitude,
 			image : 'assets/null.png'
@@ -116,7 +116,7 @@ Map.prototype.create = function() {
 		}
 		that.setArea(nameofclickedarea);
 	});
-	rightButton.addEventListener('click', function() {
+	pickerButton.addEventListener('click', function() {
 		that.picker.animate({
 			opacity : 1
 		});
@@ -131,7 +131,7 @@ Map.prototype.create = function() {
 		if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
 			that.setArea(_e.annotation.title);
 		}
-		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
+		if (_e.clicksource == 'pickerButton' && _e.annotation.layer == 'area') {
 			that.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
 		}
 	});

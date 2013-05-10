@@ -114,7 +114,9 @@
 </array>
 <key>UIAppFonts</key>
 	<array>
-		<string>ttf/FreeSerifItalic.ttf</string>
+		<string>/ttf/TheSansSemiBoldItalic.ttf</string>
+		<string>/ttf/TheSans_B5.ttf</string>
+		<string>/ttf/TheSans_B6.ttf</string>
 	</array>
 	<key>CFBundleIconFiles</key>
 	<array>

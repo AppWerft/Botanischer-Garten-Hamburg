@@ -22,8 +22,8 @@ exports.create = function() {
 						width : Ti.UI.FILL,
 						height : Ti.UI.SIZE,
 						font : {
-							fontWeight : 'bold',
-							fontSize : 20
+							fontSize : 20,
+							fontFamily : 'TheSans-B6Plain'
 						},
 						left : 15
 					}));
