@@ -23,7 +23,8 @@ exports.create = function(k, v, parent, bereich) {
 		color : '#060',
 		font : {
 			fontSize : 20,
-			fontWeight : 'bold'
+			fontWeight : 'bold',
+			fontFamily : 'TheSans-B6SemiBold'
 		}
 	}));
 	if (k == 'Bereich') {

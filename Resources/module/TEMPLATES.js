@@ -20,10 +20,10 @@ exports.plantrow = {
 				font : {
 					fontSize : 20,
 					fontWeight : 'bold',
-					fontFamily : 'TheSans-B6Plain'
+					fontFamily : 'TheSans-B7Bold'
 				},
 				left : 10,
-				top : 5,
+				top : 10,
 				width : Ti.UI.FILL,
 			},
 			events : {}
@@ -36,7 +36,7 @@ exports.plantrow = {
 					fontStyle : 'italic'
 				},
 				left : 10,
-				top : 5,
+				top : 0,bottom:5,
 				width : Ti.UI.FILL,
 				height : Ti.UI.SIZE
 			},

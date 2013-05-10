@@ -83,41 +83,30 @@
 	<false/>
 
 	<key>UIStatusBarHidden</key>
-
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>/ttf/TheSansSemiBoldItalic.ttf</string>
+		<string>/ttf/TheSansSemiBold.ttf</string>
+		<string>/ttf/TheSansBold.ttf</string>
+	</array>
 
 	<key>UIStatusBarStyle</key>
-
 	<string>UIStatusBarStyleDefault</string>
 
 	<key>UISupportedInterfaceOrientations</key>
-
 	<array>
-
 		<string>UIInterfaceOrientationPortrait</string>
-
 	</array>
 
 	<key>UISupportedInterfaceOrientations~ipad</key>
-
 	<array>
-
 		<string>UIInterfaceOrientationPortrait</string>
-
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-
 		<string>UIInterfaceOrientationLandscapeLeft</string>
-
 		<string>UIInterfaceOrientationLandscapeRight</string>
-
 	</array>
-</array>
-<key>UIAppFonts</key>
-	<array>
-		<string>/ttf/TheSansSemiBoldItalic.ttf</string>
-		<string>/ttf/TheSans_B5.ttf</string>
-		<string>/ttf/TheSans_B6.ttf</string>
-	</array>
+		
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>appicon.png</string>

@@ -16,14 +16,15 @@ exports.create = function() {
 					});
 					row.add(Ti.UI.createLabel({
 						text : (orders[o][f].total) ? orders[o][f].name + ' (' + orders[o][f].total + ')' : orders[o][f].name,
-						top : 5,
+						top : 10,
 						bottom : 5,
 						color : orders[o][f].total ? '#060' : '#999',
 						width : Ti.UI.FILL,
 						height : Ti.UI.SIZE,
 						font : {
 							fontSize : 20,
-							fontFamily : 'TheSans-B6Plain'
+							fontWeight : 'bold',
+							fontFamily : 'TheSans-B7Bold'
 						},
 						left : 15
 					}));

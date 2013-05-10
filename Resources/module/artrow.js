@@ -14,7 +14,8 @@ exports.create = function(r) {
 		width : Ti.UI.FILL,
 		font : {
 			fontWeight : 'bold',
-			fontSize : 20
+			fontSize : 20,
+			fontFamily : 'TheSans-B7Bold'
 		},
 		left : 10
 	}));
@@ -23,7 +24,7 @@ exports.create = function(r) {
 		text : r.gattung + ' ' + r.art,
 		left : 10,
 		font : {
-			fontFamily : 'FreeSerifItalic',
+			fontFamily : 'TheSansSemiBoldItalic',
 			fontStyle : 'italic'
 		},
 		bottom : 5
