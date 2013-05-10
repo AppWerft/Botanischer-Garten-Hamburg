@@ -30,7 +30,7 @@ exports.create = function() {
 	var mapTab = TabBar.createTab({
 		icon : 'assets/panoramio.png',
 		title : 'Panoramio',
-		window : require('module/panoramio.window').create('')
+		window : require('module/panoramio_map.window').create('')
 	});
 	tabGroup.addTab(pickerTab);
 	tabGroup.addTab(taxoTab);
