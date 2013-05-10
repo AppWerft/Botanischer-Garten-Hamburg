@@ -26,14 +26,18 @@ exports.create = function() {
 				top : 5,
 				font : {
 					fontWeight : 'bold',
-					fontSize : 20
+					fontSize : 20,
+					fontFamily : 'TheSans-B7Bold'
 				}
 			}));
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[1],
 				width : Ti.UI.FILL,
 				left : 10,
-				bottom : 5
+				bottom : 5,
+				font : {
+					fontFamily : 'TheSans-B6SemiBold'
+				}
 			}));
 		}
 		self.tv.setData(rows);
@@ -46,7 +50,6 @@ exports.create = function() {
 			html : '<style>* {font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style>' + _e.rowData.html,
 			disableBounce : true
 		}));
-		console.log(_e.rowData.html);
 		win.addEventListener('swipe', function() {
 			win.close({
 				animate : true

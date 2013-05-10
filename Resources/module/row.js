@@ -24,7 +24,7 @@ exports.create = function(k, v, parent, bereich) {
 		font : {
 			fontSize : 20,
 			fontWeight : 'bold',
-			fontFamily : 'TheSans-B6SemiBold'
+			fontFamily : 'TheSans-B7Bold'
 		}
 	}));
 	if (k == 'Bereich') {
