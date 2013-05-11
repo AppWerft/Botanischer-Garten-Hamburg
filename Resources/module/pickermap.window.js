@@ -99,7 +99,7 @@ Map.prototype.create = function() {
 			latitude : this.centers_of_areas[name].latitude,
 			title : name,
 			subtitle : require('module/model').getArtenByBereich(name).length + ' Pflanzen',
-			pickerButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
+			rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
 			layer : 'area',
 			longitude : this.centers_of_areas[name].longitude,
 			image : 'assets/null.png'
@@ -131,7 +131,7 @@ Map.prototype.create = function() {
 		if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
 			that.setArea(_e.annotation.title);
 		}
-		if (_e.clicksource == 'pickerButton' && _e.annotation.layer == 'area') {
+		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
 			that.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
 		}
 	});
