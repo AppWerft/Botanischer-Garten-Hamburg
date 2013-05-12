@@ -80,17 +80,16 @@ exports.create = function(_data) {
 			'ar' : 'الاسم العربي للمصنع',
 			'es' : 'Nombre español de la planta',
 			'ca' : 'Nom de la planta català',
-			'jp' : '日本の植物の名前',
-			'dk' : 'Dansk navn på planten',
+			'ja' : '日本の植物の名前',
+			'el' : 'Ελληνική ονομασία των φυτών',
+			'dk' : 'Dansk navn på planten','hu':'Magyar növény nevét',
 			'nl' : 'Hollandske navn for planten',
-			'de' : 'Deutscher Name der Pflanze',
 			'ru' : 'Русское название растения',
-			'pl' : 'Polska nazwa zakładu',
+			'pl' : 'Polska nazwa zakładu','cz':'Český název rostliny',
 			'en' : 'English name of the plant',
 			'tr' : 'Tesisin Türk adı',
 			'fr' : 'Nom français de la plante',
-			'it' : 'nome italiano della pianta'
-
+			'it' : 'Nome italiano della pianta'
 		};
 		for (var lang in languages) {
 			require('vendor/wikipedia').search4Article(lang, latein, function(_data) {

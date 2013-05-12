@@ -30,7 +30,6 @@ exports.create = function(_options, _parent) {
 		color : '#060',
 		font : {
 			fontSize : Ti.UI.CONF.fontsize_title,
-			fontWeight : 'bold',
 			fontFamily : 'TheSans-B7Bold'
 		}
 	}));

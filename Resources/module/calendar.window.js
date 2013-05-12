@@ -52,11 +52,6 @@ exports.create = function() {
 			html : '<style>* {font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style>' + _e.rowData.html,
 			disableBounce : true
 		}));
-		win.addEventListener('swipe', function() {
-			win.close({
-				animate : true
-			});
-		});
 		self.tab.open(win, {
 			animate : true
 		});
