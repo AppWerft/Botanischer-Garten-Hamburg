@@ -16,27 +16,29 @@ exports.create = function() {
 				backgroundColor : 'white',
 				layout : 'vertical',
 				html : e.description,
+				height : Ti.UI.SIZE,
 				titletext : e.title.split(' | ')[0]
 			});
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[0],
 				width : Ti.UI.FILL,
 				color : '#060',
-				left : 10,
-				top : 5,
+				left : Ti.UI.CONF.padding,
+				top : Ti.UI.CONF.padding / 2,
 				font : {
 					fontWeight : 'bold',
-					fontSize : 20,
+					fontSize : Ti.UI.CONF.fontsize_title,
 					fontFamily : 'TheSans-B7Bold'
 				}
 			}));
 			rows[i].add(Ti.UI.createLabel({
 				text : e.title.split(' | ')[1],
 				width : Ti.UI.FILL,
-				left : 10,
-				bottom : 5,
+				left : Ti.UI.CONF.padding,
+				bottom : Ti.UI.CONF.padding / 2,
 				font : {
-					fontFamily : 'TheSans-B6SemiBold'
+					fontFamily : 'TheSans-B6SemiBold',
+					fontSize : Ti.UI.CONF.fontsize_subtitle,
 				}
 			}));
 		}

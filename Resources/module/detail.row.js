@@ -8,11 +8,11 @@ exports.create = function(_options, _parent) {
 	});
 	self.add(Ti.UI.createLabel({
 		text : _options.label,
-		left : (_options.standort) ? 80 : 10,
-		right : Ti.UI.CONF.padding * 2,
+		left : (_options.standort) ? 80 : Ti.UI.CONF.padding,
+		right : Ti.UI.CONF.padding,
 		width : Ti.UI.FILL,
-		height : Ti.UI.SIZE,
-		top : Ti.UI.CONF.padding,
+		height : Ti.UI.CONF.fontsize_label,
+		top : Ti.UI.CONF.padding / 2,
 		textAlign : _options.textalign,
 		font : {
 			fontSize : Ti.UI.CONF.fontsize_label
@@ -21,12 +21,12 @@ exports.create = function(_options, _parent) {
 	self.add(Ti.UI.createLabel({
 		text : _options.text,
 		width : Ti.UI.FILL,
-		left : (_options.standort) ? 80 : Ti.UI.CONF.padding / 2,
-		bottom : Ti.UI.CONF.padding,
-		top : Ti.UI.CONF.padding * 3,
-		right : 20,
+		left : (_options.standort) ? 80 : Ti.UI.CONF.padding,
+		bottom : Ti.UI.CONF.padding / 2,
+		top : Ti.UI.CONF.padding * 2.2,
+		right : Ti.UI.CONF.padding,
 		textAlign : _options.textalign,
-		height : Ti.UI.SIZE,
+		height : Ti.UI.CONF.fontsize_title,
 		color : '#060',
 		font : {
 			fontSize : Ti.UI.CONF.fontsize_title,
@@ -42,7 +42,7 @@ exports.create = function(_options, _parent) {
 				width : 60,
 				height : 60,
 				image : 'assets/' + _options.standort + '.png'
-			}))
+			}));
 		self.addEventListener('click', function(_e) {
 			// es gibt eine Arrea auf der Karte:
 			if (_e.rowData.bereich.area) {

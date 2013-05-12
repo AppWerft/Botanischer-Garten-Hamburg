@@ -1,19 +1,19 @@
 exports.plantrow = {
 	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.8
 	},
 	childTemplates : [{
 		type : 'Ti.UI.View',
 		properties : {
 			width : Ti.UI.FILL,
 			layout : 'vertical',
-			height : 150
 		},
 		childTemplates : [{
 			type : 'Ti.UI.Label',
 			bindId : 'deutsch',
 			properties : {
 				color : '#060',
-				height : Ti.UI.SIZE,
+				height : Ti.UI.CONF.fontsize_title * 1.2,
 				font : {
 					fontSize : Ti.UI.CONF.fontsize_title,
 					fontWeight : 'bold',
@@ -36,9 +36,9 @@ exports.plantrow = {
 				},
 				left : Ti.UI.CONF.padding,
 				top : 0,
-				bottom : Ti.UI.CONF.padding / 2,
+				bottom : Ti.UI.CONF.padding,
 				width : Ti.UI.FILL,
-				height : Ti.UI.SIZE
+				height : Ti.UI.CONF.fontsize_title
 			},
 			events : {}
 		}]

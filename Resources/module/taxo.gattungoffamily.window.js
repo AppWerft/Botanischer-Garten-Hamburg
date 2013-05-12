@@ -35,6 +35,7 @@ exports.create = function(_familie) {
 				'plants' : plantsTemplate
 			},
 			defaultItemTemplate : 'plants',
+			layout : 'vertical'
 		});
 		self.listView.addEventListener('itemclick', function(_e) {
 			self.tab.open(require('module/detail.window').create(_e.itemId), {

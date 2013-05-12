@@ -55,6 +55,7 @@ exports.create = function() {
 	self.map.addEventListener('regionchanged', function(_e) {
 		if (locked === true)
 			return;
+		Ti.App.fireEvent('app:abortpanoramio');
 		locked = true;
 		Panoramio.get({
 			lat : _e.latitude,
@@ -64,7 +65,7 @@ exports.create = function() {
 		// Garbage Collection:
 		for (var id in annotations) {
 			var a = annotations[id];
-			if (a.getLatitude() > _e.latitude + _e.latitudeDelta/2 || a.getLatitude() < _e.latitude - _e.latitudeDelta/2 || a.getLongitude() > _e.longitude + _e.longitudeDelta/2 || a.getLongitude() < _e.longitude - _e.longitudeDelta/2) {
+			if (a.getLatitude() > _e.latitude + _e.latitudeDelta / 2 || a.getLatitude() < _e.latitude - _e.latitudeDelta / 2 || a.getLongitude() > _e.longitude + _e.longitudeDelta / 2 || a.getLongitude() < _e.longitude - _e.longitudeDelta / 2) {
 				self.map.removeAnnotation(a);
 				delete a;
 			}

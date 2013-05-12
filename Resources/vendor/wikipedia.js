@@ -14,12 +14,14 @@ exports.search4Article = function(_lang, _item, _callback) {
 			try {
 				var query = JSON.parse(xhr.responseText).query;
 				if (parseInt(query.searchinfo.totalhits) > 0) {
-					console.log(query.search[0].title);
-					_callback({
-						lang : _lang,
-						dir : (_lang == 'he' || _lang == 'ar' || _lang == 'fa') ? 'rtl' : 'ltr',
-						title : query.search[0].title
-					});
+					var title = query.search[0].title;
+					if (title.split(' ').length < 4) {
+						_callback({
+							lang : _lang,
+							dir : (_lang == 'he' || _lang == 'ar' || _lang == 'fa') ? 'rtl' : 'ltr',
+							title : query.search[0].title
+						});
+					}
 				}
 			} catch (E) {
 				console.log(E);

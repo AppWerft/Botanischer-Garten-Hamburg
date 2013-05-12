@@ -21,6 +21,9 @@ exports.get = function(_options, _callback) {
 	});
 	xhr.open('GET', url);
 	xhr.send(null);
+	Ti.App.addEventListener('app:abortpanoramio', function() {
+		xhr.abort();
+	});
 }
 
 exports.setThumb = function(_annotation) {
@@ -44,8 +47,9 @@ exports.setThumb = function(_annotation) {
 		xhr.onload = function() {
 			if (xhr.status == 200) {
 				file.write(xhr.responseData);
-			//	hiresfile.write(xhr.responseData);
-				_annotation.setImage(file.nativePath);
+				//	hiresfile.write(xhr.responseData);
+				if (_annotation)
+					_annotation.setImage(file.nativePath);
 
 			} else
 				console.log(this.status);
