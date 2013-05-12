@@ -9,27 +9,27 @@ exports.create = function(_options, _parent) {
 	self.add(Ti.UI.createLabel({
 		text : _options.label,
 		left : (_options.standort) ? 80 : 10,
-		right : 20,
+		right : Ti.UI.CONF.padding * 2,
 		width : Ti.UI.FILL,
 		height : Ti.UI.SIZE,
-		top : 5,
+		top : Ti.UI.CONF.padding,
 		textAlign : _options.textalign,
 		font : {
-			fontSize : 12
+			fontSize : Ti.UI.CONF.fontsize_label
 		}
 	}));
 	self.add(Ti.UI.createLabel({
 		text : _options.text,
 		width : Ti.UI.FILL,
-		left : (_options.standort) ? 80 : 10,
-		bottom : 5,
-		top : 25,
+		left : (_options.standort) ? 80 : Ti.UI.CONF.padding / 2,
+		bottom : Ti.UI.CONF.padding,
+		top : Ti.UI.CONF.padding * 3,
 		right : 20,
 		textAlign : _options.textalign,
 		height : Ti.UI.SIZE,
 		color : '#060',
 		font : {
-			fontSize : 20,
+			fontSize : Ti.UI.CONF.fontsize_title,
 			fontWeight : 'bold',
 			fontFamily : 'TheSans-B7Bold'
 		}

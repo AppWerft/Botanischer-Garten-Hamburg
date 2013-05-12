@@ -43,6 +43,6 @@ exports.create = function(_familie) {
 			});
 		});
 		self.add(self.listView);
-	}, 10);
+	}, 100);
 	return self;
 }

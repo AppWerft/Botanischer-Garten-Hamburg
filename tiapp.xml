@@ -18,9 +18,9 @@
     <guid>da6aea03-b629-43be-bc94-8c3a207593a0</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
     <ios>
-    	<min-ios-ver>4.3</min-ios-ver>
-	</ios>
-	<iphone>
+        <min-ios-ver>4.3</min-ios-ver>
+    </ios>
+    <iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
         </orientations>
@@ -47,7 +47,7 @@
     <deployment-targets>
         <target device="blackberry">false</target>
         <target device="android">false</target>
-        <target device="ipad">false</target>
+        <target device="ipad">true</target>
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>

@@ -2,32 +2,32 @@ exports.create = function(r) {
 	var self = Ti.UI.createTableViewRow({
 		hasChild : true,
 		data : r,
-		height : 80,
 		layout : 'vertical',
 		backgroundColor : 'white',
 		height : Ti.UI.SIZE
 	});
 	self.add(Ti.UI.createLabel({
 		text : r.deutsch,
-		top : 5,
+		top : Ti.UI.CONF.padding,
 		color : '#060',
 		width : Ti.UI.FILL,
 		font : {
 			fontWeight : 'bold',
-			fontSize : 20,
+			fontSize : Ti.UI.CONF.fontsize_title,
 			fontFamily : 'TheSans-B7Bold'
 		},
-		left : 10
+		top : Ti.UI.CONF.padding
 	}));
 	self.add(Ti.UI.createLabel({
 		width : Ti.UI.FILL,
 		text : r.gattung + ' ' + r.art,
-		left : 10,
+		left : Ti.UI.CONF.padding,
 		font : {
 			fontFamily : 'TheSansSemiBoldItalic',
-			fontStyle : 'italic'
+			fontStyle : 'italic',
+			fontSize : Ti.UI.CONF.fontsize_subtitle
 		},
-		bottom : 5
+		bottom : Ti.UI.CONF.padding
 	}));
 	return self;
 }

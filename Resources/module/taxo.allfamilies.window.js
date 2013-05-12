@@ -10,23 +10,23 @@ exports.create = function() {
 					var row = Ti.UI.createTableViewRow({
 						hasChild : orders[o][f].total ? true : false,
 						familie : orders[o][f].name,
-						height : 40,
+						height : Ti.UI.SIZE,
 						layout : 'vertical',
 						backgroundColor : 'white',
 					});
 					row.add(Ti.UI.createLabel({
 						text : (orders[o][f].total) ? orders[o][f].name + ' (' + orders[o][f].total + ')' : orders[o][f].name,
-						top : 10,
-						bottom : 5,
+						top : Ti.UI.CONF.padding / 2,
+						bottom : Ti.UI.CONF.padding / 2,
+						left : Ti.UI.CONF.padding,
 						color : orders[o][f].total ? '#060' : '#999',
 						width : Ti.UI.FILL,
 						height : Ti.UI.SIZE,
 						font : {
-							fontSize : 20,
+							fontSize : Ti.UI.CONF.fontsize_title,
 							fontWeight : 'bold',
 							fontFamily : 'TheSans-B7Bold'
-						},
-						left : 15
+						}
 					}));
 					sections[i].add(row);
 				}

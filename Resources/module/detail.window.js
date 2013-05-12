@@ -87,7 +87,7 @@ exports.create = function(_data) {
 			'fr' : 'Nom français de la plante',
 			'it' : 'nome italiano della pianta',
 			'he' : 'השם בעברית של הצמח',
-			'ar' : 'شير العربية اسم النبات'
+			'ar' : 'الاسم العربي للمصنع'
 		};
 		for (var lang in languages) {
 			require('vendor/wikipedia').search4Article(lang, latein, function(_data) {

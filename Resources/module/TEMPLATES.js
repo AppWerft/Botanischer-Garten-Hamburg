@@ -1,7 +1,7 @@
 exports.plantrow = {
 	properties : {
 		selectedBackgroundColor : 'green',
-		height : 60,
+		height : Ti.UI.SIZE,
 		backgroundColor : 'white'
 	},
 	childTemplates : [{
@@ -16,14 +16,14 @@ exports.plantrow = {
 			bindId : 'deutsch',
 			properties : {
 				color : '#060',
-				height : 24,
+				height : Ti.UI.SIZE,
 				font : {
-					fontSize : 20,
+					fontSize : Ti.UI.CONF.fontsize_title,
 					fontWeight : 'bold',
 					fontFamily : 'TheSans-B7Bold'
 				},
-				left : 10,
-				top : 10,
+				left : Ti.UI.CONF.padding,
+				top : Ti.UI.CONF.padding / 2,
 				width : Ti.UI.FILL,
 			},
 			events : {}
@@ -33,10 +33,11 @@ exports.plantrow = {
 			properties : {
 				font : {
 					fontFamily : 'TheSansSemiBoldItalic',
-					fontStyle : 'italic'
+					fontStyle : 'italic',fontSize:Ti.UI.CONF.fontsize_subtitle
 				},
-				left : 10,
-				top : 0,bottom:5,
+				left : Ti.UI.CONF.padding,
+				top : 0,
+				bottom : Ti.UI.CONF.padding / 2,
 				width : Ti.UI.FILL,
 				height : Ti.UI.SIZE
 			},

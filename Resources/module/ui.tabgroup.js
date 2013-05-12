@@ -1,5 +1,11 @@
 exports.create = function() {
 	Ti.UI.iPhone.hideStatusBar();
+	Ti.UI.CONF = {
+		fontsize_title : Ti.Platform.displayCaps.platformWidth * 0.06,
+		fontsize_subtitle : Ti.Platform.displayCaps.platformWidth * 0.05,
+		fontsize_label : Ti.Platform.displayCaps.platformWidth * 0.04,
+		padding : Ti.Platform.displayCaps.platformWidth * 0.04,
+	};
 	Ti.UI.backgroundImage = '/assets/bg.png';
 	var TabBar = require('me.izen.tabbar');
 	var tabGroup = TabBar.createTabBar({
