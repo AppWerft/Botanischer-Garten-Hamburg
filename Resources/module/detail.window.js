@@ -36,27 +36,71 @@ exports.create = function(_data) {
 			headerTitle : 'Pflanzendaten'
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Standorte im Botanischen Garten'
+		}), Ti.UI.createTableViewSection({
+			headerTitle : 'Wikipedia Übersetzungen'
 		})];
-		sections[1].add(require('module/row').create('Familie', plant.familie, win));
-		sections[1].add(require('module/row').create('Gattung Art', latein));
+		sections[1].add(require('module/detail.row').create({
+			label : 'Ordnung',
+			text : plant.ordnung,
+		}, win));
+		sections[1].add(require('module/detail.row').create({
+			label : 'Familie',
+			text : plant.familie
+		}, win));
+		sections[1].add(require('module/detail.row').create({
+			label : 'Gattung Art',
+			text : latein
+		}, win));
 		win.title = plant.deutsch;
 		if (plant.unterart)
-			sections[1].add(require('module/row').create('Unterart', plant.unterart));
+			sections[1].add(require('module/detail.row').create({
+				label : 'Unterart',
+				text : plant.unterart
+			}));
 		if (plant.sorte)
-			sections[1].add(require('module/row').create('Sorte', plant.sorte));
-		sections[1].add(require('module/row').create('Deutscher Name', plant.deutsch));
+			sections[1].add(require('module/detail.row').create({
+				label : 'Sorte',
+				text : plant.sorte
+			}));
+		sections[1].add(require('module/detail.row').create({
+			label : 'Deutscher Name',
+			text : plant.deutsch
+		}));
 		for (var area in standorte) {
-			sections[2].add(require('module/row').create('Bereich', area + ' [' + standorte[area] + ']', win, area));
+			sections[2].add(require('module/detail.row').create({
+				label : 'Bereich',
+				text : area + ' [' + standorte[area] + ']',
+				area : area,
+				standort : plant.standort
+			}, win));
 		}
 		win.tv.data = sections;
-		//	win.tv.appendRow(require('module/row').create('Unterbereich', _data.unterbereich));
-		/*win.add(Ti.UI.createImageView({
-			bottom : 0,
-			right : 0,
-			width : 80,
-			defaultImage : '',
-			image : '/assets/' + plant.standort + '.png'
-		}));*/
+		var languages = {
+			'es' : 'Nombre español de la planta',
+			'dk' : 'Dansk navn på planten',
+			'nl' : 'Hollandske navn for planten',
+			'de' : 'Deutscher Name der Pflanze',
+			'ru' : 'Русское название растения',
+			'pl' : 'Polska nazwa zakładu',
+			'en' : 'English name of the plant',
+			'tr' : 'Tesisin Türk adı',
+			'fr' : 'Nom français de la plante',
+			'it' : 'nome italiano della pianta',
+			'he' : 'השם בעברית של הצמח',
+			'ar' : 'شير العربية اسم النبات'
+		};
+		for (var lang in languages) {
+			require('vendor/wikipedia').search4Article(lang, latein, function(_data) {
+				console.log(_data);
+				sections[3].add(require('module/detail.row').create({
+					label : languages[_data.lang],
+					text : _data.title,
+					textalign : (_data.dir == 'rtl') ? 'right' : 'left'
+				}, win));
+				win.tv.setData(sections);
+			});
+		}
+
 		require('vendor/wikipedia').getImages(latein, function(_img) {
 			if (_img.length == 0) {
 				require('vendor/wikipedia').getImages(plant.deutsch, function(_img) {

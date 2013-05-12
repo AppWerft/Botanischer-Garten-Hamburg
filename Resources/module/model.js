@@ -1,4 +1,4 @@
-var DBNAME = 'flora', DBFILE = '/depot/flora6.sql';
+var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql';
 var link = undefined;
 Array.prototype.in_array = function(needle) {
 	for (var i = 0; i < this.length; i++)
@@ -30,10 +30,8 @@ exports.getAll = function() {
 		};
 		var select = link.execute('SELECT total FROM flora2 WHERE id=?', res.id);
 		if (!select.isValidRow()) {
-			console.log('INSERT');
 			link.execute('INSERT INTO flora2 VALUES (total=0,id=?,deutsch=?,familie=?,sorte=?,art=?,subart=?,bereich=?,unterbereich=?,standort=?)', res.id, res.deutsch, res.familie, res.sorte, res.art, res.subart, res.bereich, res.unterbereich, res.standort);
 		} else {
-			console.log('UPDATE');
 			link.execute('UPDATE flora2 set total=? WHERE id=?', res.id, select.fieldByName('total') + 1);
 		}
 		//var resultSet = link.execute('SELECT * FROM flora WHERE standort <> "" ORDER BY id LIMIT 0,200');
@@ -89,14 +87,30 @@ exports.getDetail = function(_data, _callback) {
 		while (resultSet.isValidRow()) {
 			// basics data:
 			if (rowcount === 0) {
+				var familie = resultSet.fieldByName('familie');
+				var allordnungen = require('depot/ordersfamilies').orders;
+				var found = false;
+				for (var ordnung in allordnungen) {
+					if (found)
+						break;
+					var familien = allordnungen[ordnung].split(' ');
+					for (var i = 0; i < familien.length; i++) {
+						if (familien[i] === familie) {
+							found = true;
+							break;
+						}
+					}
+				}
 				res.plantinfo = {
 					art : resultSet.fieldByName('art'),
 					subart : resultSet.fieldByName('subart'),
-					familie : resultSet.fieldByName('familie'),
+					familie : familie,
 					deutsch : resultSet.fieldByName('deutsch'),
 					gattung : resultSet.fieldByName('gattung'),
-					standort : resultSet.fieldByName('standort')
+					standort : resultSet.fieldByName('standort'),
+					ordnung : ordnung
 				}
+				console.log(res.plantinfo);
 			}
 			// collecting of area datas
 			var bereich = resultSet.fieldByName('bereich');

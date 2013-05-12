@@ -16,12 +16,12 @@ Map.prototype.create = function() {
 		height : 40,
 		backgroundImage : 'assets/picker.png'
 	});
-	this.win.leftNavButton = pickerButton;
 
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
 	var Map = require('netfunctional.mapoverlay');
-	this.win.map = Map.createMapView({
+
+	that.win.map = Map.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
 		regionFit : true,
@@ -32,14 +32,13 @@ Map.prototype.create = function() {
 			longitudeDelta : 0.005
 		}
 	});
-
 	// retrieving araas from KML-file:
 	//var Polygons = require('module/model').getAreas();
-	this.areas = require('module/model').getAreas().areas;
-	this.centers_of_areas = require('module/model').getAreas().centers_of_areas;
+	that.areas = require('module/model').getAreas().areas;
+	that.centers_of_areas = require('module/model').getAreas().centers_of_areas;
 
 	// build all polygons:
-	this.win.map.addEventListener('complete', function() {
+	that.win.map.addEventListener('complete', function() {
 		for (var name in that.areas) {
 			that.overlays_passive[name] = {
 				name : name,
@@ -63,30 +62,9 @@ Map.prototype.create = function() {
 			that.win.map.addOverlay(that.overlays_passive[name]);
 		}
 	});
-	this.picker = Ti.UI.createPicker({
-		minified : true,
-		top : 0,
-		selectionIndicator : true,
-		useSpinner : true,
-		opacity : 0,
-	});
-	this.picker.addEventListener('change', function(_e) {
-		var area = that.picker.getSelectedRow(0).title;
-		that.setArea(area);
-	});
-	// trigger for picker, because picker has no click event:
-	var column1 = Ti.UI.createPickerColumn();
-	for (var i = 0, ilen = this.bereiche.length; i < ilen; i++) {
-		var row = Ti.UI.createPickerRow({
-			title : this.bereiche[i]
-		});
-		column1.addRow(row);
-	}
-	this.picker.add([column1]);
-	this.win.add(this.win.map);
-	this.win.add(this.picker);
+
 	for (var i = 0; i < icons.length; i++) {
-		this.win.map.addAnnotation(Map.createAnnotation({
+		that.win.map.addAnnotation(Map.createAnnotation({
 			latitude : icons[i].latlon.split(',')[0],
 			title : icons[i].title,
 			animate : true,
@@ -94,18 +72,18 @@ Map.prototype.create = function() {
 			image : 'assets/' + icons[i].name + '.png'
 		}));
 	}
-	for (var name in this.centers_of_areas) {
-		this.win.map.addAnnotation(Map.createAnnotation({
-			latitude : this.centers_of_areas[name].latitude,
+	for (var name in that.centers_of_areas) {
+		that.win.map.addAnnotation(Map.createAnnotation({
+			latitude : that.centers_of_areas[name].latitude,
 			title : name,
 			subtitle : require('module/model').getArtenByBereich(name).length + ' Pflanzen',
 			rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
 			layer : 'area',
-			longitude : this.centers_of_areas[name].longitude,
+			longitude : that.centers_of_areas[name].longitude,
 			image : 'assets/null.png'
 		}));
 	}
-	this.win.map.addEventListener('longpress', function(_e) {
+	that.win.map.addEventListener('longpress', function(_e) {
 		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 		var nameofclickedarea = undefined;
 		for (var name in that.areas) {
@@ -116,6 +94,30 @@ Map.prototype.create = function() {
 		}
 		that.setArea(nameofclickedarea);
 	});
+	//Picker:
+	that.win.leftNavButton = pickerButton;
+	that.picker = Ti.UI.createPicker({
+		minified : true,
+		top : 0,
+		selectionIndicator : true,
+		useSpinner : true,
+		opacity : 0,
+	});
+	that.picker.addEventListener('change', function(_e) {
+		var area = that.picker.getSelectedRow(0).title;
+		that.setArea(area);
+	});
+	// trigger for picker, because picker has no click event:
+	var column1 = Ti.UI.createPickerColumn();
+	for (var i = 0, ilen = that.bereiche.length; i < ilen; i++) {
+		var row = Ti.UI.createPickerRow({
+			title : that.bereiche[i]
+		});
+		column1.addRow(row);
+	}
+	that.picker.add([column1]);
+	that.win.add(that.win.map);
+	that.win.add(that.picker);
 	pickerButton.addEventListener('click', function() {
 		that.picker.animate({
 			opacity : 1
@@ -125,9 +127,8 @@ Map.prototype.create = function() {
 				opacity : 0
 			})
 		}, 20000);
-		//
 	});
-	this.win.map.addEventListener('click', function(_e) {
+	that.win.map.addEventListener('click', function(_e) {
 		if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
 			that.setArea(_e.annotation.title);
 		}
@@ -135,6 +136,7 @@ Map.prototype.create = function() {
 			that.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
 		}
 	});
+
 	return this.win;
 }
 /*

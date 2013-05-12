@@ -17,7 +17,10 @@
     <analytics>false</analytics>
     <guid>da6aea03-b629-43be-bc94-8c3a207593a0</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
-    <iphone>
+    <ios>
+    	<min-ios-ver>4.3</min-ios-ver>
+	</ios>
+	<iphone>
         <orientations device="iphone">
             <orientation>Ti.UI.PORTRAIT</orientation>
         </orientations>

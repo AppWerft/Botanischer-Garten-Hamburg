@@ -27,9 +27,9 @@ exports.setThumb = function(_annotation) {
 	var url = _annotation.data.image.replace(/original/g, 'mini_square');
 	var imageDirectoryName = 'panoramiocache';
 	var filename = Ti.Utils.md5HexDigest(url) + '.png';
-	var hiresfilename = Ti.Utils.md5HexDigest(url) + '@2x.png';
+	//var hiresfilename = Ti.Utils.md5HexDigest(url) + '@2x.png';
 	var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, imageDirectoryName, filename);
-	var hiresfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, imageDirectoryName, hiresfilename);
+	//var hiresfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, imageDirectoryName, hiresfilename);
 	if (file.exists()) {
 		_annotation.setImage(file.nativePath);
 	} else {
@@ -44,7 +44,7 @@ exports.setThumb = function(_annotation) {
 		xhr.onload = function() {
 			if (xhr.status == 200) {
 				file.write(xhr.responseData);
-				hiresfile.write(xhr.responseData);
+			//	hiresfile.write(xhr.responseData);
 				_annotation.setImage(file.nativePath);
 
 			} else

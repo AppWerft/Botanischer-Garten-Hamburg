@@ -1,5 +1,40 @@
+//https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=Asimina+triloba&srprop=timestamp&format=json
+exports.search4Article = function(_lang, _item, _callback) {
+
+	var post = {
+		action : 'query',
+		list : 'search',
+		srsearch : _item.replace(/ /g, '+'),
+		format : 'json'
+	};
+	var url = 'https://' + _lang + '.wikipedia.org/w/api.php'
+	var xhr = Ti.Network.createHTTPClient({
+		tlsVersion : Ti.Network.TLS_VERSION_1_2,
+		onload : function() {
+			try {
+				var query = JSON.parse(xhr.responseText).query;
+				if (parseInt(query.searchinfo.totalhits) > 0) {
+					console.log(query.search[0].title);
+					_callback({
+						lang : _lang,
+						dir : (_lang == 'he' || _lang == 'ar' || _lang == 'fa') ? 'rtl' : 'ltr',
+						title : query.search[0].title
+					});
+				}
+			} catch (E) {
+				console.log(E);
+				return;
+			}
+		},
+		onerror : function() {
+			console.log(this.error)
+		}
+	});
+	xhr.open('POST', url);
+	xhr.send(post);
+}
+
 exports.getImages = function(_item, _callback) {
-	console.log(_item);
 	var xhr = Ti.Network.createHTTPClient({
 		tlsVersion : Ti.Network.TLS_VERSION_1_2,
 		onload : function() {
@@ -14,7 +49,7 @@ exports.getImages = function(_item, _callback) {
 			}
 			var sub = Ti.Network.createHTTPClient({
 				tlsVersion : Ti.Network.TLS_VERSION_1_2,
-				onload : function() {console.log(sub.responseText);
+				onload : function() {
 					try {
 						var res = JSON.parse(sub.responseText).query.pages;
 						var images = [];
@@ -25,7 +60,7 @@ exports.getImages = function(_item, _callback) {
 						}
 						_callback(images);
 					} catch(E) {
-						
+
 					}
 				}
 			});
