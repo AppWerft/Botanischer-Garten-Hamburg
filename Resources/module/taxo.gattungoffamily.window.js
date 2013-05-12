@@ -34,7 +34,6 @@ exports.create = function(_familie) {
 			templates : {
 				'plants' : plantsTemplate
 			},
-			backgroundColor : 'white',
 			defaultItemTemplate : 'plants',
 		});
 		self.listView.addEventListener('itemclick', function(_e) {

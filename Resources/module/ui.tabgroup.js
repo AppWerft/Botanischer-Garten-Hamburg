@@ -2,7 +2,7 @@ exports.create = function() {
 	Ti.UI.iPhone.hideStatusBar();
 	Ti.UI.CONF = {
 		fontsize_title : Ti.Platform.displayCaps.platformWidth * 0.06,
-		fontsize_subtitle : Ti.Platform.displayCaps.platformWidth * 0.05,
+		fontsize_subtitle : Ti.Platform.displayCaps.platformWidth * 0.04,
 		fontsize_label : Ti.Platform.displayCaps.platformWidth * 0.04,
 		padding : Ti.Platform.displayCaps.platformWidth * 0.04,
 	};
