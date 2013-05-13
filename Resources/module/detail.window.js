@@ -77,14 +77,14 @@ exports.create = function(_data) {
 			}, win));
 		}
 		var wikirow = Ti.UI.createTableViewRow();
-		var wikilangs = ['de', 'en', 'ru'];
+		var wikilangs = ['de'];
 
 		for (var i = 0; i < wikilangs.length; i++) {
 			wikirow.add(Ti.UI.createImageView({
 				width : 100,
 				height : Ti.UI.SIZE,
 				left : i * 100,
-				url : 'http://' + wikilangs[i] + '.m.wikipedia.org/wiki/' + latein.replace(/ /, '_'),
+				url : 'http://' + wikilangs[i] + '.m.wikipedia.org/wiki/' + plant.deutsch.replace(/ /, '_'),
 				image : 'assets/wiki' + wikilangs[i] + '.png'
 			}))
 		}
