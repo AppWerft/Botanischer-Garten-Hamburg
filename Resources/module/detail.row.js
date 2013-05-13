@@ -44,11 +44,11 @@ exports.create = function(_options, _parent) {
 			}));
 		self.addEventListener('click', function(_e) {
 			// es gibt eine Arrea auf der Karte:
-			if (_e.rowData.bereich.area) {
-				parent.tab.open(require('module/picker.window').create(_e.rowData.bereich));
-			} else {
-				parent.tab.open(require('module/bereich.window').create(_options.text));
-			}
+			//if (_e.rowData.bereich.area) {
+			//	parent.tab.open(require('module/picker.window').create(_e.rowData.bereich));
+			//} else {
+				_parent.tab.open(require('module/bereich.window').create(_options.bereich));
+			//}
 		});
 	}
 	return self;
