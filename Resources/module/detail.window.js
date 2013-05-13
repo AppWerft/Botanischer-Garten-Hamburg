@@ -37,7 +37,9 @@ exports.create = function(_data) {
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Standorte im Botanischen Garten'
 		}), Ti.UI.createTableViewSection({
-			headerTitle : 'Übersetzungen (Wikipedia)'
+			headerTitle : 'Übersetzungen'
+		}), Ti.UI.createTableViewSection({
+			headerTitle : 'Wikipedia-Artikel'
 		})];
 		sections[1].add(require('module/detail.row').create({
 			label : 'Ordnung',
@@ -74,7 +76,25 @@ exports.create = function(_data) {
 				standort : plant.standort
 			}, win));
 		}
-		win.tv.data = sections;
+		var wikirow = Ti.UI.createTableViewRow();
+		var wikilangs = ['de', 'en', 'ru'];
+
+		for (var i = 0; i < wikilangs.length; i++) {
+			wikirow.add(Ti.UI.createImageView({
+				width : 100,
+				height : Ti.UI.SIZE,
+				left : i * 100,
+				url : 'http://' + wikilangs[i] + '.m.wikipedia.org/wiki/' + latein.replace(/ /, '_'),
+				image : 'assets/wiki' + wikilangs[i] + '.png'
+			}))
+		}
+		wikirow.addEventListener('click', function(_e) {
+			if (_e.source.url) {
+				win.tab.open(require('module/web.window').create(_e.source.url));
+			}
+		});
+		sections[4].add(wikirow);
+		win.tv.setData(sections);
 		var languages = {
 			'he' : 'השם בעברית של הצמח',
 			'ar' : 'الاسم العربي للمصنع',
@@ -82,18 +102,19 @@ exports.create = function(_data) {
 			'ca' : 'Nom de la planta català',
 			'ja' : '日本の植物の名前',
 			'el' : 'Ελληνική ονομασία των φυτών',
-			'dk' : 'Dansk navn på planten','hu':'Magyar növény nevét',
+			'dk' : 'Dansk navn på planten',
+			'hu' : 'Magyar növény nevét',
 			'nl' : 'Hollandske navn for planten',
 			'ru' : 'Русское название растения',
-			'pl' : 'Polska nazwa zakładu','cz':'Český název rostliny',
+			'pl' : 'Polska nazwa zakładu',
+			'cz' : 'Český název rostliny',
 			'en' : 'English name of the plant',
 			'tr' : 'Tesisin Türk adı',
-			'fr' : 'Nom français de la plante',
+			'fr' : 'Le nom de la plante en français',
 			'it' : 'Nome italiano della pianta'
 		};
 		for (var lang in languages) {
 			require('vendor/wikipedia').search4Article(lang, latein, function(_data) {
-				console.log(_data);
 				sections[3].add(require('module/detail.row').create({
 					label : languages[_data.lang],
 					text : _data.title,
