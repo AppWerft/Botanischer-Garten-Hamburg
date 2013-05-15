@@ -25,6 +25,9 @@ exports.create = function(_title, _noswipe) {
 		borderWidth : 2,
 		borderColor : 'white'
 	});
+	self.addEventListener('close', function() {
+		self.null;
+	})
 	//self.add(self.actind);
 	return self;
 }

@@ -5,7 +5,7 @@ var Map = function() {
 
 Map.prototype.create = function() {
 	var that = this;
-	this.win = require('module/win').create('Gartenplan');
+	this.win = require('module/win').create('Loki-Schmidt-Gartenplan');
 	this.activearea = null;
 	this.locked = false;
 	// for picker.
@@ -164,12 +164,12 @@ Map.prototype.setArea = function(_area) {
 		that.locked = false;
 	}, 100);
 	if (this.centers_of_areas[_area] && this.centers_of_areas[_area].latitude) {
-		that.win.map.setLocation({
+		this.win.map.setLocation({
 			animate : true,
 			latitude : this.centers_of_areas[_area].latitude,
 			longitude : this.centers_of_areas[_area].longitude,
-			latitudeDelta : 0.003,
-			longitudeDelta : 0.003
+			latitudeDelta : this.win.map.getLatitudeDelta(),
+			longitudeDelta : this.win.map.getLongitudeDelta()
 		});
 	}
 
