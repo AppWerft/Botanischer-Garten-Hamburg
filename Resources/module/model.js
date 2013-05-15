@@ -164,10 +164,13 @@ exports.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
-			var XMLTools = require("vendor/XMLTools");
-			var parser = new XMLTools(this.responseXML);
-			var res = parser.toObject().channel.item;
-			_callback(res);
+			try {
+				var XMLTools = require("vendor/XMLTools");
+				var parser = new XMLTools(this.responseXML);
+				var res = parser.toObject().channel.item;
+				_callback(res);
+			} catch(E) {
+			}
 		}
 	});
 	xhr.open('GET', url);

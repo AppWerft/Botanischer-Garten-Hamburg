@@ -83,17 +83,7 @@ Map.prototype.create = function() {
 			image : 'assets/null.png'
 		}));
 	}
-	that.win.map.addEventListener('longpress', function(_e) {
-		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
-		var nameofclickedarea = undefined;
-		for (var name in that.areas) {
-			if (require('vendor/map.polygonclick').isPointInPoly(that.areas[name], clickpoint) === true) {
-				nameofclickedarea = name;
-				break;
-			};
-		}
-		that.setArea(nameofclickedarea);
-	});
+
 	//Picker:
 	that.win.leftNavButton = pickerButton;
 	that.picker = Ti.UI.createPicker({
@@ -128,7 +118,24 @@ Map.prototype.create = function() {
 			})
 		}, 20000);
 	});
+	that.win.map.addEventListener('longpress', function(_e) {
+		console.log('longpressed');
+		var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+		var nameofclickedarea = undefined;
+		for (var name in that.areas) {
+			if (require('vendor/map.polygonclick').isPointInPoly(that.areas[name], clickpoint) === true) {
+				nameofclickedarea = name;
+				break;
+			};
+		}
+		console.log(nameofclickedarea);
+		that.setArea(nameofclickedarea);
+	});
 	that.win.map.addEventListener('click', function(_e) {
+		if (!_e.clicksource && _e.title) {
+			//that.setArea(_e.title);
+			return;
+		}
 		if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
 			that.setArea(_e.annotation.title);
 		}
@@ -173,7 +180,11 @@ Map.prototype.setArea = function(_area) {
 	try {
 		this.win.map.removeOverlay(this.overlays_passive[_area]);
 		this.win.map.addOverlay(this.overlays_active[_area]);
-		this.win.map.selectAnnotation(_area);
+		console.log('selectPin ' + _area);
+		setTimeout(function() {
+			that.win.map.selectAnnotation(_area);
+		}, 700);
+
 		this.activearea = _area;
 	} catch(E) {
 	}
