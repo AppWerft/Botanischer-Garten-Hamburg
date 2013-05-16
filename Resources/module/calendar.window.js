@@ -2,12 +2,10 @@ exports.create = function() {
 	var self = require('module/win').create('Kalender');
 
 	Ti.Calendar = require('ag.calendar');
-	Ti.Calendar.dataSource("coredata");
-	var platform = Titanium.Platform.osname;
-
 	var calendarView = Ti.Calendar.createView({
 		top : 0,
-		editable : true,
+		width : Ti.UI.FILL,
+		//	editable : true,
 		color : "white",
 		backgroundColor : 'silver'
 	});
@@ -158,7 +156,7 @@ exports.create = function() {
 		}
 	});
 
-	self.add(calendarView);	
+	self.add(calendarView);
 	self.open({
 		animated : false
 	});
