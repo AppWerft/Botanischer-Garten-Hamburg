@@ -43,6 +43,7 @@
     <modules>
         <module platform="iphone">me.izen.tabbar</module>
         <module platform="iphone">netfunctional.mapoverlay</module>
+        <module platform="iphone">ag.calendar</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

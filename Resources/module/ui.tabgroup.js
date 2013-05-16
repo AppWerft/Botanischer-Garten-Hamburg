@@ -31,12 +31,12 @@ exports.create = function() {
 	tabGroup.addTab(taxoTab);
 
 	
-	var calTab = TabBar.createTab({
+	var eventsTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
-		window : require('module/calendar.window').create('')
+		window : require('module/events.window').create('')
 	});
-	tabGroup.addTab(calTab);
+	tabGroup.addTab(eventsTab);
 
 	var panoTab = TabBar.createTab({
 		icon : 'assets/panoramio.png',
