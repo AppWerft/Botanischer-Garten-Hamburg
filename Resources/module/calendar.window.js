@@ -2,6 +2,9 @@ exports.create = function() {
 	var self = require('module/win').create('Kalender');
 
 	Ti.Calendar = require('ag.calendar');
+	/* the background of calendar is black 
+	 the with is fixed 320, also on ipad
+	 * */
 	var calendarView = Ti.Calendar.createView({
 		top : 0,
 		width : Ti.UI.FILL,
