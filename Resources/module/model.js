@@ -42,8 +42,8 @@ exports.getAll = function() {
 }
 
 exports.search = function(_options, _callback) {
-	if (_options.needle.length < 4)
-		return;
+	if (_options.needle.length < 1)
+		return [];
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var resultSet = link.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
@@ -65,7 +65,10 @@ exports.search = function(_options, _callback) {
 		resultSet.next();
 	}
 	resultSet.close();
-	_callback(results);
+	if (_callback && typeof (_callback) === 'function')
+		_callback(results)
+	else
+		return results
 }
 
 exports.getDetail = function(_data, _callback) {
@@ -200,7 +203,10 @@ exports.getFamilien = function(_callback) {
 			};
 		}
 	}
-	_callback(res);
+	if (_callback && typeof (_callback) === 'function')
+		_callback(res)
+	else
+		return res;
 }
 
 exports.getGattungenByFamilie = function(_familie, _callback) {

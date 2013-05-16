@@ -1,42 +1,47 @@
 exports.create = function() {
-	function getFamilien() {
-		require('module/model').getFamilien(function(_orders) {
-			var orders = _orders, sections = [], i = 0;
-			for (var o in orders) {
-				sections[i] = Ti.UI.createTableViewSection({
-					headerTitle : o
-				});
-				for (var f = 0; f < orders[o].length; f++) {
-					var row = Ti.UI.createTableViewRow({
-						hasChild : orders[o][f].total ? true : false,
-						familie : orders[o][f].name,
-						height : Ti.UI.SIZE,
-						layout : 'vertical',
-						backgroundColor : 'white',
-					});
-					row.add(Ti.UI.createLabel({
-						text : (orders[o][f].total) ? orders[o][f].name + ' (' + orders[o][f].total + ')' : orders[o][f].name,
-						top : Ti.UI.CONF.padding / 2,
-						bottom : Ti.UI.CONF.padding / 2,
-						left : Ti.UI.CONF.padding,
-						color : orders[o][f].total ? '#060' : '#999',
-						width : Ti.UI.FILL,
-						height : Ti.UI.SIZE,
-						font : {
-							fontSize : Ti.UI.CONF.fontsize_title,
-							fontWeight : 'bold',
-							fontFamily : 'TheSans-B7Bold'
-						}
-					}));
-					sections[i].add(row);
-				}
-				i++;
-			}
-			self.tv.setData(sections);
-		});
-	}
-
 	var self = require('module/win').create('Übersicht');
+	var taxonomysections = [], searchresultsections = [], timer = undefined;
+	var ordnungen = require('module/model').getFamilien();
+	var template = {
+		widthdetail : require('module/TEMPLATES').activefamilyrow,
+		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
+		searchresult : require('module/TEMPLATES').plantrow,
+	};
+	self.listview_of_taxonomy = Ti.UI.createListView({
+		top : 45,
+		templates : {
+			'widthdetail' : template.widthdetail,
+			'widthoutdetail' : template.widthoutdetail,
+			'searchresult' : template.searchresult
+		},
+		defaultItemTemplate : 'widthdetail'
+	});
+	for (var ordnung in ordnungen) {
+		var familiensection_in_ordnung = [];
+		for (var o = 0; o < ordnungen[ordnung].length; o++) {
+			var children = ordnungen[ordnung][o].total;
+			familiensection_in_ordnung.push({
+				template : (children > 0) ? 'widthdetail' : 'widthoutdetail',
+				title : {
+					text : (ordnungen[ordnung][o].total) ? ordnungen[ordnung][o].name + ' (' + ordnungen[ordnung][o].total + ')' : ordnungen[ordnung][o].name
+				},
+				properties : {
+					selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
+					allowsSelection : (children > 0) ? true : false,
+					itemId : {
+						familie : ordnungen[ordnung][o].name
+					},
+					accessoryType : (children > 0) ? Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE : Ti.UI.LIST_ACCESSORY_TYPE_NONE
+				}
+			});
+		}
+		taxonomysections.push(Ti.UI.createListSection({
+			headerTitle : ordnung,
+			items : familiensection_in_ordnung
+		}));
+	}
+	self.listview_of_taxonomy.setSections(taxonomysections);
+	// Maps the plai	nTemplate object to the 'plain' style name);
 	var search = Ti.UI.createSearchBar({
 		barColor : '#000',
 		showCancel : true,
@@ -55,38 +60,77 @@ exports.create = function() {
 	self.add(self.dummy);
 	search.addEventListener('focus', function(_e) {
 		self.title = 'Suche';
+		timer = setTimeout(function() {
+			search.blur();
+		}, 10000);
 	});
-	search.addEventListener('return', function(_e) {
-		var rows = [];
-		require('module/model').search({
+	search.addEventListener('cancel', function(_e) {
+		self.title = 'Taxonomy';
+		self.listview_of_taxonomy.setSections(taxonomysections);
+		search.blur();
+	});
+	search.addEventListener('change', function(_e) {
+		if (_e.value.length === 0) {
+			self.listview_of_taxonomy.setSections(taxonomysections);
+			self.title = 'Taxonomy';
+			if (timer)
+				clearTimeout(timer);
+			return;
+		}
+		if (timer)
+			clearTimeout(timer);
+		timer = setTimeout(function() {
+			search.blur();
+		}, 10000);
+		var results = require('module/model').search({
 			needle : _e.value,
-			limit : [0, 50]
-		}, function(_results) {
-			for (var i = 0; i < _results.length; i++) {
-				console.log(_results);
-				rows.push(require('module/artrow').create(_results[i]));
-			}
-			self.tv.setData(rows);
+			limit : [0, 500]
 		});
+		var resultsections = [];
+		if (!results || !results.length)
+			return;
+		for (var i = 0; i < results.length; i++) {
+			resultsections.push({
+				template : 'searchresult',
+				deutsch : {
+					text : results[i].deutsch,
+				},
+				latein : {
+					text : results[i].gattung + ' ' + results[i].art,
+				},
+				properties : {
+					selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
+					allowsSelection : true,
+					itemId : {
+						searchresult : results[i]
+					},
+					accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
+				}
+			});
+		}
+		searchresultsections = Ti.UI.createListSection({
+			items : resultsections
+		});
+		self.listview_of_taxonomy.setSections([searchresultsections]);
+
 	});
-	self.tv = Ti.UI.createTableView({
-		top : 45,
-		height : Ti.UI.FILL,
-		backgroundColor : 'transparent'
-	});
-	var rows = [];
-	getFamilien();
 	self.addEventListener('focus', function() {
 		self.title = 'Taxonomie';
-		getFamilien();
-	})
-	self.tv.addEventListener('click', function(_e) {
-		console.log(_e.rowData);
-		if (_e.rowData.familie && _e.rowData.hasChild === true)
-			self.tab.open(require('module/taxo.gattungoffamily.window').create(_e.rowData.familie));
-		if (_e.rowData.data)
-			self.tab.open(require('module/detail.window').create(_e.rowData.data));
+		self.listview_of_taxonomy.setSections(taxonomysections);
 	});
-	self.add(self.tv);
+
+	self.listview_of_taxonomy.addEventListener('itemclick', function(_e) {
+		var item = _e.section.getItemAt(_e.itemIndex);
+		if (item.properties.accessoryType === Ti.UI.LIST_ACCESSORY_TYPE_NONE)
+			return;
+		var detail = item.properties.itemId;
+		if (detail.familie)
+			self.tab.open(require('module/taxo.gattungoffamily.window').create(detail.familie));
+		if (detail.searchresult)
+			self.tab.open(require('module/detail.window').create(detail.searchresult));
+
+	});
+
+	self.add(self.listview_of_taxonomy);
 	return self;
 }

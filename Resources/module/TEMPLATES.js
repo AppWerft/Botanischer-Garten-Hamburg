@@ -1,3 +1,60 @@
+exports.activefamilyrow = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.2
+	},
+	childTemplates : [{
+		type : 'Ti.UI.View',
+		properties : {
+			width : Ti.UI.FILL,
+		},
+		childTemplates : [{
+			type : 'Ti.UI.Label',
+			bindId : 'title',
+			properties : {
+				color : '#060',
+				height : Ti.UI.CONF.fontsize_title * 1.2,
+				font : {
+					fontSize : Ti.UI.CONF.fontsize_title,
+					fontWeight : 'bold',
+					fontFamily : 'TheSans-B7Bold'
+				},
+				left : Ti.UI.CONF.padding,
+				width : Ti.UI.FILL,
+			},
+			events : {}
+		}]
+	}]
+};
+
+exports.passivefamilyrow = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.2
+	},
+	childTemplates : [{
+		type : 'Ti.UI.View',
+		properties : {
+			width : Ti.UI.FILL,
+		},
+		childTemplates : [{
+			type : 'Ti.UI.Label',
+			bindId : 'title',
+			properties : {
+				color : '#aaa',
+				height : Ti.UI.CONF.fontsize_title * 1.2,
+				font : {
+					fontSize : Ti.UI.CONF.fontsize_title,
+					fontWeight : 'bold',
+					fontFamily : 'TheSans-B7Bold'
+				},
+				left : Ti.UI.CONF.padding,
+				width : Ti.UI.FILL,
+			},
+			events : {}
+		}]
+	}]
+};
+
+
 exports.plantrow = {
 	properties : {
 		height : Ti.UI.CONF.fontsize_title * 2.8

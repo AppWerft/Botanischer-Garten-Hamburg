@@ -12,6 +12,16 @@ exports.create = function() {
 		tabBarColor : 'black',
 		selectedImageTintColor : 'green'
 	});
+	
+	var Maptab = require('module/pickermap.window');
+	var mapTab = TabBar.createTab({
+		icon : 'assets/signpost.png',
+		title : 'Übersicht',
+		window : new Maptab()
+	});
+	tabGroup.addTab(mapTab);
+	
+	
 
 	var taxoTab = TabBar.createTab({
 		icon : 'assets/cabinet.png',
@@ -19,34 +29,28 @@ exports.create = function() {
 		window : require('module/taxo.allfamilies.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
+
+	
+	var calTab = TabBar.createTab({
+		icon : 'assets/calendar.png',
+		title : 'Veranstaltungen',
+		window : require('module/calendar.window').create('')
+	});
+	tabGroup.addTab(calTab);
+
+	var panoTab = TabBar.createTab({
+		icon : 'assets/panoramio.png',
+		title : 'Panoramio',
+		window : require('module/panoramio_map.window').create('')
+	});
+	tabGroup.addTab(panoTab);
+	var uhhTab = TabBar.createTab({
+		icon : 'assets/uhh.png',
+		title : 'Intern',
+		window : require('module/uhh.window').create('')
+	});
+	tabGroup.addTab(uhhTab);
+	//tabGroup.setActiveTab(1);
 	tabGroup.open();
-	setTimeout(function() {
-		var Maptab = require('module/pickermap.window');
-		var mapTab = TabBar.createTab({
-			icon : 'assets/signpost.png',
-			title : 'Übersicht',
-			window : new Maptab()
-		});
-		tabGroup.addTab(mapTab);
-		var calTab = TabBar.createTab({
-			icon : 'assets/calendar.png',
-			title : 'Veranstaltungen',
-			window : require('module/calendar.window').create('')
-		});
-		tabGroup.addTab(calTab);
-		
-		var panoTab = TabBar.createTab({
-			icon : 'assets/panoramio.png',
-			title : 'Panoramio',
-			window : require('module/panoramio_map.window').create('')
-		});
-		tabGroup.addTab(panoTab);
-		var uhhTab = TabBar.createTab({
-			icon : 'assets/uhh.png',
-			title : 'Intern',
-			window : require('module/uhh.window').create('')
-		});
-		tabGroup.addTab(uhhTab);
-		tabGroup.setActiveTab(1);
-	}, 200);
+
 }
