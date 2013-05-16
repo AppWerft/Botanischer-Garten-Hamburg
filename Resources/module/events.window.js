@@ -43,7 +43,7 @@ exports.create = function() {
 				left : Ti.UI.CONF.padding,
 				bottom : Ti.UI.CONF.padding / 2,
 				font : {
-					fontFamily : 'TheSans-B6SemiBold',
+					fontFamily : 'TheSans-B7Bold',
 					fontSize : Ti.UI.CONF.fontsize_subtitle,
 				}
 			}));
