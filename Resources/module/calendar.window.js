@@ -2,17 +2,13 @@ exports.create = function() {
 	var self = require('module/win').create('Kalender');
 
 	Ti.Calendar = require('ag.calendar');
-	/* the background of calendar is black 
-	 the with is fixed 320, also on ipad
-	 * */
+	Ti.Calendar.dataSource("coredata");
 	var calendarView = Ti.Calendar.createView({
 		top : 0,
 		width : Ti.UI.FILL,
-		//	editable : true,
+		editable : true,
 		color : "white",
-		backgroundColor : 'silver'
 	});
-
 	var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "December"];
 
 	calendarView.addEventListener("date:clicked", function(e) {

@@ -6,13 +6,14 @@ exports.create = function() {
 		fontsize_label : Ti.Platform.displayCaps.platformWidth * 0.04,
 		padding : Ti.Platform.displayCaps.platformWidth * 0.04,
 	};
-	Ti.UI.backgroundImage = '/assets/bg.png';
+	Ti.UI.backgroundImage = 'Default.png';
 	var TabBar = require('me.izen.tabbar');
 	var tabGroup = TabBar.createTabBar({
 		tabBarColor : 'black',
-		selectedImageTintColor : 'green'
+		selectedImageTintColor : 'green',
+		bottom : -50
 	});
-	
+	tabGroup.open();
 	var Maptab = require('module/pickermap.window');
 	var mapTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
@@ -20,8 +21,6 @@ exports.create = function() {
 		window : new Maptab()
 	});
 	tabGroup.addTab(mapTab);
-	
-	
 
 	var taxoTab = TabBar.createTab({
 		icon : 'assets/cabinet.png',
@@ -30,7 +29,6 @@ exports.create = function() {
 	});
 	tabGroup.addTab(taxoTab);
 
-	
 	var eventsTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
@@ -51,6 +49,5 @@ exports.create = function() {
 	});
 	tabGroup.addTab(uhhTab);
 	//tabGroup.setActiveTab(1);
-	tabGroup.open();
-
+	tabGroup.bottom = 0;
 }
