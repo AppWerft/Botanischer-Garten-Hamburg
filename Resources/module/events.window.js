@@ -1,18 +1,20 @@
 exports.create = function() {
 	var self = require('module/win').create('Veranstaltungen');
-	
-	var calbutton = Ti.UI.createButton({title:'Kalender'});
+
+	var calbutton = Ti.UI.createButton({
+		title : 'Kalender'
+	});
 	self.rightNavButton = calbutton;
-	calbutton.addEventListener('click',function(){
+	calbutton.addEventListener('click', function() {
 		self.tab.open(require('module/calendar.window').create())
-	})	
+	})
 	self.tv = Ti.UI.createTableView({
 		top : 0,
 		height : Ti.UI.FILL,
 		backgroundImage : '/assets/bg.png'
 	});
 	self.add(self.tv);
-	
+
 	require('module/model').getCalendar(function(_events) {
 		var rows = [];
 		for (var i = 0; i < _events.length; i++) {
@@ -52,11 +54,12 @@ exports.create = function() {
 	})
 
 	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/win').create(_e.rowData.titletext);
+		var win = require('module/win').create(_e.rowData.titletext);	
 		win.add(Ti.UI.createWebView({
 			top : 0,
-			html : '<style>* {font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style>' + _e.rowData.html,
-			disableBounce : true
+			html : '<html><head><style>* {font-size:10pt!important;font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style></head><body>' + _e.rowData.html + '</body></html>',
+			disableBounce : true,
+			height : 2000
 		}));
 		self.tab.open(win, {
 			animate : true
