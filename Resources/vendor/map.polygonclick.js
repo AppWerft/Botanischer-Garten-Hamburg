@@ -31,7 +31,7 @@ exports.isPointInPoly = function(poly, pt) {
 }
 
 
-exportsisInCircle = function(_options) {
+exports.isInCircle = function(_options) {
 	var myposition = _options.myposition, radius = _options.radius, center = _options.center;
 	var R = 6371000;
 	var dLat = (center.lat - myposition)*Math.PI/180;
