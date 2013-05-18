@@ -49,7 +49,7 @@ exports.create = function(_options, _parent) {
 				_parent.tab.open(require('module/bereich.window').create(_options.bereich));
 				break;
 			case 'Ordnung':
-				_parent.tab.open(require('module/taxo.allfamilies.window').create(_options.text));
+				_parent.tab.open(require('module/taxo.familiesbyordnung.window').create(_options.text));
 				break;
 			case 'Familie':
 				_parent.tab.open(require('module/taxo.gattungoffamily.window').create(_options.text));

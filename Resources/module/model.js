@@ -93,9 +93,9 @@ exports.getDetail = function(_data, _callback) {
 				var familie = resultSet.fieldByName('familie');
 				var allordnungen = require('depot/ordersfamilies').orders;
 				var found = false;
+				// wwhich ordnung?
 				for (var ordnung in allordnungen) {
-					if (found)
-						break;
+
 					var familien = allordnungen[ordnung].split(' ');
 					for (var i = 0; i < familien.length; i++) {
 						if (familien[i] === familie) {
@@ -103,6 +103,8 @@ exports.getDetail = function(_data, _callback) {
 							break;
 						}
 					}
+					if (found)
+						break;
 				}
 				res.plantinfo = {
 					art : resultSet.fieldByName('art'),
@@ -113,7 +115,6 @@ exports.getDetail = function(_data, _callback) {
 					standort : resultSet.fieldByName('standort'),
 					ordnung : ordnung
 				}
-				console.log(res.plantinfo);
 			}
 			// collecting of area datas
 			var bereich = resultSet.fieldByName('bereich');
@@ -180,7 +181,19 @@ exports.getCalendar = function(_callback) {
 	xhr.send();
 }
 
-exports.getFamilien = function(_ordnung, _callback) {
+exports.getFamilienByOrdnung = function(_ordnung) {
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+	var familien = {};
+	var familienarray = require('depot/ordersfamilies').orders[_ordnung].split(' ');
+	for (var i=0; i<familienarray.length;i++) {
+		familien[familienarray[i]] = [];
+	}
+	console.log(familien);
+	return familien;
+}
+
+exports.getFamilien = function() {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var sql = 'SELECT DISTINCT familie, count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie';
@@ -194,23 +207,17 @@ exports.getFamilien = function(_ordnung, _callback) {
 	var res = {};
 	var allorders = require('depot/ordersfamilies').orders;
 	for (var order in allorders) {
-		console.log(_ordnung + ' ' + order);
-		if (!_ordnung || order === _ordnung) {
-			var orders = allorders[order].split(' ');
-			for (var i = 0; i < orders.length; i++) {
-				if (!res[order])
-					res[order] = [];
-				res[order][i] = {
-					name : orders[i],
-					total : (families[orders[i]]) ? families[orders[i]] : 0
-				};
-			}
+		var orders = allorders[order].split(' ');
+		for (var i = 0; i < orders.length; i++) {
+			if (!res[order])
+				res[order] = [];
+			res[order][i] = {
+				name : orders[i],
+				total : (families[orders[i]]) ? families[orders[i]] : 0
+			};
 		}
 	}
-	if (_callback && typeof (_callback) === 'function')
-		_callback(res)
-	else
-		return res;
+	return res;
 }
 
 exports.getGattungenByFamilie = function(_familie, _callback) {
