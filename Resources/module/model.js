@@ -180,10 +180,11 @@ exports.getCalendar = function(_callback) {
 	xhr.send();
 }
 
-exports.getFamilien = function(_callback) {
+exports.getFamilien = function(_ordnung, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = link.execute('SELECT DISTINCT familie,count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie');
+	var sql = 'SELECT DISTINCT familie, count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie';
+	var resultSet = link.execute(sql);
 	var families = {};
 	while (resultSet.isValidRow()) {
 		families[resultSet.fieldByName('familie')] = resultSet.fieldByName('total');
@@ -193,14 +194,17 @@ exports.getFamilien = function(_callback) {
 	var res = {};
 	var allorders = require('depot/ordersfamilies').orders;
 	for (var order in allorders) {
-		var orders = allorders[order].split(' ');
-		for (var i = 0; i < orders.length; i++) {
-			if (!res[order])
-				res[order] = [];
-			res[order][i] = {
-				name : orders[i],
-				total : (families[orders[i]]) ? families[orders[i]] : 0
-			};
+		console.log(_ordnung + ' ' + order);
+		if (!_ordnung || order === _ordnung) {
+			var orders = allorders[order].split(' ');
+			for (var i = 0; i < orders.length; i++) {
+				if (!res[order])
+					res[order] = [];
+				res[order][i] = {
+					name : orders[i],
+					total : (families[orders[i]]) ? families[orders[i]] : 0
+				};
+			}
 		}
 	}
 	if (_callback && typeof (_callback) === 'function')

@@ -4,7 +4,7 @@ exports.create = function(_options, _parent) {
 		height : Ti.UI.SIZE,
 		familie : (_options.label == 'Familie') ? _options.text : null,
 		bereich : (_options.label == 'Bereich') ? _options.bereich : null,
-		hasChild : (_options.label == 'Bereich') ? true : false,
+		hasChild : (_options.label == 'Bereich' || _options.label == 'Familie' ||_options.label == 'Ordnung' ) ? true : false,
 	});
 	self.add(Ti.UI.createLabel({
 		text : _options.label,
@@ -42,14 +42,20 @@ exports.create = function(_options, _parent) {
 				height : 60,
 				image : 'assets/' + _options.standort + '.png'
 			}));
-		self.addEventListener('click', function(_e) {
-			// es gibt eine Arrea auf der Karte:
-			//if (_e.rowData.bereich.area) {
-			//	parent.tab.open(require('module/picker.window').create(_e.rowData.bereich));
-			//} else {
-				_parent.tab.open(require('module/bereich.window').create(_options.bereich));
-			//}
-		});
 	}
+	self.addEventListener('click', function(_e) {
+		switch (_options.label) {
+			case 'Bereich':
+				_parent.tab.open(require('module/bereich.window').create(_options.bereich));
+				break;
+			case 'Ordnung':
+				_parent.tab.open(require('module/taxo.allfamilies.window').create(_options.text));
+				break;
+			case 'Familie':
+				_parent.tab.open(require('module/taxo.gattungoffamily.window').create(_options.text));
+				break;
+		}
+	});
+
 	return self;
 }

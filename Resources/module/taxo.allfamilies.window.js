@@ -1,7 +1,7 @@
-exports.create = function() {
+exports.create = function(_ordnung) {
 	var self = require('module/win').create('Übersicht');
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
-	var ordnungen = require('module/model').getFamilien();
+	var ordnungen = require('module/model').getFamilien(_ordnung);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
