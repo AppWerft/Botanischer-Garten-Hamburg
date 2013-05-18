@@ -54,12 +54,10 @@ exports.create = function() {
 	})
 
 	self.tv.addEventListener('click', function(_e) {
-		var win = require('module/win').create(_e.rowData.titletext);	
+		var win = require('module/win').create(_e.rowData.titletext,true);	
 		win.add(Ti.UI.createWebView({
-			top : 0,
 			html : '<html><head><style>* {font-size:10pt!important;font-family:Helvetica} a {text-decoration:none;color:black}h1,h2,h3 {color:#060}</style></head><body>' + _e.rowData.html + '</body></html>',
 			disableBounce : true,
-			height : 2000
 		}));
 		self.tab.open(win, {
 			animate : true
