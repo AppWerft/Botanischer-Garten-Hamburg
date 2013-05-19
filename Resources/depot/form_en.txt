@@ -1,0 +1,187 @@
+	Plant Habit
+1. Woody plants (excl. suffrutices)
+2. Herbaceous plants (incl. suffrutices)
+3. Aquatic plants, leaves floating or submerged
+4. Climbers, lianas
+5. Chlorophyll absent (parasites or saprophytes)
+6. Bulb present (monocots only)
+7. Milky juice present
+8. Spiny stems or leaves
+9. Tendrils present
+10. Cladodes or phyllodes (modified branches or petioles)
+Vestiture
+11. Hairs glandular
+12. Hairs stellate (also 2-armed, branched and tufted)
+13. Hairs stellate (not 2-armed, branched and tufted)
+14. Hairs 2-armed or t-shaped, non-glandular
+15. Hairs branched
+16. Hairs tufted, non-glandular
+17. Hairs peltate or scale-like
+18. Hairs vesicular or bladder-like
+19. Hairs stinging
+20. Cystoliths present (dicots only)
+Leaves
+21. Leaves opposite or verticillate
+22. Leaves alternate (excl. distichous monocots)
+23. Leaves distichous (monocots only)
+24. Leaves equitant (e.g. Iris)
+25. Leaves peltate
+26. Leaves not compound
+27. Leaves compound
+28. Leaves pinnately compound (4 or more leaflets)
+29. Leaves ternately compound (3 leaflets)
+30. Leaves palmately compound (4 or more leaflets)
+31. Venation pinnate or hardly visible in leaves or leaflets (incl. no. 30)
+32. Venation invisible or leaves 1-nerved (monocots only)
+33. Venation longitudinal in leaves or leaflets (incl. 3-nerved leaves)
+34. Venation palmate in leaves or leaflets
+35. Leaves or leaflets with entire margin (without any lobes or teeth)
+36. Leaves or leaflets lobed or divided
+37. Leaves or leaflets dentate, serrate, crenate, etc.
+38. Epidermis of leaf papillose (dicots only)
+39. Leaves with pellucid or glandular dots or lines
+40. Leaves with a ligule
+41. Stipules absent
+42. Stipules present (only the scars may be left)
+Inflorescences
+43. Flowers solitary
+44. Inflorescence a raceme, simple and monopodial
+45. Inflorescence a spike, simple and monopodial
+46. Inflorescence a corymb, simple and monopodial
+47. Inflorescence an umbel, simple and monopodial
+48. Inflorescence a fascicle, simple and monopodial
+49. Inflorescence a head, simple and monopodial
+50. Inflorescence simple and sympodial (cyme, dichasium etc.)
+51. Inflorescence compound, sympodial or monopodial (panicle, thyrsus etc.)
+Flowers
+52. Flowers bisexual
+53. Flowers unisexual
+54. Flowers actinomorphic
+55. Flowers zygomorphic or irregular
+56. Receptacle small (ovary superior)
+57. Receptacle enlarged, united with the ovary, totally or partially covering it
+58. Receptacle enlarged, totally or partially free from the ovary (super. to inf.)
+59. Receptacle enlarged, conical or hemispherical (ovaries superior)
+60. Disc present (annular or separate glands)
+61. Disc absent
+62. Perianth segments 0
+63. Perianth segments 1
+64. Perianth segments 2
+65. Perianth segments 3
+66. Perianth segments 4
+67. Perianth segments 5
+68. Perianth segments 6
+69. Perianth segments more than 6
+70. Perianth of similar segments
+71. Perianth of calyx and corolla
+72. Sepals 0 (incl. a cupular calyx without lobes)
+73. Sepals 1
+74. Sepals 2
+75. Sepals 3
+76. Sepals 4
+77. Sepals 5
+78. Sepals more than 5
+79. Sepals all free from one another
+80. Sepals connate (at least two of them)
+81. Sepals imbricate or contorted
+82. Sepals valvate
+83. Petals 0 (incl. a cupular corolla without lobes)
+84. Petals 1
+85. Petals 2
+86. Petals 3
+87. Petals 4
+88. Petals 5
+89. Petals 6
+90. Petals 7
+91. Petals 8
+92. Petals 9
+93. Petals 10
+94. Petals more than 10
+95. Petals all free from one another
+96. Petals connate (at least two of them)
+97. Petals imbricate
+98. Petals contorted
+99. Petals valvate
+100. Corona present, or scales in the throat
+101. Anther 1, fertile
+102. Anthers 2, fertile
+103. Anthers 3, fertile
+104. Anthers 4, fertile
+105. Anthers 5, fertile
+106. Anthers 6, fertile
+107. Anthers 7, fertile
+108. Anthers 8, fertile
+109. Anthers 9, fertile
+110. Anthers 10, fertile
+111. Anthers more than 10, fertile
+112. Stamens the same number as and opposite the petals or alternate with the sepals
+113. Flowers obdiplostemonous
+114. Anthers dorsifixed or ventrifixed
+115. Anthers basifixed
+116. Anthers introrse
+117. Anthers extrorse
+118. Anthers opening by longitudinal slits
+119. Anthers opening by apical pores
+120. Anthers opening by valves
+121. Anthers 1-locular at anthesis
+122. Stamens free from the corolla
+123. Stamens inserted on the corolla
+124. Filaments not connate
+125. Filaments connate into 1 tube or bundle
+126. Filaments connate into separate bundles
+127. Anthers with a conspicuous appendage
+128. Pollen coherent into pollinia or wax-like masses
+129. Staminodia present (in male or perfect flowers only)
+130. Gynophore
+131. Styles absent, stigmas sessile
+132. Styles more than 1, free (carpels connate)
+133. Style 1, or styles more or less connate (carpels free or connate)
+134. Style gynobasic
+135. Carpel 1
+136. Carpels 2 (free or united)
+137. Carpels 3 (free or united)
+138. Carpels 4 (free or united)
+139. Carpels 5 (free or united)
+140. Carpels more than 5 (free or united)
+141. Ovary 1-locular (incl. apocarpae)
+142. Ovary 2-locular
+143. Ovary 3-locular
+144. Ovary 4-locular
+145. Ovary 5-locular
+146. Ovary with more than 5 locules
+147. Ovule 1 in each loculus
+148. Ovules 2 in each loculus
+149. Ovules more than 2 in each loculus
+150. Carpels free from each other or carpel 1
+151. Ovules parietal, carpels connate
+152. Ovules axile, carpels connate
+153. Ovules attached to central axis or ventrally if carpels free or if carpel 1
+154. Ovules attached to the apex of the ovary
+155. Ovules attached to the base of the ovary
+Fruit
+156. Fruit a capsule (incl. pod, follicle etc.)
+157. Fruit a nut (incl. achene, loment, schizocarp etc.)
+158. Fruit fleshy (berry, drupe, pome)
+159. Fruit with 1 seed
+160. Fruit with 2 seeds
+161. Fruit with more than 2 seeds
+162. Fruits with wings
+163. Fruits with hairs for dispersal by wind
+164. Fruits with retrorsely barbed, hook-like or glochidiate hairs
+165. Fruits with spines and hooks
+166. Seeds with wings
+167. Seeds with hairs
+168. Arillus or aril-like organs present
+169. Embryo straight
+170. Embryo curved
+171. Cotyledons folded or crumpled
+172. Seeds without endosperm
+173. Seeds with endosperm
+174. Endosperm ruminate
+Distribution
+175. African
+176. Asian
+177. Australian and Oceanian
+178. European
+179. North American
+180. South American

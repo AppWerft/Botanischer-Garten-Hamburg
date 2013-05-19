@@ -7,10 +7,14 @@ Array.prototype.in_array = function(needle) {
 	return false;
 }
 var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
-
+//http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
 exports.getAreas = function() {
 	return Areas;
 }
+exports.getFilter = function(lang) {
+	Ti.include('/depot/filter_'+lang+'.js');
+	return filter;
+};
 exports.getAll = function() {
 	return;
 	if (!link)

@@ -54,7 +54,6 @@ exports.passivefamilyrow = {
 	}]
 };
 
-
 exports.plantrow = {
 	properties : {
 		height : Ti.UI.CONF.fontsize_title * 2.8
@@ -96,6 +95,37 @@ exports.plantrow = {
 				bottom : Ti.UI.CONF.padding,
 				width : Ti.UI.FILL,
 				height : Ti.UI.CONF.fontsize_title
+			},
+			events : {}
+		}]
+	}]
+};
+exports.filterrow = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.6
+	},
+	childTemplates : [{
+		type : 'Ti.UI.View',
+		properties : {
+			width : Ti.UI.FILL,
+			layout : 'vertical',
+		},
+		childTemplates : [{
+			type : 'Ti.UI.Label',
+			bindId : 'title',
+			properties : {
+				color : '#444',
+				height : Ti.UI.CONF.fontsize_title * 2.4,
+				font : {
+					fontSize : Ti.UI.CONF.fontsize_title,
+					fontWeight : 'bold',
+					fontFamily : 'TheSans-B7Bold'
+				},
+				left : Ti.UI.CONF.padding,
+				right : Ti.UI.CONF.padding,
+				top : Ti.UI.CONF.padding / 2,
+				width : Ti.UI.FILL,
+				bottom : Ti.UI.CONF.padding / 2
 			},
 			events : {}
 		}]

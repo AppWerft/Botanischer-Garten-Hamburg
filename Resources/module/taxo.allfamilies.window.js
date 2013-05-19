@@ -1,5 +1,16 @@
 exports.create = function(_ordnung) {
 	var self = require('module/win').create('Übersicht');
+	var rightButton = Ti.UI.createButton({
+		width : 42,
+		height : 36,
+		borderRadius : 5,
+		borderWidth : 1,
+		backgroundImage : '/assets/flower.png'
+	});
+	rightButton.addEventListener('click', function() {
+		self.tab.open(require('module/taxo.filter.window').create());
+	});
+	self.rightNavButton = rightButton;
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
 	var ordnungen = require('module/model').getFamilien(_ordnung);
 	var template = {

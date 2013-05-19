@@ -1,0 +1,187 @@
+Wuchsform
+1. Gehölze (excl. suffrutices)
+2. Krautigen Pflanzen (inkl. suffrutices)
+3. Wasserpflanzen, verlässt schwimmend oder untergetaucht
+4. Kletterpflanzen, Lianen
+5. Chlorophyll fehlt (Parasiten oder Saprophyten)
+6. Bulb vorhanden (monocots nur)
+7. Milchsaft vorhanden
+8. Stachelige Stiele oder Blätter
+9. Ranken präsentieren
+10. Kladodien oder phyllodes (modifizierte Niederlassungen oder Blattstiele)
+Vestiture
+11. Haare Drüsen
+12. Haare Sternzellen (auch 2-bewaffneten, verzweigte und Tufting)
+13. Haare Sternzellen (nicht 2-bewaffneten, verzweigte und Tufting)
+14. Haare 2-bewaffneten oder T-förmige, nicht-Drüsen
+15. Haare verzweigt
+16. Haare getuftet, non-Drüsen
+17. Haare peltate oder schuppenförmig
+18. Haare vesikuläre oder Blase-like
+19. Haare Stechen
+20. Zystolithen präsentieren (dicots nur)
+Blätter
+21. Blätter gegenständig oder verticillate
+22. Blätter wechselständig (excl. distichous monocots)
+23. Leaves distichous (monocots nur)
+24. Blätter equitant (z. B. Iris)
+25. Leaves peltate
+26. Blätter nicht verschlimmern
+27. Blätter Verbindung
+28. Blätter gefiedert (4 oder mehr Broschüren)
+29. Blätter abwechselnd Verbindung (3 Broschüren)
+30. Blätter palmately Verbindung (4 oder mehr Broschüren)
+31. Venation gefiedert oder kaum sichtbar in den Blättern oder Broschüren (inkl. keine 30).
+32. Venation unsichtbar oder verlässt 1nervig (monocots nur)
+33. Venation Längs in Blätter oder Blättchen (inkl. 3-genervt Blätter)
+34. Venation palmaten in Blätter oder Blättchen
+35. Blätter oder Blättchen ganzrandig (ohne Lappen oder Zähnen)
+36. Blätter oder Blättchen gelappt oder geteilt
+37. Blätter oder Blättchen gezähnt, gesägt, gekerbt usw.
+38. Epidermis des Blattes papillös (dicots nur)
+39. Blätter mit durchsichtigen oder Drüsengewebe Punkte oder Linien
+40. Blätter mit einer Ligula
+41. Nebenblätter fehlen
+42. Nebenblätter präsentieren (nur die Narben können gelassen werden)
+Blütenstände
+43. Blüten einzeln
+44. Blütenstand eine Rispe, einfach und monopodial
+45. Blütenstand eine Ähre, einfach und monopodial
+46. Blütenstand eine corymb, einfach und monopodial
+47. Blütenstand eine Dolde, einfach und monopodial
+48. Blütenstand eine Faszikel, einfach und monopodial
+49. Blütenstand eine Kopf, einfach und monopodial
+50. Blütenstand einfach und sympodial (cyme, Dichasium usw.)
+51. Blütenstand Verbindung sympodial oder monopodial (Rispe, thyrsus usw.)
+Blumen
+52. Blumen bisexuell
+53. Blumen unisexual
+54. Blumen actinomorphic
+55. Blumen zygomorphic oder unregelmäßig
+56. Steckdose klein (Eierstock superior)
+57. Steckdose vergrößert, vereint mit den Eierstöcken, die ganz oder teilweise bedecken
+58. Steckdose vergrößert, ganz oder teilweise kostenlos aus dem Eierstock (super. zu inf.)
+59. Steckdose vergrößerte, konisch oder halbkugelförmigen (Eierstöcke superior)
+60. Disc vorhanden (ringförmige oder getrennte Drüsen)
+61. Disc abwesend
+62. Perianth Segmenten 0
+63. Perianth Segmente 1
+64. Perianth Segmente 2
+65. Perianth Segmente 3
+66. Perianth Segmente 4
+67. Perianth Segmente 5
+68. Perianth Segmente 6
+69. Perianth Segmenten mehr als 6
+70. Perianth von ähnlichen Segmenten
+71. Perianth von Kelch und Krone
+72. Kelchblätter 0 (inkl. cupular Kelch ohne Lappen)
+73. Kelchblätter 1
+74. Kelchblätter 2
+75. Kelchblätter 3
+76. Kelchblätter 4
+77. Kelchblätter 5
+78. Kelchblätter mehr als 5
+79. Kelchblätter alle kostenlos voneinander
+80. Kelchblätter verwachsen (mindestens zwei von ihnen)
+81. Kelchblätter imbricate oder verzerrte
+82. Kelchblätter valvate
+83. Blütenblätter 0 (inkl. cupular corolla ohne Lappen)
+84. Blütenblätter 1
+85. Blütenblätter 2
+86. Blütenblätter 3
+87. Blütenblätter 4
+88. Blütenblätter 5
+89. Blütenblätter 6
+90. Blütenblätter 7
+91. Blütenblätter 8
+92. Blütenblätter 9
+93. Blütenblätter 10
+94. Blütenblätter mehr als 10
+95. Blütenblätter alle kostenlos voneinander
+96. Blütenblätter verwachsen (mindestens zwei von ihnen)
+97. Blütenblätter imbricate
+98. Blütenblätter verzerrte
+99. Blütenblätter valvate
+100. Corona vorhanden, oder Schuppen in der Kehle
+101. Staubbeutel 1, fruchtbare
+102. Staubbeutel 2, fruchtbare
+103. Staubbeutel 3, fruchtbare
+104. Staubbeutel 4, fruchtbare
+105. Staubbeutel 5, fruchtbare
+106. Staubbeutel 6, fruchtbare
+107. Staubbeutel 7, fruchtbare
+108. Staubbeutel 8, fruchtbare
+109. Staubbeutel 9, fruchtbare
+110. Staubbeutel 10, fruchtbare
+111. Staubbeutel mehr als 10, fruchtbare
+112. Stamens die gleiche Nummer wie und gegenüber den Blütenblättern oder wechseln sich mit den Kelchblätter
+113. Blumen obdiplostemonous
+114. Staubbeutel dorsifixed oder ventrifixed
+115. Staubbeutel basifixed
+116. Staubbeutel introrse
+117. Staubbeutel extrorse
+118. Staubbeutel Eröffnung durch Längsschlitze
+119. Staubbeutel Öffnen von apikalen Poren
+120. Staubbeutel Öffnen von Ventilen
+121. Staubbeutel 1-locular in Blüte
+122. Staubblätter frei von der Krone
+123. Staubblätter an der Krone eingefügt
+124. Filaments nicht verwachsen
+125. Filamente verwachsen in 1 Rohr oder Bündel
+126. Filamente verwachsen in getrennten Bündeln
+127. Staubbeutel mit einem auffälligen Anhängsel
+128. Pollen kohärenten in Pollinien oder wachsartige Massen
+129. Staminodien vorhanden (in männlich oder perfekte Blumen nur)
+130. Gynophore
+131. Styles fehlen, Narben sessile
+132. Styles mehr als 1, kostenlos (Karpelle connate)
+133. Art 1, oder Arten mehr oder weniger verwachsen (Karpelle frei oder verwachsen)
+134. Stil gynobasic
+135. Carpel 1
+136. Carpels 2 (frei oder vereinigt)
+137. Carpels 3 (frei oder vereinigt)
+138. Carpels 4 (frei oder vereinigt)
+139. Carpels 5 (frei oder vereinigt)
+140. Carpels mehr als 5 (frei oder vereinigt)
+141. Eierstock 1-locular (inkl. apocarpae)
+142. Eierstock 2-locular
+143. Eierstock 3-locular
+144. Eierstock 4-locular
+145. Eierstock-5 locular
+146. Eierstock mit mehr als 5 locules
+147. Ovule 1 in jedem loculus
+148. Samenanlagen 2 in jedem loculus
+149. Eizellen mehr als 2 in jedem loculus
+150. Carpels frei voneinander oder carpel 1
+151. Samenanlagen parietal, Karpelle connate
+152. Samenanlagen axile, Karpelle connate
+153. Eizellen zur Mittelachse befestigt oder ventral wenn Karpelle kostenlos oder wenn carpel 1
+154. Samenanlagen zum Scheitelpunkt des Eierstocks befestigt
+155. Samenanlagen der Basis des Eierstocks befestigt
+Frucht
+156. Fruit eine Kapsel (inkl. pod, Follikel usw.)
+157. Fruit eine Mutter (inkl. achene, loment, Spaltfrucht usw.)
+158. Frucht fleischig (Beere, Steinfrucht, Kern)
+159. Obst mit 1 Samen
+160. Obst mit 2 Samen
+161. Obst mit mehr als 2 Samen
+162. Früchte mit Flügeln
+163. Früchte mit Haaren für die Verbreitung durch Wind
+164. Früchte mit Widerhaken, Haken-oder glochidiate Haare
+165. Früchte mit Stacheln und Haken
+166. Samen mit Flügeln
+167. DSmen mit Haaren
+168. Arillus oder aril-like Organe präsentieren
+169. Embryo gerade
+170. Embryo gekrümmt
+171. Keimblätter gefaltet oder zerknüllt
+172. Samen ohne Endosperm
+173. Samen mit Endosperm
+174. Endosperm wiederkäuen
+Vorkommen
+175. African
+176. Asian
+177. Australien und Ozeanien
+178. Europäische
+179. North American
+180. Südamerikanisch
