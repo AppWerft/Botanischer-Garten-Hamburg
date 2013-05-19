@@ -186,8 +186,18 @@ exports.getFamilienByOrdnung = function(_ordnung) {
 		link = Ti.Database.install(DBFILE, DBNAME);
 	var familien = {};
 	var familienarray = require('depot/ordersfamilies').orders[_ordnung].split(' ');
-	for (var i=0; i<familienarray.length;i++) {
+	for (var i = 0; i < familienarray.length; i++) {
 		familien[familienarray[i]] = [];
+		var sql = 'SELECT DISTINCT gattung,count(gattung) AS total FROM flora WHERE familie = "' + familienarray[i] + '" GROUP BY gattung';
+		var resultSet = link.execute(sql);
+		while (resultSet.isValidRow()) {
+			familien[familienarray[i]].push({
+				name : resultSet.fieldByName('gattung'),
+				total : resultSet.fieldByName('total')
+			});
+			resultSet.next();
+		}
+		resultSet.close();
 	}
 	console.log(familien);
 	return familien;

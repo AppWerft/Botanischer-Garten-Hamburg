@@ -1,45 +1,45 @@
-exports.create = function(_ordnung) {
-	var self = require('module/win').create(_ordnung);
-	var taxonomysections = [], searchresultsections = [], timer = undefined;
-	var ordnungen = require('module/model').getFamilienByOrdnung(_ordnung);
+exports.create = function(_familie) {
+	var self = require('module/win').create(_familie);
+	var taxonomysections = [];
+
+	var familien = require('module/model').getFamilienByOrdnung(_familie);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
-		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
-		searchresult : require('module/TEMPLATES').plantrow,
+		widthoutdetail : require('module/TEMPLATES').passivefamilyrow
 	};
-	self.listview_of_taxonomy = Ti.UI.createListView({
+	self.listview_of_orders = Ti.UI.createListView({
 		templates : {
 			'widthdetail' : template.widthdetail,
 			'widthoutdetail' : template.widthoutdetail
 		},
 		defaultItemTemplate : 'widthdetail'
 	});
-	for (var ordnung in ordnungen) {
-		var familiensection_in_ordnung = [];
-		for (var o = 0; o < ordnungen[ordnung].length; o++) {
-			var children = ordnungen[ordnung][o].total;
-			familiensection_in_ordnung.push({
+	for (var familie in familien) {
+		var gattung_in_familie = [];
+		for (var o = 0; o < familien[familie].length; o++) {
+			var children = familien[familie][o].total;
+			gattung_in_familie.push({
 				template : (children > 0) ? 'widthdetail' : 'widthoutdetail',
 				title : {
-					text : (ordnungen[ordnung][o].total) ? ordnungen[ordnung][o].name + ' (' + ordnungen[ordnung][o].total + ')' : ordnungen[ordnung][o].name
+					text : (familien[familie][o].total) ? familien[familie][o].name + ' (' + familien[familie][o].total + ')' : familien[familie][o].name
 				},
 				properties : {
 					selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
 					allowsSelection : (children > 0) ? true : false,
 					itemId : {
-						familie : ordnungen[ordnung][o].name
+						familie : familien[familie][o].name
 					},
 					accessoryType : (children > 0) ? Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE : Ti.UI.LIST_ACCESSORY_TYPE_NONE
 				}
 			});
 		}
 		taxonomysections.push(Ti.UI.createListSection({
-			headerTitle : ordnung,
-			items : familiensection_in_ordnung
+			headerTitle : familie,
+			items : gattung_in_familie
 		}));
 	}
-	self.listview_of_taxonomy.setSections(taxonomysections);
-	self.listview_of_taxonomy.addEventListener('itemclick', function(_e) {
+	self.listview_of_orders.setSections(taxonomysections);
+	self.listview_of_orders.addEventListener('itemclick', function(_e) {
 		var item = _e.section.getItemAt(_e.itemIndex);
 		if (item.properties.accessoryType === Ti.UI.LIST_ACCESSORY_TYPE_NONE)
 			return;
@@ -48,6 +48,6 @@ exports.create = function(_ordnung) {
 			self.tab.open(require('module/taxo.gattungoffamily.window').create(detail.familie));
 
 	});
-	self.add(self.listview_of_taxonomy);
+	self.add(self.listview_of_orders);
 	return self;
 }
