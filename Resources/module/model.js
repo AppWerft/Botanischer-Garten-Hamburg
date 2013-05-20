@@ -252,6 +252,27 @@ exports.getFamilienByOrdnung = function(_ordnung) {
 	console.log(familien);
 	return familien;
 }
+exports.getFamilienByList = function(_list) {
+	if (!link)
+		link = Ti.Database.install(DBFILE, DBNAME);
+	var familien = {};
+	for (var i = 0; i < _list.length; i++) {
+		familien[_list[i]] = [];
+		var sql = 'SELECT DISTINCT * FROM flora WHERE familie = "' + _list[i] + '" GROUP BY gattung,art';
+		var resultSet = link.execute(sql);
+		while (resultSet.isValidRow()) {
+			familien[_list[i]].push({
+				gattung : resultSet.fieldByName('gattung'),
+				art: resultSet.fieldByName('art'),
+				
+			});
+			resultSet.next();
+		}
+		resultSet.close();
+	}
+	console.log(familien);
+	return familien;
+}
 
 exports.getFamilien = function() {
 	if (!link)

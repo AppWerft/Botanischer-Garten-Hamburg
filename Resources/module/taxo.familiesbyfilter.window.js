@@ -1,8 +1,8 @@
-exports.create = function(_ordnung) {
-	var self = require('module/win').create(_familie);
+exports.create = function(_list) {
+	var self = require('module/win').create('Gefundene Familien');
 	var taxonomysections = [];
 
-	var familien = require('module/model').getFamilienByOrdnung(_ordnung);
+	var familien = require('module/model').getFamilienByList(_list);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow

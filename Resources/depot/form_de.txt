@@ -1,15 +1,15 @@
 Wuchsform
-1. Gehölze (excl. suffrutices)
-2. Krautigen Pflanzen (inkl. suffrutices)
-3. Wasserpflanzen, verlässt schwimmend oder untergetaucht
+1. Gehölze (außer Halbsträucher)
+2. Krautigen Pflanzen (+ Halbsträucher)
+3. Wasserpflanzen, Blatt schwimmend oder untergetaucht
 4. Kletterpflanzen, Lianen
 5. Chlorophyll fehlt (Parasiten oder Saprophyten)
-6. Bulb vorhanden (monocots nur)
+6. Zwiebel vorhanden (nur einkeimblättrig)
 7. Milchsaft vorhanden
 8. Stachelige Stiele oder Blätter
-9. Ranken präsentieren
-10. Kladodien oder phyllodes (modifizierte Niederlassungen oder Blattstiele)
-Vestiture
+9. Ranken vorhanden
+10. Grüne, feste Sproßachse (Kladodien)
+Behaarung
 11. Haare Drüsen
 12. Haare Sternzellen (auch 2-bewaffneten, verzweigte und Tufting)
 13. Haare Sternzellen (nicht 2-bewaffneten, verzweigte und Tufting)
@@ -19,15 +19,15 @@ Vestiture
 17. Haare peltate oder schuppenförmig
 18. Haare vesikuläre oder Blase-like
 19. Haare Stechen
-20. Zystolithen präsentieren (dicots nur)
+20. Zystolithen vorhanden (dicots nur)
 Blätter
 21. Blätter gegenständig oder verticillate
 22. Blätter wechselständig (excl. distichous monocots)
-23. Leaves distichous (monocots nur)
+23. Blätter distichous (monocots nur)
 24. Blätter equitant (z. B. Iris)
 25. Leaves peltate
-26. Blätter nicht verschlimmern
-27. Blätter Verbindung
+26. Blätter nicht verbunden
+27. Blätter verbunden
 28. Blätter gefiedert (4 oder mehr Broschüren)
 29. Blätter abwechselnd Verbindung (3 Broschüren)
 30. Blätter palmately Verbindung (4 oder mehr Broschüren)
@@ -44,20 +44,20 @@ Blätter
 41. Nebenblätter fehlen
 42. Nebenblätter präsentieren (nur die Narben können gelassen werden)
 Blütenstände
-43. Blüten einzeln
-44. Blütenstand eine Rispe, einfach und monopodial
-45. Blütenstand eine Ähre, einfach und monopodial
+43. einzelne Blüten
+44. Blütenstand als Rispe, einfach und monopodial
+45. Blütenstand als Ähre, einfach und monopodial
 46. Blütenstand eine corymb, einfach und monopodial
-47. Blütenstand eine Dolde, einfach und monopodial
+47. Blütenstand als Dolde, einfach und monopodial
 48. Blütenstand eine Faszikel, einfach und monopodial
-49. Blütenstand eine Kopf, einfach und monopodial
+49. Blütenstand als Kopf, einfach und monopodial
 50. Blütenstand einfach und sympodial (cyme, Dichasium usw.)
 51. Blütenstand Verbindung sympodial oder monopodial (Rispe, thyrsus usw.)
-Blumen
-52. Blumen bisexuell
-53. Blumen unisexual
-54. Blumen actinomorphic
-55. Blumen zygomorphic oder unregelmäßig
+Blüten
+52. Blüten zweigeschlechtig
+53. Blüten eingeschlechtig
+54. Blüten actinomorphic
+55. Blüten zygomorphic oder unregelmäßig
 56. Steckdose klein (Eierstock superior)
 57. Steckdose vergrößert, vereint mit den Eierstöcken, die ganz oder teilweise bedecken
 58. Steckdose vergrößert, ganz oder teilweise kostenlos aus dem Eierstock (super. zu inf.)
@@ -179,9 +179,9 @@ Frucht
 173. Samen mit Endosperm
 174. Endosperm wiederkäuen
 Vorkommen
-175. African
+175. Afrika
 176. Asian
 177. Australien und Ozeanien
 178. Europäische
-179. North American
-180. Südamerikanisch
+179. Nordamerika
+180. Südamerikan
