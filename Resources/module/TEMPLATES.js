@@ -105,29 +105,22 @@ exports.filterrow = {
 		height : Ti.UI.CONF.fontsize_title * 2.6
 	},
 	childTemplates : [{
-		type : 'Ti.UI.View',
+		type : 'Ti.UI.Label',
+		bindId : 'title',
 		properties : {
-			width : Ti.UI.FILL,
-			layout : 'vertical',
-		},
-		childTemplates : [{
-			type : 'Ti.UI.Label',
-			bindId : 'title',
-			properties : {
-				color : '#444',
-				height : Ti.UI.CONF.fontsize_title * 2.4,
-				font : {
-					fontSize : Ti.UI.CONF.fontsize_title,
-					fontWeight : 'bold',
-					fontFamily : 'TheSans-B7Bold'
-				},
-				left : Ti.UI.CONF.padding,
-				right : Ti.UI.CONF.padding,
-				top : Ti.UI.CONF.padding / 2,
-				width : Ti.UI.FILL,
-				bottom : Ti.UI.CONF.padding / 2
+			color : '#444',
+			height : Ti.UI.CONF.fontsize_title * 2.4,
+			font : {
+				fontSize : Ti.UI.CONF.fontsize_title,
+				fontWeight : 'bold',
+				fontFamily : 'TheSans-B7Bold'
 			},
-			events : {}
-		}]
+			left : Ti.UI.CONF.padding,
+			right : Ti.UI.CONF.padding,
+			top : Ti.UI.CONF.padding / 2,
+			width : Ti.UI.FILL,
+			bottom : Ti.UI.CONF.padding / 2
+		},
+		events : {}
 	}]
 };

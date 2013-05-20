@@ -16,7 +16,7 @@ exports.create = function(_ordnung) {
 	var template = {
 		filterrow : require('module/TEMPLATES').filterrow,
 	};
-	self.listview_of_filter = Ti.UI.createListView({
+	self.listview_of_filterquestions = Ti.UI.createListView({
 		bottom : 50,
 		templates : {
 			'filterrow' : template.filterrow,
@@ -45,20 +45,31 @@ exports.create = function(_ordnung) {
 			items : questions
 		}));
 	}
-	self.listview_of_filter.setSections(sections);
+	self.listview_of_filterquestions.setSections(sections);
 	// Maps the plai	nTemplate object to the 'plain' style name);
-	self.listview_of_filter.addEventListener('itemclick', function(_e) {
+	self.listview_of_filterquestions.addEventListener('itemclick', function(_e) {
 		var item = _e.section.getItemAt(_e.itemIndex);
-		if (item.properties.accessoryType === Ti.UI.LIST_ACCESSORY_TYPE_NONE)
-			return;
-		var detail = item.properties.itemId;
-		if (detail.familie)
-			self.tab.open(require('module/taxo.gattungoffamily.window').create(detail.familie));
-		if (detail.searchresult)
-			self.tab.open(require('module/detail.window').create(detail.searchresult));
-
+		if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
+			item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+		} else {
+			item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+		}
+		_e.section.updateItemAt(_e.itemIndex, item);
+		// collecting of all rows:
+		var activefilters = [];
+		var sections = self.listview_of_filterquestions.getSections();
+		for (var s = 0; s < sections.length; s++) {
+			var items = sections[s].items;
+			for (var i = 0; i < items.length; i++) {
+				if (items[i].properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK) {
+					activefilters.push(items[i].properties.itemId);
+				}
+			}
+		}
+		require('module/model').searchFamilies(activefilters, function(_data) {
+			console.log(_data);
+		});
 	});
-
-	self.add(self.listview_of_filter);
+	self.add(self.listview_of_filterquestions);
 	return self;
 }

@@ -6,15 +6,61 @@ Array.prototype.in_array = function(needle) {
 			return true;
 	return false;
 }
+String.prototype.capitalize = function() {
+	return this.charAt(0).toUpperCase() + this.slice(1);
+}
 var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 //http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
 exports.getAreas = function() {
 	return Areas;
 }
 exports.getFilter = function(lang) {
-	Ti.include('/depot/filter_'+lang+'.js');
+	Ti.include('/depot/filter_' + lang + '.js');
 	return filter;
 };
+
+exports.searchFamilies = function(_ids, _callback) {
+	var params = [];
+	for (var i = 0; i < _ids.length; i++) {
+		params.push('T=P' + _ids[i])
+	}
+	var post = params.join('&');
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			if (!link)
+				link = Ti.Database.install(DBFILE, DBNAME);
+			var page = this.responseText.replace(/\s/g, '');
+			try {
+				var families = [];
+				var familiesstrings = /FamiliesHavingThoseCharacters:<BR><P>(.*?)<BR><P>/.exec(page)[1].split('<BR>');
+				for (var i = 0; i < familiesstrings.length; i++) {
+					var f = familiesstrings[i].split('.')[1].toLowerCase();
+					f = f.capitalize();
+					families.push('"' + f + '"');
+				}
+				var sql = 'SELECT DISTINCT familie FROM flora WHERE familie IN (' + families.join(',') + ')';
+				console.log(sql);
+				var resultSet = link.execute(sql);
+				var res = [];
+				while (resultSet.isValidRow()) {
+					res.push(resultSet.fieldByName('familie'));
+					resultSet.next();
+				}
+				_callback(res);
+			} catch (E) {
+				_callback(null);
+			}
+		}
+	});
+	xhr.open('POST', 'http://www.colby.edu/cgi-bin/plant_family_id');
+	//	xhr.setRequestHeader('Referer','http://www.colby.edu/info.tech/BI211/PlantFamilyID.html');
+	//	xhr.setRequestHeader('Connection','keep-alive');
+	//	xhr.setRequestHeader('User-Agent','Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:20.0) Gecko/20100101 Firefox/20.0');
+	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	xhr.setRequestHeader('Content-Length', post.length);
+	xhr.send(post);
+};
+
 exports.getAll = function() {
 	return;
 	if (!link)

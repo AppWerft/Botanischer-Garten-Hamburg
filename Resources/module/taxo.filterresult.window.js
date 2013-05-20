@@ -1,5 +1,5 @@
 exports.create = function(_ordnung) {
-	var self = require('module/win').create('Familienfilter');
+	var self = require('module/win').create('family filter');
 	var sections = [];
 	var areas = require('module/model').getFilter('en');
 	var template = {
@@ -20,7 +20,6 @@ exports.create = function(_ordnung) {
 					text : areas[area][id]
 				},
 				properties : {
-					//selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
 					itemId : id,
 					accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
 				}
@@ -32,18 +31,7 @@ exports.create = function(_ordnung) {
 		}));
 	}
 	self.listview_of_plantfilter.setSections(sections);
-	self.listview_of_plantfilter.addEventListener('itemclick', function(_e) {
-		console.log(_e);
-		var item = _e.section.getItemAt(_e.itemIndex);
-
-		if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
-			item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
-		} else {
-			item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
-		}
-		_e.section.updateItemAt(e.itemIndex, item);
-
-	});
+	
 	self.add(self.listview_of_plantfilter);
 	return self;
 }
