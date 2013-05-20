@@ -264,7 +264,7 @@ exports.getFamilienByList = function(_list) {
 			familien[_list[i]].push({
 				gattung : resultSet.fieldByName('gattung'),
 				art: resultSet.fieldByName('art'),
-				
+				deutsch: resultSet.fieldByName('deutsch'),
 			});
 			resultSet.next();
 		}

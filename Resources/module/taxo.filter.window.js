@@ -45,6 +45,15 @@ exports.create = function(_ordnung) {
 			borderRadius : 5,
 			backgroundImage : '/assets/buttonbg.png',
 			height : BUTTONHEIGHT,
+			font : {
+				fontWeight : 'bold',
+				fontSize : 16
+			},
+			shadowOffset : {
+				x : 1,
+				y : 1
+			},
+			shadowColor : 'gray',
 			data : []
 		});
 		okButton.addEventListener('click', function() {

@@ -1,5 +1,5 @@
 exports.create = function(_ordnung) {
-	var self = require('module/win').create(_familie);
+	var self = require('module/win').create(_ordnung);
 	var taxonomysections = [];
 
 	var familien = require('module/model').getFamilienByOrdnung(_ordnung);
