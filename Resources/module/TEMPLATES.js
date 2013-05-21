@@ -124,3 +124,52 @@ exports.filterrow = {
 		events : {}
 	}]
 };
+
+exports.filterrow = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.6
+	},
+	childTemplates : [{
+		type : 'Ti.UI.Label',
+		bindId : 'title',
+		properties : {
+			color : '#444',
+			height : Ti.UI.CONF.fontsize_title * 2.4,
+			font : {
+				fontSize : Ti.UI.CONF.fontsize_title,
+				fontWeight : 'bold',
+				fontFamily : 'TheSans-B7Bold'
+			},
+			left : Ti.UI.CONF.padding,
+			right : Ti.UI.CONF.padding,
+			top : Ti.UI.CONF.padding / 2,
+			width : Ti.UI.FILL,
+			bottom : Ti.UI.CONF.padding / 2
+		}
+	}]
+};
+
+exports.filterrow_selected = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_title * 2.6,backgroundColor : '#bbffbb',
+	},
+	childTemplates : [{
+		type : 'Ti.UI.Label',
+		bindId : 'title',
+		properties : {
+			color : '#111',
+			
+			height : Ti.UI.CONF.fontsize_title * 2.4,
+			font : {
+				fontSize : Ti.UI.CONF.fontsize_title,
+				fontWeight : 'bold',
+				fontFamily : 'TheSans-B7Bold'
+			},
+			left : Ti.UI.CONF.padding,
+			right : Ti.UI.CONF.padding*2,
+			top : Ti.UI.CONF.padding / 2,
+			width : Ti.UI.FILL,
+			bottom : Ti.UI.CONF.padding / 2
+		}
+	}]
+};

@@ -20,6 +20,36 @@ exports.getFilter = function(lang) {
 };
 
 exports.searchFamilies = function(_ids, _callback) {
+	Ti.include('/depot/punchcards.js');
+	var foo = _ids;
+	var familyList = [];
+	for (var counter = 0; counter < familyNames.length; counter++) {
+		familyList[counter] = {
+			exists : true,
+			name : familyNames[counter]
+		};
+	}
+	var cols = PunchCards[0].length, rows = PunchCards.length
+	for (var loop = 0; loop < foo.length; loop++) {// alle Parameter
+		for (var row = 0; row < rows; row++) {// alle Spalten (Parameter)
+			if (foo[loop] == row + 1) {// relevante Eigenschaft
+				for (var col = 0; col < cols; col++) {// alle Familien
+					if (PunchCards[row][col] == 0) {
+						familyList[col].exists = 0;
+					}
+				}
+			}
+		}
+	}
+	var res = [];
+	for (var i = 0; i < familyList.length; i++) {
+		if (familyList[i].exists == 1)
+			res.push(familyList[i].name);
+	};
+	_callback(res);
+}
+exports.searchFamiliesRemote = function(_ids, _callback) {
+	return;
 	var params = [];
 	for (var i = 0; i < _ids.length; i++) {
 		params.push('T=P' + _ids[i])
@@ -263,8 +293,8 @@ exports.getFamilienByList = function(_list) {
 		while (resultSet.isValidRow()) {
 			familien[_list[i]].push({
 				gattung : resultSet.fieldByName('gattung'),
-				art: resultSet.fieldByName('art'),
-				deutsch: resultSet.fieldByName('deutsch'),
+				art : resultSet.fieldByName('art'),
+				deutsch : resultSet.fieldByName('deutsch'),
 			});
 			resultSet.next();
 		}

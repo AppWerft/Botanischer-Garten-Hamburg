@@ -2,22 +2,18 @@ exports.create = function(_ordnung) {
 	const BUTTONHEIGHT = 45;
 	var self = require('module/win').create('Familienfilter');
 	var sections = [];
+	var areas = require('module/model').getFilter('en');
 	setTimeout(function() {
-		var areas = require('module/model').getFilter('de');
-		var template = {
-			filterrow : require('module/TEMPLATES').filterrow,
-		};
 		self.listview_of_filterquestions = Ti.UI.createListView({
-			bottom : 0,
 			templates : {
-				'filterrow' : template.filterrow,
+				'filterrow' : require('module/TEMPLATES').filterrow,
+				'filterrow_selected' : require('module/TEMPLATES').filterrow_selected
 			},
 			defaultItemTemplate : 'filterrow'
 		});
 		for (var area in areas) {
 			var questions = [];
 			for (var id in areas[area]) {
-				console.log(areas[area][id]);
 				questions.push({
 					template : 'filterrow',
 					title : {
@@ -27,6 +23,7 @@ exports.create = function(_ordnung) {
 						selectionStyle : Ti.UI.iPhone.ListViewCellSelectionStyle.NONE,
 						allowsSelection : false,
 						itemId : id,
+						selected : false,
 						accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_NONE
 					}
 				});
@@ -37,7 +34,6 @@ exports.create = function(_ordnung) {
 			}));
 		}
 		self.listview_of_filterquestions.setSections(sections);
-
 		var okButton = Ti.UI.createButton({
 			bottom : 0,
 			width : '100%',
@@ -47,7 +43,7 @@ exports.create = function(_ordnung) {
 			height : BUTTONHEIGHT,
 			font : {
 				fontWeight : 'bold',
-				fontSize : 16
+				fontSize : 20
 			},
 			shadowOffset : {
 				x : 1,
@@ -62,10 +58,12 @@ exports.create = function(_ordnung) {
 		// Maps the plai	nTemplate object to the 'plain' style name);
 		self.listview_of_filterquestions.addEventListener('itemclick', function(_e) {
 			var item = _e.section.getItemAt(_e.itemIndex);
-			if (item.properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_NONE) {
-				item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK;
+			if (!item.selected) {
+				item.template = 'filterrow_selected';
+				item.selected = true;
 			} else {
-				item.properties.accessoryType = Ti.UI.LIST_ACCESSORY_TYPE_NONE;
+				item.selected = false;
+				item.template = 'filterrow';
 			}
 			_e.section.updateItemAt(_e.itemIndex, item);
 			// collecting of all rows:
@@ -74,7 +72,7 @@ exports.create = function(_ordnung) {
 			for (var s = 0; s < sections.length; s++) {
 				var items = sections[s].items;
 				for (var i = 0; i < items.length; i++) {
-					if (items[i].properties.accessoryType == Ti.UI.LIST_ACCESSORY_TYPE_CHECKMARK) {
+					if (items[i].selected) {
 						activefilters.push(items[i].properties.itemId);
 					}
 				}
