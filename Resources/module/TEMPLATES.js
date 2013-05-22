@@ -187,7 +187,6 @@ exports.familystrip = {
 			height : Ti.UI.CONF.fontsize_subtitle * 1.2,
 			font : {
 				fontSize : Ti.UI.CONF.fontsize_subtitle,
-				fontFamily : 'TheSans-B6SemiBold'
 			},
 			left : Ti.UI.CONF.padding/2,
 			right : Ti.UI.CONF.padding * 2,

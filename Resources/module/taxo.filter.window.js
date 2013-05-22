@@ -56,6 +56,9 @@ exports.create = function(_ordnung) {
 		});
 		self.familylist = Ti.UI.createListView({
 			right : 50,
+			height : BUTTONHEIGHT,
+			backgroundColor : '#666',
+			bottom : 0,
 			templates : {
 				'familystrip' : require('module/TEMPLATES').familystrip,
 			},
@@ -69,7 +72,7 @@ exports.create = function(_ordnung) {
 				fontWeight : 'bold'
 			},
 			height : 56,
-			opacity : 0.8,
+			opacity : 0.5,
 			bottom : 5,
 			right : 5
 		});
