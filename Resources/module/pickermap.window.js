@@ -9,7 +9,7 @@ Map.prototype.create = function() {
 	this.activearea = null;
 	this.locked = false;
 	// for picker.
-	this.bereiche = require('module/model').getBereiche();
+	this.bereiche = require('module/botanicgarden.model').getBereiche();
 	this.overlays_passive = {}, this.overlays_active = {};
 	var pickerButton = Ti.UI.createButton({
 		width : 50,
@@ -34,8 +34,8 @@ Map.prototype.create = function() {
 	});
 	// retrieving araas from KML-file:
 	//var Polygons = require('module/model').getAreas();
-	that.areas = require('module/model').getAreas().areas;
-	that.centers_of_areas = require('module/model').getAreas().centers_of_areas;
+	that.areas = require('module/botanicgarden.model').getAreas().areas;
+	that.centers_of_areas = require('module/botanicgarden.model').getAreas().centers_of_areas;
 
 	// build all polygons:
 	that.win.map.addEventListener('complete', function() {
@@ -76,7 +76,7 @@ Map.prototype.create = function() {
 		that.win.map.addAnnotation(Map.createAnnotation({
 			latitude : that.centers_of_areas[name].latitude,
 			title : name,
-			subtitle : require('module/model').getArtenByBereich(name).length + ' Pflanzen',
+			subtitle : require('module/botanicgarden.model').getArtenByBereich(name).length + ' Pflanzen',
 			rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
 			layer : 'area',
 			longitude : that.centers_of_areas[name].longitude,

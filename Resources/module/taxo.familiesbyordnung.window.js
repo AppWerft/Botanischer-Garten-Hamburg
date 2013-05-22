@@ -2,7 +2,7 @@ exports.create = function(_ordnung) {
 	var self = require('module/win').create(_ordnung);
 	var taxonomysections = [];
 
-	var familien = require('module/model').getFamilienByOrdnung(_ordnung);
+	var familien = require('module/botanicgarden.model').getFamilienByOrdnung(_ordnung);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow

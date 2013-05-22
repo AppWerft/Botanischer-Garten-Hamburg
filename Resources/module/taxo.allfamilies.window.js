@@ -12,7 +12,7 @@ exports.create = function(_ordnung) {
 	});
 	self.rightNavButton = rightButton;
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
-	var ordnungen = require('module/model').getFamilien(_ordnung);
+	var ordnungen = require('module/botanicgarden.model').getFamilien(_ordnung);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
@@ -93,7 +93,7 @@ exports.create = function(_ordnung) {
 		timer = setTimeout(function() {
 			search.blur();
 		}, 10000);
-		var results = require('module/model').search({
+		var results = require('module/botanicgarden.model').search({
 			needle : _e.value,
 			limit : [0, 500]
 		});

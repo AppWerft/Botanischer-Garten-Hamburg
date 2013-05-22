@@ -20,14 +20,24 @@ exports.getFilter = function(lang) {
 	return filter;
 };
 
-exports.getPropertiesofFamily = function(_family) {
-	var properties = [];
+exports.getPropertiesOfFamily = function(_family) {
+	Ti.include('/depot/punchcards.js');
 	Ti.include('/depot/filter_' + lang + '.js');
+	var properties = [];
 	for (var topic in filter) {
 		for (var id in filter[topic]) {
 			properties[id] = filter[topic[id]];
 		}
 	}
+	Ti.include('/depot/punchcards.js');
+	// calcultaing of familyndx:
+	var ndx = undefined;
+	for (var counter = 0; counter < familyNames.length; counter++) {
+		if (familyList[counter] === _family) {
+			ndx = counter;
+		};
+	}
+	
 }
 
 exports.searchFamilies = function(_ids, _callback) {

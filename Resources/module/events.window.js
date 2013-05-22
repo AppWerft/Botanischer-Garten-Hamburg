@@ -15,7 +15,7 @@ exports.create = function() {
 	});
 	self.add(self.tv);
 
-	require('module/model').getCalendar(function(_events) {
+	require('module/botanicgarden.model').getCalendar(function(_events) {
 		var rows = [];
 		for (var i = 0; i < _events.length; i++) {
 			var e = _events[i];

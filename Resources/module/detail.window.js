@@ -26,7 +26,7 @@ exports.create = function(_data) {
 		top : 0
 	});
 	win.add(win.tv);
-	require('module/model').getDetail(_data, function(_data) {
+	require('module/botanicgarden.model').getDetail(_data, function(_data) {
 		var plant = _data.plantinfo;
 		var standorte = _data.standorte;
 		var latein = plant.gattung + ' ' + plant.art;

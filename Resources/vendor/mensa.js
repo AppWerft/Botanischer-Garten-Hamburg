@@ -7,7 +7,7 @@ exports.getMenue = function(_mensa, _callback) {
 			var parser = new XMLTools(this.responseXML);
 			var html = parser.toObject().channel.item['content:encoded'];
 			_callback(html);
-			var json = html2json(html);
+			//var json = html2json(html);
 			//console.log(json);
 		}
 	});

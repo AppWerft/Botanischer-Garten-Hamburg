@@ -1,8 +1,8 @@
 exports.create = function(_ordnung) {
-	const BUTTONHEIGHT = 75, BUTTONWIDTH = 50
+	const BUTTONHEIGHT = 65, BUTTONWIDTH = 75;
 	var self = require('module/win').create('Familienfilter');
 	var sections = [];
-	var areas = require('module/model').getFilter('en');
+	var areas = require('module/botanicgarden.model').getFilter('en');
 	setTimeout(function() {
 		self.listview_of_filterquestions = Ti.UI.createListView({
 			templates : {
@@ -42,7 +42,7 @@ exports.create = function(_ordnung) {
 			borderRadius : 5,
 			title : '➧',
 			font : {
-				fontSize : 50
+				fontSize : 80
 			},
 			backgroundImage : '/assets/buttonbg.png',
 			height : BUTTONHEIGHT,
@@ -52,13 +52,13 @@ exports.create = function(_ordnung) {
 			self.tab.open(require('module/taxo.familiesbyfilter.window').create(okButton.data));
 		});
 		// Maps the plai	nTemplate object to the 'plain' style name);
-		var familysection = Ti.UI.createListSection({
-		});
+		var familysection = Ti.UI.createListSection();
 		self.familylist = Ti.UI.createListView({
-			right : 50,
+			right : BUTTONWIDTH,
 			height : BUTTONHEIGHT,
-			backgroundColor : '#666',
+			backgroundColor : '#444',
 			bottom : 0,
+			separatorStyle : 'transparent',
 			templates : {
 				'familystrip' : require('module/TEMPLATES').familystrip,
 			},
@@ -67,14 +67,16 @@ exports.create = function(_ordnung) {
 		});
 		self.total = Ti.UI.createLabel({
 			color : 'silver',
+			bubbleParent : true,
+			touchEnabled : false,
 			font : {
-				fontSize : 56,
+				fontSize : 64,
 				fontWeight : 'bold'
 			},
 			height : 56,
-			opacity : 0.5,
+			opacity : 0.3,
 			bottom : 5,
-			right : 5
+			right : 10
 		});
 		self.familylist.add(self.total)
 		self.listview_of_filterquestions.addEventListener('itemclick', function(_e) {
@@ -98,7 +100,7 @@ exports.create = function(_ordnung) {
 					}
 				}
 			}
-			require('module/model').searchFamilies(plantproperties, function(_familydata) {
+			require('module/botanicgarden.model').searchFamilies(plantproperties, function(_familydata) {
 				var count = _familydata.length;
 				var data = [];
 				for (var i = 0; i < count; i++) {
@@ -122,7 +124,11 @@ exports.create = function(_ordnung) {
 					self.listview_of_filterquestions.setBottom(0);
 					okButton.data = [];
 				}
+				self.total.opacity = 0;
 				self.total.setText(count);
+				self.total.animate({
+					opacity : 1
+				});
 			});
 		});
 		self.add(okButton);
