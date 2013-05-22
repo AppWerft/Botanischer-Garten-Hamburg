@@ -2,7 +2,7 @@ exports.create = function(_ordnung) {
 	const BUTTONHEIGHT = 65, BUTTONWIDTH = 75;
 	var self = require('module/win').create('Familienfilter');
 	var sections = [];
-	var areas = require('module/botanicgarden.model').getFilter('en');
+	var areas = require('module/taxonomy.model').getFilter('en');
 	setTimeout(function() {
 		self.listview_of_filterquestions = Ti.UI.createListView({
 			templates : {
@@ -100,7 +100,7 @@ exports.create = function(_ordnung) {
 					}
 				}
 			}
-			require('module/botanicgarden.model').searchFamilies(plantproperties, function(_familydata) {
+			require('module/taxonomy.model').searchFamilies(plantproperties, function(_familydata) {
 				var count = _familydata.length;
 				var data = [];
 				for (var i = 0; i < count; i++) {

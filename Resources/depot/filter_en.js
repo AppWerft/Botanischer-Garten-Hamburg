@@ -1,4 +1,4 @@
-var filter = {
+exports.questions = {
 	"Plant Habit" : {
 		"1" : " Woody plants (excl. suffrutices)",
 		"2" : " Herbaceous plants (incl. suffrutices)",
@@ -193,4 +193,4 @@ var filter = {
 		"179" : " North American",
 		"180" : " South American"
 	}
-}; 
+};
