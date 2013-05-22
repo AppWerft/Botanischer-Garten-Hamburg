@@ -18,7 +18,7 @@ function _parseKML(_kmlstring) {
 		}
 		regions[polygones[i].name.text].latitude = sumlat / (coords.length - 1);
 		regions[polygones[i].name.text].longitude = sumlon / (coords.length - 1);
-	}console.log(vertices);
+	}
 	return {
 		areas : vertices,
 		centers_of_areas : regions

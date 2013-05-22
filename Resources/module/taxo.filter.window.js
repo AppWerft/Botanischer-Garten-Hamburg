@@ -71,8 +71,14 @@ exports.create = function(_ordnung) {
 			touchEnabled : false,
 			font : {
 				fontSize : 64,
-				fontWeight : 'bold'
+				fontWeight : 'bold',
+				fontFamily : 'TheSans-B7Bold'
 			},
+			shadowOffset : {
+				x : 1,
+				y : 1
+			},
+			shadowColor : 'gray',
 			height : 56,
 			opacity : 0.3,
 			bottom : 5,
