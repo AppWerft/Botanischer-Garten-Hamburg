@@ -148,6 +148,22 @@ exports.filterrow_selected = {
 			width : Ti.UI.FILL,
 			bottom : Ti.UI.CONF.padding / 2
 		}
+	}, {
+		type : 'Ti.UI.View',
+		properties : {
+			backgroundColor : '#383',
+			height : 0.6,
+			bottom : 0,
+			width : Ti.UI.FILL
+		}
+	}, {
+		type : 'Ti.UI.View',
+		properties : {
+			backgroundColor : '#383',
+			height : 0.6,
+			top : 0,
+			width : Ti.UI.FILL
+		}
 	}]
 };
 exports.familystrip = {

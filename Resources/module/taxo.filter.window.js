@@ -79,10 +79,10 @@ exports.create = function(_ordnung) {
 				y : 1
 			},
 			shadowColor : 'gray',
-			height : 56,
+			height : 64,
 			opacity : 0.3,
-			bottom : 5,
-			right : 10
+			top : 10,
+			right : 5
 		});
 		self.familylist.add(self.total)
 		self.listview_of_filterquestions.addEventListener('itemclick', function(_e) {
