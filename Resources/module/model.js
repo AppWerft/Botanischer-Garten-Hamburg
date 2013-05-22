@@ -14,10 +14,21 @@ var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanische
 exports.getAreas = function() {
 	return Areas;
 }
+
 exports.getFilter = function(lang) {
 	Ti.include('/depot/filter_' + lang + '.js');
 	return filter;
 };
+
+exports.getPropertiesofFamily = function(_family) {
+	var properties = [];
+	Ti.include('/depot/filter_' + lang + '.js');
+	for (var topic in filter) {
+		for (var id in filter[topic]) {
+			properties[id] = filter[topic[id]];
+		}
+	}
+}
 
 exports.searchFamilies = function(_ids, _callback) {
 	Ti.include('/depot/punchcards.js');
@@ -46,8 +57,11 @@ exports.searchFamilies = function(_ids, _callback) {
 		if (familyList[i].exists == 1)
 			res.push(familyList[i].name);
 	};
-	_callback(res);
+	if (_callback && typeof (_callback) === 'function')
+		_callback(res);
+	return res;
 }
+
 exports.searchFamiliesRemote = function(_ids, _callback) {
 	return;
 	var params = [];

@@ -151,14 +151,15 @@ exports.filterrow = {
 
 exports.filterrow_selected = {
 	properties : {
-		height : Ti.UI.CONF.fontsize_title * 2.6,backgroundColor : '#bbffbb',
+		height : Ti.UI.CONF.fontsize_title * 2.6,
+		backgroundColor : '#bbffbb',
 	},
 	childTemplates : [{
 		type : 'Ti.UI.Label',
 		bindId : 'title',
 		properties : {
 			color : '#111',
-			
+
 			height : Ti.UI.CONF.fontsize_title * 2.4,
 			font : {
 				fontSize : Ti.UI.CONF.fontsize_title,
@@ -166,10 +167,31 @@ exports.filterrow_selected = {
 				fontFamily : 'TheSans-B7Bold'
 			},
 			left : Ti.UI.CONF.padding,
-			right : Ti.UI.CONF.padding*2,
+			right : Ti.UI.CONF.padding * 2,
 			top : Ti.UI.CONF.padding / 2,
 			width : Ti.UI.FILL,
 			bottom : Ti.UI.CONF.padding / 2
+		}
+	}]
+};
+exports.familystrip = {
+	properties : {
+		height : Ti.UI.CONF.fontsize_subtitle * 1.5,
+		backgroundColor : '#222',
+	},
+	childTemplates : [{
+		type : 'Ti.UI.Label',
+		bindId : 'title',
+		properties : {
+			color : '#eee',
+			height : Ti.UI.CONF.fontsize_subtitle * 1.2,
+			font : {
+				fontSize : Ti.UI.CONF.fontsize_subtitle,
+				fontFamily : 'TheSans-B6SemiBold'
+			},
+			left : Ti.UI.CONF.padding/2,
+			right : Ti.UI.CONF.padding * 2,
+			width : Ti.UI.FILL,
 		}
 	}]
 };
