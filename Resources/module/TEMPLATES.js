@@ -100,34 +100,10 @@ exports.plantrow = {
 		}]
 	}]
 };
-exports.filterrow = {
-	properties : {
-		height : Ti.UI.CONF.fontsize_title * 2.6
-	},
-	childTemplates : [{
-		type : 'Ti.UI.Label',
-		bindId : 'title',
-		properties : {
-			color : '#444',
-			height : Ti.UI.CONF.fontsize_title * 2.4,
-			font : {
-				fontSize : Ti.UI.CONF.fontsize_title,
-				fontWeight : 'bold',
-				fontFamily : 'TheSans-B7Bold'
-			},
-			left : Ti.UI.CONF.padding,
-			right : Ti.UI.CONF.padding,
-			top : Ti.UI.CONF.padding / 2,
-			width : Ti.UI.FILL,
-			bottom : Ti.UI.CONF.padding / 2
-		},
-		events : {}
-	}]
-};
 
 exports.filterrow = {
 	properties : {
-		height : Ti.UI.CONF.fontsize_title * 2.6
+		height : Ti.UI.CONF.fontsize_title * 2.8
 	},
 	childTemplates : [{
 		type : 'Ti.UI.Label',
@@ -151,7 +127,7 @@ exports.filterrow = {
 
 exports.filterrow_selected = {
 	properties : {
-		height : Ti.UI.CONF.fontsize_title * 2.6,
+		height : Ti.UI.CONF.fontsize_title * 2.8,
 		backgroundColor : '#bbffbb',
 	},
 	childTemplates : [{
@@ -180,6 +156,14 @@ exports.familystrip = {
 		backgroundColor : '#222',
 	},
 	childTemplates : [{
+		type : 'Ti.UI.View',
+		properties : {
+			backgroundColor : '#343',
+			height : 1,
+			bottom : 0,
+			width : Ti.UI.FILL
+		}
+	}, {
 		type : 'Ti.UI.Label',
 		bindId : 'title',
 		properties : {
@@ -188,7 +172,7 @@ exports.familystrip = {
 			font : {
 				fontSize : Ti.UI.CONF.fontsize_subtitle,
 			},
-			left : Ti.UI.CONF.padding/2,
+			left : Ti.UI.CONF.padding / 2,
 			right : Ti.UI.CONF.padding * 2,
 			width : Ti.UI.FILL,
 		}
