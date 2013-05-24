@@ -7,7 +7,6 @@ exports.getAreas = function() {
 	return Areas;
 }
 
-
 exports.getAll = function() {
 	return;
 	if (!link)
@@ -285,12 +284,10 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 exports.getArtenByBereich = function(_bereich, _callback) {
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
+	if (!_bereich)
+		return [];
 	var bereich = undefined;
-	try {
-		bereich = /^(.*) \[/.exec(_bereich)[1];
-	} catch(E) {
-		bereich = _bereich;
-	}
+	bereich = _bereich;
 	var q = 'SELECT * FROM flora WHERE bereich LIKE "' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
 	var resultSet = link.execute(q);
 	var results = [];
