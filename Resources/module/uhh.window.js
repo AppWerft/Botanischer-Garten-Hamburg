@@ -1,29 +1,38 @@
 exports.create = function() {
 	var self = require('module/win').create('UHH✦intern', true);
 	self.backgroundImage = 'Default.png';
+	self.rightButton = Ti.UI.createButton({
+		//systemButton: Titanium.UI.iPhone.SystemButton.ADD
+		backgroundImage : '/assets/besteck.png',
+		width : 40,
+		height : 40
+	});
+	self.rightNavButton = self.rightButton;
+	self.tv = Ti.UI.createTableView({
+		backgroundColor : 'transparent'
+	});
+	self.add(self.tv);
 	var dialogView = require('uhhlogin/dialog').create();
-
+	dialogView.zIndex = 999;
 	self.addEventListener('focus', function() {
 		dialogView.show();
 	});
 	self.addEventListener('blur', function() {
 		dialogView.hide();
 	});
-	self.tv = Ti.UI.createTableView();
-
-	self.add(self.tv);
-	self.picker = require('module/mensa.picker').create(require('vendor/mensa').mensen, function(_data) {
+	self.picker = require('module/mensa.picker').create(require('vendor/mensa').mensen, /*callback after changing*/
+	function(_data) {
 		if (self.picker)
 			self.picker.animate({
-				bottom : -200
+				bottom : -250
 			});
+		self.tv.setData([]);
 		require('vendor/mensa').getMenue(_data.url, function(_menue) {
 			if (!_menue) {
 				self.tv.setData([]);
 				return;
 			}
 			self.setTitle(_data.title);
-			console.log(_data);
 			var sections = [];
 			for (var m = 0; m < _menue.length; m++) {
 				sections.push(Ti.UI.createTableViewSection({
@@ -31,7 +40,8 @@ exports.create = function() {
 				}));
 				for (var i = 0; i < _menue[m].items.length; i++) {
 					var row = Ti.UI.createTableViewRow({
-						height : Ti.UI.SIZE
+						height : Ti.UI.SIZE,
+						backgroundColor : 'white'
 					});
 					row.add(Ti.UI.createImageView({
 						width : 80,
@@ -42,6 +52,7 @@ exports.create = function() {
 					}));
 					var container = Ti.UI.createView({
 						left : 90,
+						right : 10,
 						height : Ti.UI.SIZE,
 						layout : 'vertical',
 						width : Ti.UI.SIZE
@@ -53,16 +64,16 @@ exports.create = function() {
 						left : 0,
 						top : Ti.UI.CONF.padding / 2,
 						font : {
-							fontSize : Ti.UI.CONF.fontsize_title,
+							fontSize : Ti.UI.CONF.fontsize_title * 0.95,
 							fontWeight : 'bold',
 							fontFamily : 'TheSans-B7Bold'
 						},
-						height : Ti.UI.CONF.fontsize_title * 2.5,
+						height : Ti.UI.CONF.fontsize_title * 2.2,
 						text : _menue[m].items[i].text
 					}));
 					container.add(Ti.UI.createLabel({
 						width : Ti.UI.FILL,
-						top : Ti.UI.CONF.padding / 2,
+						top : 0,
 						bottom : Ti.UI.CONF.padding / 2,
 						right : Ti.UI.CONF.padding / 2,
 						color : '#444',
@@ -70,10 +81,27 @@ exports.create = function() {
 							fontSize : Ti.UI.CONF.fontsize_subtitle,
 							fontFamily : 'TheSansSemiBoldItalic'
 						},
-						height : Ti.UI.CONF.fontsize_subtitle * 1.2,
+						height : Ti.UI.CONF.fontsize_subtitle * 1.1,
 						textAlign : 'right',
 						text : 'Preis für Studierende: ' + _menue[m].items[i].prize
 					}));
+					var voting = Ti.UI.createView({
+						width : Ti.UI.FILL,
+						height : 30,
+						layout : 'horizontal'
+					});
+					container.add(voting);
+					require('vendor/mensa').getVoting(_menue[m].items[i].text, function(_count) {
+						for (var i = 0; i < _count; i++) {
+							voting.add(Ti.UI.createImageView({
+								image : '/assets/star.png',
+								width : 24,
+								height : 24,
+								left : 0
+							}))
+						}
+					});
+
 					sections[m].add(row);
 				}
 			}
@@ -86,6 +114,12 @@ exports.create = function() {
 			bottom : 0
 		});
 
-	})
+	});
+	self.rightButton.addEventListener('click', function() {
+		self.picker.animate({
+			bottom : 0
+		});
+
+	});
 	return self;
 }

@@ -18,6 +18,10 @@ function parseRes(_foo) {
 	return (menue);
 }
 
+exports.getVoting = function(_dish,_callback) {
+	var bar = parseInt(Ti.Utils.md5HexDigest(_dish).replace(/[\D]+/g,'').substr(0,3))%7;if (!bar) bar=2;
+	_callback(bar);
+}
 exports.getMenue = function(_mensa, _callback) {
 	var url = 'http://rss.imensa.de/' + _mensa + '/speiseplan.rss';
 	var xhr = Ti.Network.createHTTPClient({
@@ -76,7 +80,7 @@ exports.mensen = [{
 		name : 'Mensa Berliner Tor',
 		url : 'hamburg/mensa-berliner-tor'
 	}]
-},{
+}, {
 	city : 'Göttingen',
 	sw : 'goettingen',
 	mensen : [{
