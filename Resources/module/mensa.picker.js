@@ -54,7 +54,8 @@ exports.create = function(_mensen, _callback) {
 	});
 	_callback({
 		title : 'Mensa Botanischer Garten',
-		url : 'hamburg/mensa-botanischer-garten',sw:'hamburg'
+		url : 'hamburg/mensa-botanischer-garten',
+		sw : 'hamburg'
 	})
 	return self;
 }

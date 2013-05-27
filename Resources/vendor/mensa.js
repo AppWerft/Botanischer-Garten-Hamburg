@@ -62,7 +62,7 @@ exports.mensen = [{
 		url : 'hamburg/mensa-philosophenturm'
 	}, {
 		name : 'Mensa Studierendenhaus',
-		url : 'hamburg/mensa-studierendehaus'
+		url : 'hamburg/mensa-studierendenhaus'
 	}, {
 		name : 'Café CFEL',
 		url : 'hamburg/cafe-cfel'
@@ -71,10 +71,39 @@ exports.mensen = [{
 		url : 'hamburg/cafe-jungiusstrasse'
 	}, {
 		name : 'Mensa Geomatikum',
-		url : 'mensa-geomatikum'
+		url : 'hamburg/mensa-geomatikum'
 	}, {
-		name : '',
-		url : ''
+		name : 'Mensa Berliner Tor',
+		url : 'hamburg/mensa-berliner-tor'
+	}]
+},{
+	city : 'Göttingen',
+	sw : 'goettingen',
+	mensen : [{
+		name : 'Mensa Italia',
+		url : 'goettingen/mensa-italia'
+	}, {
+		name : 'Mensa am Turm',
+		url : 'goettingen/mensa-am-turm'
+	}, {
+		name : 'Nordmensa',
+		url : 'goettingen/nordmensa'
+	}, {
+		name : 'Zentralmensa',
+		url : 'goettingen/zentralmensa'
+	}, {
+		name : 'Bistro HAWK',
+		url : 'goettingen/bistro-hawk'
+	}]
+}, {
+	city : 'Lüneburg',
+	sw : 'ostniedersachsen',
+	mensen : [{
+		name : 'Mensa Campus',
+		url : 'lueneburg/mensa-campus'
+	}, {
+		name : 'Mensa Rotes Feld',
+		url : 'mensa-rotes-feld'
 	}]
 }, {
 	city : 'Eisenach',
