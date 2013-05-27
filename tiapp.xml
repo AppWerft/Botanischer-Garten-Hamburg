@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>de.appwerft.botsadhh</id>
-    <name>Botanischer Garten Hamburg</name>
+    <name>BotanischerGartenHamburg</name>
     <version>1.0</version>
     <publisher>rainerschleevoigt</publisher>
     <url>http://</url>
@@ -32,14 +32,6 @@
         </orientations>
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
-    <mobileweb>
-        <precache/>
-        <splash>
-            <enabled>true</enabled>
-            <inline-css-images>true</inline-css-images>
-        </splash>
-        <theme>default</theme>
-    </mobileweb>
     <modules>
         <module platform="iphone">me.izen.tabbar</module>
         <module platform="iphone">netfunctional.mapoverlay</module>

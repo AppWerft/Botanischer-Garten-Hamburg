@@ -43,10 +43,10 @@ exports.create = function(_options, _parent) {
 				image : 'assets/' + _options.standort + '.png'
 			}));
 	}
-	self.addEventListener('click', function(_e) {
+	self.addEventListener('click', function(_e) {console.log(_options);
 		switch (_options.label) {
 			case 'Bereich':
-				_parent.tab.open(require('module/bereich.window').create(_options.bereich));
+				_parent.tab.open(require('module/bereich.window').create(_options.area));
 				break;
 			case 'Ordnung':
 				_parent.tab.open(require('module/taxo.familiesbyordnung.window').create(_options.text));
