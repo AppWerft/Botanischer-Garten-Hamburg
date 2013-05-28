@@ -41,7 +41,10 @@ exports.create = function() {
 				for (var i = 0; i < _menue[m].items.length; i++) {
 					var row = Ti.UI.createTableViewRow({
 						height : Ti.UI.SIZE,
-						backgroundColor : 'white'
+						backgroundColor : 'white',
+						data : {
+							title : _menue[m].items[i].text
+						}
 					});
 					row.add(Ti.UI.createImageView({
 						width : 80,
@@ -55,7 +58,8 @@ exports.create = function() {
 						right : 10,
 						height : Ti.UI.SIZE,
 						layout : 'vertical',
-						width : Ti.UI.SIZE
+						width : Ti.UI.SIZE,
+						top : Ti.UI.CONF.padding / 2
 					});
 					row.add(container);
 					container.add(Ti.UI.createLabel({
@@ -88,9 +92,10 @@ exports.create = function() {
 					var voting = Ti.UI.createView({
 						width : Ti.UI.FILL,
 						height : 30,
+						top : 80,
 						layout : 'horizontal'
 					});
-					container.add(voting);
+					row.add(voting);
 					require('vendor/mensa').getVoting(_menue[m].items[i].text, function(_count) {
 						for (var i = 0; i < _count; i++) {
 							voting.add(Ti.UI.createImageView({
@@ -109,11 +114,8 @@ exports.create = function() {
 		});
 	});
 	self.add(self.picker);
-	self.tv.addEventListener('longpress', function() {
-		self.picker.animate({
-			bottom : 0
-		});
-
+	self.tv.addEventListener('click', function(_e) {
+		self.tab.open(require('vendor/mensa.social.window').create(_e.rowData.data.title));
 	});
 	self.rightButton.addEventListener('click', function() {
 		self.picker.animate({

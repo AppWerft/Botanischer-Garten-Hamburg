@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:app xmlns:ti="http://ti.appcelerator.org">
+    <property name="acs-oauth-secret-production" type="string">43m466YCdQ2l8g92huWQ8AJou0yiS2iY</property>
+    <property name="acs-oauth-key-production" type="string">RkdhfrCHWdnM5PPnAxIMhrBjrlrdqCJs</property>
+    <property name="acs-api-key-production" type="string">kG095Npqq3qD64IvfhvDjfE9wesLMns9</property>
+    <property name="acs-oauth-secret-development" type="string">Tacgd9W617Sb4qIWeZSzHx3AmEbrnj4J</property>
+    <property name="acs-oauth-key-development" type="string">BMmrxROYSozDTfIDTPWiyunArTzUJkD1</property>
+    <property name="acs-api-key-development" type="string">afSnB0M3RoERvOu0zAxDLTuR02toMviC</property>
     <id>de.appwerft.botsadhh</id>
     <name>BotanischerGartenHamburg</name>
     <version>1.0</version>
@@ -33,10 +39,11 @@
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <modules>
+        <module platform="iphone">ti.xml2json</module>
+        <module platform="commonjs">ti.cloud</module>
         <module platform="iphone">me.izen.tabbar</module>
         <module platform="iphone">netfunctional.mapoverlay</module>
         <module platform="iphone">ag.calendar</module>
-        <module platform="iphone">ti.xml2json</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>
