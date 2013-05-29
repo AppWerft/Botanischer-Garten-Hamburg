@@ -1,7 +1,6 @@
 exports.create = function(_mensen, _callback) {
 	function setRightColumn(column, ndx) {
 		for (var i = 0, ilen = _mensen[ndx].mensen.length; i < ilen; i++) {
-			console.log(_mensen[ndx]);
 			var row = Ti.UI.createPickerRow({
 				data : {
 					title : _mensen[ndx].mensen[i].name,
