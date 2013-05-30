@@ -47,6 +47,7 @@ exports.mensen = [{
 	sw : 'hamburg',
 	mensen : [{
 		name : 'BLS Mensa',
+		latlon : '53.5599226,9.9820622',
 		url : 'hamburg/mensa-bucerius-law-school'
 	}]
 }, {
@@ -54,9 +55,11 @@ exports.mensen = [{
 	sw : 'hamburg',
 	mensen : [{
 		name : 'Café Averhoffstraße',
+		latlon : '53.5704664,10.0252604',
 		url : 'hamburg/cafe-averhoffstrasse'
 	}, {
 		name : 'Mensa City Nord',
+		latlon : '53.6073848,10.0311799',
 		url : 'hamburg/mensa-city-nord'
 	}]
 }, {
@@ -64,7 +67,8 @@ exports.mensen = [{
 	sw : 'hamburg',
 	mensen : [{
 		name : 'Café Alexanderstraße',
-		url : 'hamburg/cafe-alexanderstrasse'
+		url : 'hamburg/cafe-alexanderstrasse',
+		latlon : '53.5549065,10.0185161',
 	}, {
 		name : 'Mensa Berliner Tor',
 		url : 'hamburg/mensa-berliner-tor'
@@ -73,35 +77,43 @@ exports.mensen = [{
 		url : 'hamburg/mensa-armgartstrasse'
 	}, {
 		name : 'Mensa Finkenau',
-		url : ''
+		url : 'hamburg/mensa-finkenau'
 	}]
 }, {
 	wus : 'Universität Hamburg',
 	sw : 'hamburg',
 	mensen : [{
 		name : 'Mensa Stellingen',
+		latlon : '53.5993500,9.9319100',
 		url : 'hamburg/mensa-stellingen'
 	}, {
 		name : 'Mensa Botanischer Garten',
-		url : 'hamburg/mensa-botanischer-garten'
+		url : 'hamburg/mensa-botanischer-garten',
+		latlon : '53.5582243,9.8602935'
 	}, {
 		name : 'Mensa Campus',
-		url : 'hamburg/mensa-campus'
+		url : 'hamburg/mensa-campus',
+		latlon : '53.5653055,9.9843407',
 	}, {
 		name : 'Mensa Philosophenturm',
-		url : 'hamburg/mensa-philosophenturm'
+		url : 'hamburg/mensa-philosophenturm',
+		latlon : '53.5671800,9.9858200'
 	}, {
 		name : 'Mensa Studierendenhaus',
-		url : 'hamburg/mensa-studierendenhaus'
+		url : 'hamburg/mensa-studierendenhaus',
+		latlon : '53.5656846,9.9862504'
 	}, {
 		name : 'Café CFEL',
-		url : 'hamburg/cafe-cfel'
+		url : 'hamburg/cafe-cfel',
+		latlon : '53.5770154,9.8813009'
 	}, {
 		name : 'Café Jungiusstraße',
+		latlon : '53.5587600,9.9818200',
 		url : 'hamburg/cafe-jungiusstrasse'
 	}, {
 		name : 'Mensa Geomatikum',
-		url : 'hamburg/mensa-geomatikum'
+		url : 'hamburg/mensa-geomatikum',
+		latlon : '53.5681700,9.9742200'
 	}]
 }];
 

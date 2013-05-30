@@ -68,7 +68,7 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 	Cloud.Objects.query({
 		classname : 'mensa',
 		where : {
-			//	user_id : mensa_userid,
+			user_id : mensa_userid,
 			dish : _dish
 		}
 	}, function(e) {
