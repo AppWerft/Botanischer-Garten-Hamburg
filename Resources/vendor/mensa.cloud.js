@@ -1,5 +1,5 @@
 var Cloud = require('ti.cloud');
-var mensa_userid, mensa_aclid, user_name = 'mu_'+Ti.Platform.id;
+var mensa_userid, mensa_aclid, user_name = 'mu_' + Ti.Platform.id;
 
 var createUser = function(_args, _callback) {
 	if (!Ti.App.Properties.hasProperty('mensa_userid')) {
@@ -45,7 +45,8 @@ var createACL = function(_args, _callback) {
 			name : 'acl_' + user_name,
 			public_read : true
 		}, function(e) {
-			Ti.App.Properties.setString('acl_id',e[0].id)
+			if (!e.error)
+				Ti.App.Properties.setString('acl_id', e.acls[0].id)
 		});
 	}
 }
@@ -57,7 +58,6 @@ createUser({}, function() {
 	})
 });
 //// End of Cloud initialisation
-
 
 /// modules
 exports.getVotingbyUser = function(_callback) {
