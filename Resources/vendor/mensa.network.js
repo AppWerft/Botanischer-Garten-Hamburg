@@ -73,7 +73,7 @@ exports.mensen = [{
 		url : 'hamburg/mensa-armgartstrasse'
 	}, {
 		name : 'Mensa Finkenau',
-		url : 'hamburg/mensa-finkenau'
+		url : ''
 	}]
 }, {
 	wus : 'Universität Hamburg',

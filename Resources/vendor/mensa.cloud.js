@@ -1,19 +1,19 @@
 var Cloud = require('ti.cloud');
 var mensa_userid, mensa_aclid, user_name = 'mu_' + Ti.Platform.id;
+const USER = 'mensa_userid', PW = 'qwertz';
 
 var createUser = function(_args, _callback) {
-	if (!Ti.App.Properties.hasProperty('mensa_userid')) {
+	if (!Ti.App.Properties.hasProperty(USER)) {
 		Cloud.Users.create({
 			username : user_name,
-			password : "qwertz",
-			password_confirmation : "qwertz",
+			password : PW,
+			password_confirmation : PW,
 			first_name : "MensaUser",
 			last_name : "MensaUser"
 		}, function(e) {
 			if (e.success) {
 				mensa_userid = e.users[0].id;
-				Ti.App.Properties.setString('mensa_userid', mensa_userid);
-				console.log(mensa_userid);
+				Ti.App.Properties.setString(USER, mensa_userid);
 				_callback(mensa_userid);
 			} else {
 				if (e.error && e.message) {
@@ -22,22 +22,25 @@ var createUser = function(_args, _callback) {
 			}
 		});
 	} else {
-		mensa_userid = Ti.App.Properties.getString('mensa_userid');
+		mensa_userid = Ti.App.Properties.getString(USER);
 		_callback(mensa_userid);
 	}
 }
 var loginUser = function(_args, _callback) {
 	if (!Cloud.sessionId) {
 		Cloud.Users.login({
-			login : Ti.Platform.id,
-			password : 'qwertz'
+			login : user_name,
+			password : PW
 		}, function(e) {
 			if (e.success) {
+				console.log('Login with ' + user_name + ' successful ;-))');
 				_callback();
-			}
+			} else
+				console.log('ERROR: Login with ' + user_name + ' unsuccessful');
 		});
-	} else
+	} else {console.log('SessionId exists');
 		_callback();
+	}
 }
 var createACL = function(_args, _callback) {
 	if (!Ti.App.Properties.hasProperty('acl_id')) {
@@ -59,11 +62,29 @@ createUser({}, function() {
 });
 //// End of Cloud initialisation
 
-/// modules
-exports.getVotingbyUser = function(_callback) {
+/////////////////////////////////////////////////////////////////////////////////////////
+/// Functional modules
+exports.getDataByUserAndDish = function(_dish, _callback) {
 	Cloud.Objects.query({
 		classname : 'mensa',
+		where : {
+			//	user_id : mensa_userid,
+			dish : _dish
+		}
 	}, function(e) {
+		console.log('===getDataByUserAndDish======');
+		console.log(e);
+		_callback((e.meta.total_results) ? e.mensa[0] : null);
+	});
+}
+exports.getVoting4Dish = function(_dish, _callback) {
+	Cloud.Objects.query({
+		classname : 'mensa',
+		where : {
+			dish : _dish
+		}
+	}, function(e) {
+		console.log(e);
 		if (e.success) {
 			for (var i = 0; i < e.mensa.length; i++) {
 				var mensa = e.mensa[i];
@@ -74,7 +95,6 @@ exports.getVotingbyUser = function(_callback) {
 		}
 	});
 }
-
 exports.getVoting = function(_dish, _callback) {
 	var bar = parseInt(Ti.Utils.md5HexDigest(_dish).replace(/[\D]+/g, '').substr(0, 3)) % 7;
 	if (!bar)
@@ -83,30 +103,19 @@ exports.getVoting = function(_dish, _callback) {
 }
 
 exports.postComment = function(_params) {
-	Cloud.Users.login({
-		login : Ti.Platform.id,
-		password : 'qwertz',
+	_params.user_id = mensa_userid;
+	console.log(_params);
+	Cloud.Objects.create({
+		acl_id : mensa_aclid,
+		classname : 'mensa',
+		fields : _params
 	}, function(e) {
+		console.log('======postComment========');
+		console.log(e);
 		if (e.success) {
-			var acl = Cloud.ACLs.create({
-				name : 'all_mensa_userid',
-				public_read : true
-			}, function(e) {
-				if (e.success) {
-					Cloud.Objects.create({
-						acls : acl,
-						classname : 'mensa',
-						fields : _params
-					}, function(e) {
-						if (e.success) {
-							alert('Kommmentar erfolgreich gespeichert.');
-						} else {
-							console.log(e);
-						}
-					});
-				}
-			});
-
+			alert('Kommmentar erfolgreich gespeichert.');
+		} else {
+			console.log(e);
 		}
 	});
 };

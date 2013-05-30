@@ -1,10 +1,15 @@
 exports.create = function(_title) {
 	var self = require('module/win').create(_title, true);
 	const BUTTSIZE = 40;
+	var dataid = undefined;
 	self.backgroundColor = 'white';
-	require('vendor/mensa.cloud').getVotingbyUser(function(_data) {
-		self.slider.setValue(_data.vote);
-		self.comment.setValue(_data.comment);
+	self.actind.show();
+	require('vendor/mensa.cloud').getDataByUserAndDish(_title, function(_data) {;
+		if (_data) {
+			self.slider.setValue(_data.vote);
+			self.comment.setValue(_data.comment);
+		}
+		self.actind.hide();
 		self.add(self.button);
 	});
 	self.container = Ti.UI.createView({
@@ -14,7 +19,7 @@ exports.create = function(_title) {
 		right : Ti.UI.CONF.padding
 	});
 	self.container.add(Ti.UI.createLabel({
-		text : 'Hier kannst Du nach Herzenslust soscheleisen. Du kannst das Essen kommentieren, photographieren und bewerten.',
+		text : 'Hier kannst Du nach Lust soscheleisen. Du kannst das Essen kommentieren, photographieren und bewerten.',
 		height : Ti.UI.SIZE,
 		width : Ti.UI.FILL,
 		font : {
@@ -23,10 +28,9 @@ exports.create = function(_title) {
 		},
 		top : 0,
 		bottom : 0
-
 	}));
 	self.buttons = Ti.UI.createView({
-		top : 0,
+		top : Ti.UI.CONF.padding,
 		right : 0,
 		height : Ti.UI.SIZE
 	});
@@ -35,7 +39,7 @@ exports.create = function(_title) {
 		height : BUTTSIZE,
 		width : BUTTSIZE,
 		top : 0,
-		right : 0,
+		right : BUTTSIZE * 1.3,
 		backgroundImage : '/assets/checkin.png'
 	});
 	self.buttons.add(checkin);
@@ -43,7 +47,7 @@ exports.create = function(_title) {
 		height : BUTTSIZE,
 		width : BUTTSIZE,
 		top : 0,
-		right : BUTTSIZE * 1.1,
+		right : 0,
 		backgroundImage : '/assets/camera.png'
 	});
 	self.buttons.add(camera);
@@ -69,7 +73,7 @@ exports.create = function(_title) {
 		max : 10,
 		min : 0,
 	});
-	
+
 	self.button = Ti.UI.createButton({
 		bottom : Ti.UI.CONF.padding,
 		backgroundImage : '/assets/buttonbg.png',
@@ -107,17 +111,9 @@ exports.create = function(_title) {
 	self.button.addEventListener('click', function(_e) {
 		require('vendor/mensa.cloud').postComment({
 			vote : parseInt(self.slider.value),
-			comment : self.comment.value || ''
+			comment : self.comment.value || '',
+			dish : _title
 		});
-	});
-	self.slider.addEventListener('change', function(e) {
-		return;
-		var x = e.source.value / e.source.getMax() * e.source.getRect().width + 10;
-		
-	
-	});
-	self.slider.addEventListener('stop', function(e) {
-		//e.source.bubble.opacity=0;
 	});
 
 	return self;

@@ -26,7 +26,10 @@ exports.create = function() {
 				bottom : -280
 			});
 		self.tv.setData([]);
+		self.actind.setMessage('Erwarte Speiseplan …');
+		self.actind.show();
 		require('vendor/mensa.network').getMenue(_data.url, function(_menue) {
+			self.actind.hide();
 			if (!_menue) {
 				self.tv.setData([]);
 				return;

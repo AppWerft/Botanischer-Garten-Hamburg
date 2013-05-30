@@ -15,9 +15,9 @@ exports.create = function(_title, _noswipe) {
 		backgroundColor : 'black',
 		borderRadius : 8,
 		width : 280,
-		height : 80,
+		message : 'Bitte etwas Geduld … ',
+		height : 80,zIndex:999,
 		opacity : 0.8,
-		zIndex : 999,
 		font : {
 			fontSize : 12
 		},
@@ -25,9 +25,11 @@ exports.create = function(_title, _noswipe) {
 		borderWidth : 2,
 		borderColor : 'white'
 	});
+	self.add(self.actind);
 	self.addEventListener('close', function() {
-		self.null;
-	})
-	//self.add(self.actind);
+		self.remove(self.actind);
+		self.actind = null;
+		self = null;
+	});
 	return self;
 }
