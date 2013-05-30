@@ -18,47 +18,6 @@ function parseRes(_foo) {
 	return (menue);
 }
 
-var Cloud = require('ti.cloud');
-
-Cloud.Users.create({
-	username : Ti.Platform.id,
-	password : "qwertz",
-	password_confirmation : "qwertz",
-	first_name : "user",
-	last_name : "user"
-}, function(e) {
-	if (e.success) {
-		var user = e.users[0];
-		//alert('Created! You are now logged in as ' + user.id);
-	} else {
-		if (e.error && e.message) {
-			//	alert('Error :' + e.message);
-		}
-	}
-
-});
-
-exports.getVotingbyUser = function(_callback) {
-	Cloud.Objects.query({
-		classname : 'mensa',
-	}, function(e) {
-		if (e.success) {
-			for (var i = 0; i < e.mensa.length; i++) {
-				var mensa = e.mensa[i];
-				_callback(mensa);
-			}
-		} else {
-			alert('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
-		}
-	});
-}
-
-exports.getVoting = function(_dish, _callback) {
-	var bar = parseInt(Ti.Utils.md5HexDigest(_dish).replace(/[\D]+/g, '').substr(0, 3)) % 7;
-	if (!bar)
-		bar = 2;
-	_callback(bar);
-}
 exports.getMenue = function(_mensa, _callback) {
 	var url = 'http://rss.imensa.de/' + _mensa + '/speiseplan.rss';
 	var xhr = Ti.Network.createHTTPClient({
@@ -66,50 +25,22 @@ exports.getMenue = function(_mensa, _callback) {
 		onload : function() {
 			try {
 				var json = Ti.XML2JSON.convert(this.responseText).rss;
-				html = json.channel.item['content:encoded'].text.replace(/ style="(.*?)"/g, '').replace(/  /g, '').replace(/…/g, '');
+				html = json.channel.item['content:encoded'].text.replace(/&amp;/g, '&').replace(/ style="(.*?)"/g, '').replace(/  /g, '').replace(/…/g, '');
 				if (_callback && typeof (_callback) == 'function')
 					_callback(parseRes(html));
 				//var json = html2json(html);
 				//console.log(json);
-			} catch(E) {
+			} catch(E) {console.log(E);
 				_callback(null);
 			}
 		},
 		onerror : function() {
-
+			alert('Kein Netz');
 		}
 	});
 	xhr.open('GET', url);
 	xhr.send();
 }
-exports.postComment = function(_params) {
-	Cloud.Users.login({
-		login : Ti.Platform.id,
-		password : 'qwertz',
-	}, function(e) {
-		if (e.success) {
-			var acl = Cloud.ACLs.create({
-				name : 'all_mensa_user',
-				public_read : true
-			}, function(e) {
-				if (e.success) {
-					Cloud.Objects.create({
-						acls : acl,
-						classname : 'mensa',
-						fields : _params
-					}, function(e) {
-						if (e.success) {
-							alert('Kommmentar erfolgreich gespeichert.');
-						} else {
-							console.log(e);
-						}
-					});
-				}
-			});
-
-		}
-	});
-};
 
 exports.mensen = [{
 	city : 'Hamburg',

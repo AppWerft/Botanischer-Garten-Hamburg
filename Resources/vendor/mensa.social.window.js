@@ -1,7 +1,8 @@
 exports.create = function(_title) {
-	var self = require('module/win').create(_title, true);const BUTTSIZE =40;
+	var self = require('module/win').create(_title, true);
+	const BUTTSIZE = 40;
 	self.backgroundColor = 'white';
-	require('vendor/mensa').getVotingbyUser(function(_data) {
+	require('vendor/mensa.cloud').getVotingbyUser(function(_data) {
 		self.slider.setValue(_data.vote);
 		self.comment.setValue(_data.comment);
 		self.add(self.button);
@@ -42,7 +43,7 @@ exports.create = function(_title) {
 		height : BUTTSIZE,
 		width : BUTTSIZE,
 		top : 0,
-		right : BUTTSIZE*1.1,
+		right : BUTTSIZE * 1.1,
 		backgroundImage : '/assets/camera.png'
 	});
 	self.buttons.add(camera);
@@ -66,8 +67,21 @@ exports.create = function(_title) {
 	self.slider = Ti.UI.createSlider({
 		top : Ti.UI.CONF.padding,
 		max : 10,
-		min : 0
+		min : 0,
 	});
+	self.slider.bubble = Ti.UI.createImageView({
+		width : 50,
+		height : 38,
+		top : 200,
+		zIndex : 999,
+		opacity : 0,
+		image : '/assets/bubble.png'
+	});
+	self.slider.bubbletext = Ti.UI.createLabel({
+		color : 'white'
+	});
+	self.slider.bubble.add(self.slider.bubbletext);
+
 	self.button = Ti.UI.createButton({
 		bottom : Ti.UI.CONF.padding,
 		backgroundImage : '/assets/buttonbg.png',
@@ -101,14 +115,29 @@ exports.create = function(_title) {
 		top : Ti.UI.CONF.padding,
 		bottom : Ti.UI.CONF.padding
 	}));
-
+	self.add(self.slider.bubble);
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
-		require('vendor/mensa').postComment({
+		require('vendor/mensa.cloud').postComment({
 			vote : parseInt(self.slider.value),
 			comment : self.comment.value || ''
 		});
-	})
+	});
+	self.slider.addEventListener('change', function(e) {
+		var x = e.source.value / e.source.getMax() * e.source.getRect().width + 10;
+		return;
+		e.source.bubble.setLeft(x);
+		e.source.bubbletext.setText(Math.round(e.source.value));
+		e.source.bubble.opacity = 1;
+		setTimeout(function() {
+			self.slider.bubble.animate({
+				opacity : 0
+			});
+		}, 1000)
+	});
+	self.slider.addEventListener('stop', function(e) {
+		//e.source.bubble.opacity=0;
+	});
 
 	return self;
 }

@@ -2,7 +2,6 @@ exports.create = function() {
 	var self = require('module/win').create('UHH✦intern', true);
 	self.backgroundImage = 'Default.png';
 	self.rightButton = Ti.UI.createButton({
-		//systemButton: Titanium.UI.iPhone.SystemButton.ADD
 		backgroundImage : '/assets/besteck.png',
 		width : 40,
 		height : 40
@@ -20,14 +19,14 @@ exports.create = function() {
 	self.addEventListener('blur', function() {
 		dialogView.hide();
 	});
-	self.picker = require('module/mensa.picker').create(require('vendor/mensa').mensen, /*callback after changing*/
+	self.picker = require('module/mensa.picker').create(require('vendor/mensa.network').mensen, /*callback after changing*/
 	function(_data) {
 		if (self.picker)
 			self.picker.animate({
-				bottom : -250
+				bottom : -280
 			});
 		self.tv.setData([]);
-		require('vendor/mensa').getMenue(_data.url, function(_menue) {
+		require('vendor/mensa.network').getMenue(_data.url, function(_menue) {
 			if (!_menue) {
 				self.tv.setData([]);
 				return;
@@ -96,7 +95,7 @@ exports.create = function() {
 						layout : 'horizontal'
 					});
 					row.add(voting);
-					require('vendor/mensa').getVoting(_menue[m].items[i].text, function(_count) {
+					require('vendor/mensa.cloud').getVoting(_menue[m].items[i].text, function(_count) {
 						for (var i = 0; i < _count; i++) {
 							voting.add(Ti.UI.createImageView({
 								image : '/assets/star.png',
