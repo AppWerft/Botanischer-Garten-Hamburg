@@ -69,19 +69,7 @@ exports.create = function(_title) {
 		max : 10,
 		min : 0,
 	});
-	self.slider.bubble = Ti.UI.createImageView({
-		width : 50,
-		height : 38,
-		top : 200,
-		zIndex : 999,
-		opacity : 0,
-		image : '/assets/bubble.png'
-	});
-	self.slider.bubbletext = Ti.UI.createLabel({
-		color : 'white'
-	});
-	self.slider.bubble.add(self.slider.bubbletext);
-
+	
 	self.button = Ti.UI.createButton({
 		bottom : Ti.UI.CONF.padding,
 		backgroundImage : '/assets/buttonbg.png',
@@ -115,7 +103,6 @@ exports.create = function(_title) {
 		top : Ti.UI.CONF.padding,
 		bottom : Ti.UI.CONF.padding
 	}));
-	self.add(self.slider.bubble);
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
 		require('vendor/mensa.cloud').postComment({
@@ -124,16 +111,10 @@ exports.create = function(_title) {
 		});
 	});
 	self.slider.addEventListener('change', function(e) {
-		var x = e.source.value / e.source.getMax() * e.source.getRect().width + 10;
 		return;
-		e.source.bubble.setLeft(x);
-		e.source.bubbletext.setText(Math.round(e.source.value));
-		e.source.bubble.opacity = 1;
-		setTimeout(function() {
-			self.slider.bubble.animate({
-				opacity : 0
-			});
-		}, 1000)
+		var x = e.source.value / e.source.getMax() * e.source.getRect().width + 10;
+		
+	
 	});
 	self.slider.addEventListener('stop', function(e) {
 		//e.source.bubble.opacity=0;

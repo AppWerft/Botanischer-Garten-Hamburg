@@ -30,7 +30,8 @@ exports.getMenue = function(_mensa, _callback) {
 					_callback(parseRes(html));
 				//var json = html2json(html);
 				//console.log(json);
-			} catch(E) {console.log(E);
+			} catch(E) {
+				console.log(E);
 				_callback(null);
 			}
 		},
@@ -41,14 +42,43 @@ exports.getMenue = function(_mensa, _callback) {
 	xhr.open('GET', url);
 	xhr.send();
 }
-
 exports.mensen = [{
-	city : 'Hamburg',
+	wus : 'BLS Hamburg',
 	sw : 'hamburg',
 	mensen : [{
-		name : 'Mensa Bucerius Law School',
+		name : 'BLS Mensa',
 		url : 'hamburg/mensa-bucerius-law-school'
+	}]
+}, {
+	wus : 'HCU Hamburg',
+	sw : 'hamburg',
+	mensen : [{
+		name : 'Café Averhoffstraße',
+		url : 'hamburg/cafe-averhoffstrasse'
 	}, {
+		name : 'Mensa City Nord',
+		url : 'hamburg/mensa-city-nord'
+	}]
+}, {
+	wus : 'HAW Hamburg',
+	sw : 'hamburg',
+	mensen : [{
+		name : 'Café Alexanderstraße',
+		url : 'hamburg/cafe-alexanderstrasse'
+	}, {
+		name : 'Mensa Berliner Tor',
+		url : 'hamburg/mensa-berliner-tor'
+	}, {
+		name : 'Mensa Armgartstraße',
+		url : 'hamburg/mensa-armgartstrasse'
+	}, {
+		name : 'Mensa Finkenau',
+		url : 'hamburg/mensa-finkenau'
+	}]
+}, {
+	wus : 'Universität Hamburg',
+	sw : 'hamburg',
+	mensen : [{
 		name : 'Mensa Stellingen',
 		url : 'hamburg/mensa-stellingen'
 	}, {
@@ -72,73 +102,71 @@ exports.mensen = [{
 	}, {
 		name : 'Mensa Geomatikum',
 		url : 'hamburg/mensa-geomatikum'
-	}, {
-		name : 'Mensa Berliner Tor',
-		url : 'hamburg/mensa-berliner-tor'
 	}]
-}, {
-	city : 'Göttingen',
-	sw : 'goettingen',
-	mensen : [{
-		name : 'Mensa Italia',
-		url : 'goettingen/mensa-italia'
-	}, {
-		name : 'Mensa am Turm',
-		url : 'goettingen/mensa-am-turm'
-	}, {
-		name : 'Nordmensa',
-		url : 'goettingen/nordmensa'
-	}, {
-		name : 'Zentralmensa',
-		url : 'goettingen/zentralmensa'
-	}, {
-		name : 'Bistro HAWK',
-		url : 'goettingen/bistro-hawk'
-	}]
-}, {
-	city : 'Lüneburg',
-	sw : 'ostniedersachsen',
-	mensen : [{
-		name : 'Mensa Campus',
-		url : 'lueneburg/mensa-campus'
-	}, {
-		name : 'Mensa Rotes Feld',
-		url : 'mensa-rotes-feld'
-	}]
-}, {
-	city : 'Eisenach',
-	sw : 'thueringen',
-	mensen : [{
-		name : 'Mensa am Wartenberg',
-		url : 'eisenach/mensa-am-wartenberg'
-	}]
-}, {
-	city : 'Erfurt',
-	sw : 'thueringen',
-	mensen : [{
-		name : 'Caféteria Leipziger Straße',
-		url : 'erfurt/cafeteria-leipziger-strasse'
-	}, {
-		name : 'Mensa Altonaer Straße',
-		url : 'erfurt/mensa-altonaer-strasse'
-	}, {
-		name : 'Cafeteria Schlüterstraße',
-		url : 'erfurt/cafeteria-schlueterstrasse'
-	}, {
-		name : 'Mensa Nordhäuser Straße',
-		url : 'erfurt/mensa-nordhaeuser-strasse'
-	}]
-}, {
-	city : 'Ilmenau',
-	sw : 'thueringen',
-	mensen : [{
-		name : 'Caféteria im Röntgenbau',
-		url : 'ilmenau/cafeteria-im-roentgenbau'
-	}, {
-		name : 'Mensa Ehrenberg',
-		url : 'ilmenau/mensa-ehrenberg'
-	}, {
-		name : 'NANOteria',
-		url : 'ilmenau/nanoteria'
-	}]
-}]
+}];
+
+/*, {
+ wus : 'Göttingen',
+ sw : 'goettingen',
+ mensen : [{
+ name : 'Mensa Italia',
+ url : 'goettingen/mensa-italia'
+ }, {
+ name : 'Mensa am Turm',
+ url : 'goettingen/mensa-am-turm'
+ }, {
+ name : 'Nordmensa',
+ url : 'goettingen/nordmensa'
+ }, {
+ name : 'Zentralmensa',
+ url : 'goettingen/zentralmensa'
+ }, {
+ name : 'Bistro HAWK',
+ url : 'goettingen/bistro-hawk'
+ }]
+ }, {
+ wus : 'Lüneburg',
+ sw : 'ostniedersachsen',
+ mensen : [{
+ name : 'Mensa Campus',
+ url : 'lueneburg/mensa-campus'
+ }, {
+ name : 'Mensa Rotes Feld',
+ url : 'mensa-rotes-feld'
+ }]
+ }, {
+ wus : 'Eisenach',
+ sw : 'thueringen',
+ mensen : [{
+ name : 'Mensa am Wartenberg',
+ url : 'eisenach/mensa-am-wartenberg'
+ }]
+ }, {
+ wus : 'Erfurt',
+ sw : 'thueringen',
+ mensen : [{
+ name : 'Caféteria Leipziger Straße',
+ url : 'erfurt/cafeteria-leipziger-strasse'
+ }, {
+ name : 'Mensa Altonaer Straße',
+ url : 'erfurt/mensa-altonaer-strasse'
+ }, {
+ name : 'Cafeteria Schlüterstraße',
+ url : 'erfurt/cafeteria-schlueterstrasse'
+ }, {
+ name : 'Mensa Nordhäuser Straße',
+ url : 'erfurt/mensa-nordhaeuser-strasse'
+ }]
+ }, {
+ wus : 'Ilmenau',
+ sw : 'thueringen',
+ mensen : [{
+ name : 'Caféteria im Röntgenbau',
+ url : 'ilmenau/cafeteria-im-roentgenbau'
+ }, {
+ name : 'Mensa Ehrenberg',
+ url : 'ilmenau/mensa-ehrenberg'
+ }, {
+ name : 'NANOteria',
+ url : 'ilmenau/nanoteria'
+ }]*/

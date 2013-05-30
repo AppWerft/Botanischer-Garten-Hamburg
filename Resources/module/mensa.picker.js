@@ -30,7 +30,7 @@ exports.create = function(_mensen, _callback) {
 	});
 	var studwerke = [];
 	for (var i = 0; i < _mensen.length; i++)
-		studwerke.push(_mensen[i].city);
+		studwerke.push(_mensen[i].wus);
 	var column1 = Ti.UI.createPickerColumn();
 	for (var i = 0, ilen = studwerke.length; i < ilen; i++) {
 		var row = Ti.UI.createPickerRow({
