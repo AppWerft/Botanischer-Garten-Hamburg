@@ -134,7 +134,7 @@ exports.create = function(_title, _latlon) {
 			autohide : true,
 			showControls : true,
 			success : function(_blob) {
-				self.icon.setImage(blob);  // show
+				self.icon.setImage(_blob);  // show
 				self.photo = _blob; // save
 			}
 		})

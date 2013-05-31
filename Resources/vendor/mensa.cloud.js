@@ -108,14 +108,11 @@ exports.getVoting = function(_dish, _callback) {
 
 exports.postComment = function(_params, _callback) {
 	_params.user_id = mensa_userid;
-	console.log(_params);
 	Cloud.Objects.create({
 		acl_id : mensa_aclid,
 		classname : 'mensa',
 		fields : _params
 	}, function(e) {
-		console.log('======postComment========');
-		console.log(e);
 		if (e.success) {
 			alert('Kommmentar erfolgreich gespeichert.');
 		} else {
