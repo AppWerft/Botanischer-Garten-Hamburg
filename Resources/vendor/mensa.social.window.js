@@ -1,4 +1,4 @@
-exports.create = function(_title) {
+exports.create = function(_title, _latlon) {
 	var self = require('module/win').create(_title, true);
 	const BUTTSIZE = 40;
 	var dataid = undefined;
@@ -9,7 +9,8 @@ exports.create = function(_title) {
 			self.slider.setValue(_data.vote);
 			self.comment.setValue(_data.comment);
 		}
-		self.actind.hide();
+		if (self.actind)
+			self.actind.hide();
 		self.add(self.button);
 	});
 	self.container = Ti.UI.createView({
@@ -35,22 +36,30 @@ exports.create = function(_title) {
 		height : Ti.UI.SIZE
 	});
 	self.container.add(self.buttons);
-	var checkin = Ti.UI.createButton({
+	self.icon = Ti.UI.createImageView({
+		height : BUTTSIZE,
+		width : Ti.UI.SIZE,
+		top : 0,
+		defaultImage : '',
+		right : BUTTSIZE * 3.3,
+	});
+	self.checkin = Ti.UI.createButton({
 		height : BUTTSIZE,
 		width : BUTTSIZE,
 		top : 0,
 		right : BUTTSIZE * 1.3,
 		backgroundImage : '/assets/checkin.png'
 	});
-	self.buttons.add(checkin);
-	var camera = Ti.UI.createButton({
+	self.camera = Ti.UI.createButton({
 		height : BUTTSIZE,
 		width : BUTTSIZE,
 		top : 0,
 		right : 0,
 		backgroundImage : '/assets/camera.png'
 	});
-	self.buttons.add(camera);
+	self.buttons.add(self.camera);
+	self.buttons.add(self.checkin);
+	self.buttons.add(self.icon);
 	self.comment = Ti.UI.createTextArea({
 		borderWidth : 2,
 		borderColor : '#bbb',
@@ -112,9 +121,23 @@ exports.create = function(_title) {
 		require('vendor/mensa.cloud').postComment({
 			vote : parseInt(self.slider.value),
 			comment : self.comment.value || '',
-			dish : _title
+			dish : _title,
+			photo : self.photo
+		}, function() {
+			self.button.show();
 		});
+		self.button.hide();
 	});
-
+	self.camera.addEventListener('click', function() {
+		Ti.Media.showCamera({
+			allowEditing : true,
+			autohide : true,
+			showControls : true,
+			success : function(_blob) {
+				self.icon.setImage(blob);  // show
+				self.photo = _blob; // save
+			}
+		})
+	});
 	return self;
 }

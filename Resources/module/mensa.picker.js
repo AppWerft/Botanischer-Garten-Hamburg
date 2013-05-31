@@ -5,14 +5,14 @@ exports.create = function(_mensen, _callback) {
 				data : {
 					title : _mensen[ndx].mensen[i].name,
 					url : _mensen[ndx].mensen[i].url,
-					sw : _mensen[ndx].sw
+					latlon : _mensen[ndx].mensen[i].latlon,
+					wus : _mensen[ndx].wus
 				},
 				title : _mensen[ndx].mensen[i].name.replace(/Mensa /, ''),
 			});
 			column.addRow(row);
 		}
 	}
-
 	var removeAllPickerRows = function() {
 		if (self.columns[1]) {
 			var _col = self.columns[1];
@@ -45,7 +45,6 @@ exports.create = function(_mensen, _callback) {
 		if (_e.columnIndex == 0) {
 			removeAllPickerRows();
 			setRightColumn(column2, _e.rowIndex);
-
 			self.reloadColumn(column2);
 		} else if (_e.columnIndex == 1) {
 			_callback(_e.row.data);
@@ -54,7 +53,8 @@ exports.create = function(_mensen, _callback) {
 	_callback({
 		title : 'Mensa Botanischer Garten',
 		url : 'hamburg/mensa-botanischer-garten',
-		sw : 'hamburg'
+		wus : 'hamburg',
+		latlon : '53.5582243,9.8602935'
 	})
 	return self;
 }

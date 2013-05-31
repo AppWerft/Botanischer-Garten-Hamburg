@@ -38,7 +38,8 @@ var loginUser = function(_args, _callback) {
 			} else
 				console.log('ERROR: Login with ' + user_name + ' unsuccessful');
 		});
-	} else {console.log('SessionId exists');
+	} else {
+		console.log('SessionId exists');
 		_callback();
 	}
 }
@@ -72,9 +73,12 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 			dish : _dish
 		}
 	}, function(e) {
-		console.log('===getDataByUserAndDish======');
-		console.log(e);
-		_callback((e.meta.total_results) ? e.mensa[0] : null);
+		if (e.success) {
+			console.log('===getDataByUserAndDish======');
+			console.log(e);
+			_callback((e.meta.total_results) ? e.mensa[0] : null);
+		} else
+			_callback(null);
 	});
 }
 exports.getVoting4Dish = function(_dish, _callback) {
@@ -91,7 +95,7 @@ exports.getVoting4Dish = function(_dish, _callback) {
 				_callback(mensa);
 			}
 		} else {
-			alert('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+			//alert('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
 		}
 	});
 }
@@ -102,7 +106,7 @@ exports.getVoting = function(_dish, _callback) {
 	_callback(bar);
 }
 
-exports.postComment = function(_params) {
+exports.postComment = function(_params, _callback) {
 	_params.user_id = mensa_userid;
 	console.log(_params);
 	Cloud.Objects.create({
@@ -117,5 +121,6 @@ exports.postComment = function(_params) {
 		} else {
 			console.log(e);
 		}
+		_callback();
 	});
 };

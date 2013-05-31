@@ -45,7 +45,8 @@ exports.create = function() {
 						height : Ti.UI.SIZE,
 						backgroundColor : 'white',
 						data : {
-							title : _menue[m].items[i].text
+							title : _menue[m].items[i].text,
+							latlon : _menue[m].items[i].latlon
 						}
 					});
 					row.add(Ti.UI.createImageView({
@@ -53,7 +54,7 @@ exports.create = function() {
 						bottom : Ti.UI.SIZE,
 						left : 0,
 						top : 0,
-						image : '/assets/sw/' + _data.sw + '.png'
+						image : '/assets/sw/hamburg.png'
 					}));
 					var container = Ti.UI.createView({
 						left : 90,
@@ -117,7 +118,7 @@ exports.create = function() {
 	});
 	self.add(self.picker);
 	self.tv.addEventListener('click', function(_e) {
-		self.tab.open(require('vendor/mensa.social.window').create(_e.rowData.data.title));
+		self.tab.open(require('vendor/mensa.social.window').create(_e.rowData.data.title, _e.rowData.data.latlon));
 	});
 	self.rightButton.addEventListener('click', function() {
 		self.picker.animate({
