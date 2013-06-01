@@ -30,36 +30,16 @@ exports.create = function(_title, _latlon) {
 		top : 0,
 		bottom : 0
 	}));
-	self.buttons = Ti.UI.createView({
-		top : Ti.UI.CONF.padding,
-		right : 0,
-		height : Ti.UI.SIZE
-	});
-	self.container.add(self.buttons);
 	self.icon = Ti.UI.createImageView({
-		height : BUTTSIZE,
-		width : Ti.UI.SIZE,
-		top : 0,
-		defaultImage : '',
-		right : BUTTSIZE * 3.3,
+		height : BUTTSIZE * 5,
+		width : BUTTSIZE * 5,
+		bottom : Ti.UI.CONF.padding,
+		borderColor : 'silver',
+		borderWidth : 1,
+		borderradius : 5,
+		defaultImage : '/assets/camera.png',
+		left : Ti.UI.CONF.padding,
 	});
-	self.checkin = Ti.UI.createButton({
-		height : BUTTSIZE,
-		width : BUTTSIZE,
-		top : 0,
-		right : BUTTSIZE * 1.3,
-		backgroundImage : '/assets/checkin.png'
-	});
-	self.camera = Ti.UI.createButton({
-		height : BUTTSIZE,
-		width : BUTTSIZE,
-		top : 0,
-		right : 0,
-		backgroundImage : '/assets/camera.png'
-	});
-	self.buttons.add(self.camera);
-	self.buttons.add(self.checkin);
-	self.buttons.add(self.icon);
 	self.comment = Ti.UI.createTextArea({
 		borderWidth : 2,
 		borderColor : '#bbb',
@@ -75,67 +55,68 @@ exports.create = function(_title, _latlon) {
 		hintText : 'Kommentar',
 		top : Ti.UI.CONF.padding,
 		width : Ti.UI.FILL,
-		height : 80
+		height : 60
 	});
 	self.slider = Ti.UI.createSlider({
-		top : Ti.UI.CONF.padding,
+		top : 10,
 		max : 10,
 		min : 0,
 	});
 
 	self.button = Ti.UI.createButton({
 		bottom : Ti.UI.CONF.padding,
-		backgroundImage : '/assets/buttonbg.png',
+		backgroundImage : '/assets/cloud.png',
 		color : 'white',
 		font : {
 			fontWeight : 'bold'
 		},
 		borderRadius : 10,
-		font : {
-			fontSize : 32,
-			fontWeight : 'bold'
-			//	fontFamily : 'TheSans-B7Bold'
-		},
-		width : Ti.UI.FILL,
-		height : 40,
-		left : Ti.UI.CONF.padding,
+		width : BUTTSIZE * 1.4,
+		height : BUTTSIZE,
 		right : Ti.UI.CONF.padding,
-		title : 'Abschicken'
 	});
 	self.add(self.container);
 	self.container.add(self.comment);
 	self.container.add(self.slider);
-	self.container.add(Ti.UI.createLabel({
-		text : 'Bitte beachte die Persönlichkeitsrechte der Mitesser. Nur das Essen ist gemeinfrei.',
-		height : Ti.UI.SIZE,
-		width : Ti.UI.FILL,
-		font : {
-			fontSize : Ti.UI.CONF.fontsize_subtitle,
-			fontFamily : 'TheSansSemiBoldItalic'
-		},
-		top : Ti.UI.CONF.padding,
-		bottom : Ti.UI.CONF.padding
-	}));
+	self.add(self.icon);
+	/*self.container.add(Ti.UI.createLabel({
+	 text : 'Bitte beachte die Persönlichkeitsrechte der Mitesser. Nur das Essen ist gemeinfrei.',
+	 height : Ti.UI.SIZE,
+	 width : Ti.UI.FILL,
+	 font : {
+	 fontSize : Ti.UI.CONF.fontsize_subtitle,
+	 fontFamily : 'TheSansSemiBoldItalic'
+	 },
+	 top : Ti.UI.CONF.padding,
+	 bottom : Ti.UI.CONF.padding
+	 }));*/
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
 		require('vendor/mensa.cloud').postComment({
-			vote : parseInt(self.slider.value),
-			comment : self.comment.value || '',
-			dish : _title,
-			photo : self.photo
-		}, function() {
-			self.button.show();
+			post : {
+				vote : parseInt(self.slider.value),
+				comment : self.comment.value || '',
+				dish : _title,
+				photo : (self.icon.newphoto) ? self.photo : null
+			},
+			onsuccess : function() {
+				self.button.show();
+			}
 		});
 		self.button.hide();
 	});
-	self.camera.addEventListener('click', function() {
+	self.icon.addEventListener('click', function() {
 		Ti.Media.showCamera({
 			allowEditing : true,
 			autohide : true,
+			mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 			showControls : true,
-			success : function(_blob) {
-				self.icon.setImage(_blob);  // show
-				self.photo = _blob; // save
+			success : function(_e) {
+				self.icon.setImage(_e.media);
+				self.icon.newphoto = true;
+				// show
+				self.photo = _e.media;
+				// save
 			}
 		})
 	});

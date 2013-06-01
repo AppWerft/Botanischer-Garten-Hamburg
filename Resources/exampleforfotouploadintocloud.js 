@@ -1,0 +1,96 @@
+var messageView = Titanium.UI.createView({
+    id:'messageview',
+    height:30,
+    width:250,
+    borderRadius:10,
+    backgroundColor:'#000',
+    opacity:0.7,
+    touchEnabled:false
+});
+ 
+var messageLabel = Titanium.UI.createLabel({
+    id:'messagelabel',
+    text:'',
+    color:'#fff',
+    width:250,
+    height:Ti.UI.SIZE,
+    font:{
+        fontFamily:'Helvetica Neue',
+        fontSize:16
+    },
+    textAlign:'center'
+});
+ 
+messageView.add(messageLabel);
+ 
+    cameraButton.addEventListener('click', function(e) {
+ 
+        //Check to see if you are logged in
+        var Cloud = require('ti.cloud');
+        Cloud.Users.showMe(function(e) {
+            if(!e.success) {
+                //var user = e.users[0];
+                lw.loginShow(lv);
+                lw.top=10;
+                alert('You must login before you can take photos.');
+ 
+            } else {
+                Titanium.Media.showCamera({
+ 
+                    success : function(event) {
+                        messageView.show();
+                        Cloud.onsendstream = function (e) {
+                            messageLabel.text= 'Please Wait, Uploading Photo '+(Math.floor(e.progress * 0.5*100)*2)+'% Complete';
+                        };
+                        Cloud.ondatastream = function (evt) {
+                            messageLabel.text = 'Please Wait, Uploading Photo '+(Math.floor(e.progress * 0.5*100) + 0.5)*2+'% Complete';
+                        };
+                        var cropRect = event.cropRect;
+                        var image = event.media;
+ 
+                        Ti.API.debug('Our type was: ' + event.mediaType);
+                        if(event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
+                            Cloud.Photos.create({
+                                photo : event.media
+                            }, function(e) {
+                                Cloud.onsendstream = Cloud.ondatastream = null;
+                                if(e.success) {
+                                    var photo = e.photos[0];
+                                    messageView.hide();
+                                    //alert('Success:\\n' + 'id: ' + photo.id + '\\n' + 'filename: ' + photo.filename + '\\n' + 'size: ' + photo.size, 'updated_at: ' + photo.updated_at);
+                                } else {
+                                    alert('Error:\\n' + ((e.error && e.message) || JSON.stringify(e)));
+                                }
+                            });
+                            //
+                            //messageWin.close({opacity:0,duration:500});
+                        } else {
+                            alert("got the wrong type back =" + event.mediaType);
+                        }
+                    },
+                    cancel : function() {
+                    },
+                    error : function(error) {
+                        // create alert
+                        var a = Titanium.UI.createAlertDialog({
+                            title : 'Camera'
+                        });
+ 
+                        // set message
+                        if(error.code == Titanium.Media.NO_CAMERA) {
+                            a.setMessage('Please run this test on device');
+                        } else {
+                            a.setMessage('Unexpected error: ' + error.code);
+                        }
+ 
+                        // show alert
+                        a.show();
+                    },
+                    saveToPhotoGallery : true,
+                    allowEditing : true,
+                    mediaTypes : [Ti.Media.MEDIA_TYPE_VIDEO, Ti.Media.MEDIA_TYPE_PHOTO]
+                });
+            }
+        });
+ 
+    });

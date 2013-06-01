@@ -106,18 +106,49 @@ exports.getVoting = function(_dish, _callback) {
 	_callback(bar);
 }
 
-exports.postComment = function(_params, _callback) {
-	_params.user_id = mensa_userid;
-	Cloud.Objects.create({
-		acl_id : mensa_aclid,
-		classname : 'mensa',
-		fields : _params
-	}, function(e) {
-		if (e.success) {
-			alert('Kommmentar erfolgreich gespeichert.');
-		} else {
+exports.postComment = function(_argc) {
+	function postPhoto(_argc) {
+		if (!_argc.post.photoif && _argc.onsuccess && typeof (_argc.onsuccess) == 'function')
+			_argc.onsuccess(null);
+		Cloud.Photos.create({
+			photo : _argc.post.photo
+		}, function(e) {
 			console.log(e);
+			Cloud.onsendstream = Cloud.ondatastream = null;
+			if (e.success) {
+				var photo = e.photos[0];
+				if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
+					_argc.onsuccess(photo);
+			} else {
+				if (_argc.onerror && typeof (_argc.onerror) == 'function')
+					_argc.onerror(null);
+			}
+		});
+	};
+	// Code start:
+	var post = _argc.post;
+	postPhoto({
+		post : post,
+		onerror : function() {
+		},
+		onsuccess : function(_photo) {
+			if (_photo != null)
+				post.photo = _photo;
+			post.user_id = mensa_userid;
+			Cloud.Objects.create({
+				acl_id : mensa_aclid,
+				classname : 'mensa',
+				fields : post
+			}, function(e) {
+				if (e.success) {
+					if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
+						_argc.onsuccess();
+				} else {
+					if (_argc.onerror && typeof (_argc.onerror) == 'function')
+						_argc.onerror();
+					_argc.onerror();
+				}
+			});
 		}
-		_callback();
 	});
 };
