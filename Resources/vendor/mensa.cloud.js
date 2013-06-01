@@ -105,20 +105,21 @@ exports.getVoting = function(_dish, _callback) {
 		bar = 2;
 	_callback(bar);
 }
-
+/* POSTING OF COMMENT AND PHOTO */
 exports.postComment = function(_argc) {
 	function postPhoto(_argc) {
-		if (!_argc.post.photoif && _argc.onsuccess && typeof (_argc.onsuccess) == 'function')
+		if (!_argc.post.photo && _argc.onsuccess && typeof (_argc.onsuccess) == 'function') {
 			_argc.onsuccess(null);
+			return
+		}
 		Cloud.Photos.create({
-			photo : _argc.post.photo
+			photo : _argc.post.photo,
+			acl_id : mensa_aclid
 		}, function(e) {
-			console.log(e);
 			Cloud.onsendstream = Cloud.ondatastream = null;
 			if (e.success) {
-				var photo = e.photos[0];
 				if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
-					_argc.onsuccess(photo);
+					_argc.onsuccess(e.photos[0]);
 			} else {
 				if (_argc.onerror && typeof (_argc.onerror) == 'function')
 					_argc.onerror(null);
@@ -135,6 +136,7 @@ exports.postComment = function(_argc) {
 			if (_photo != null)
 				post.photo = _photo;
 			post.user_id = mensa_userid;
+			console.log(post);
 			Cloud.Objects.create({
 				acl_id : mensa_aclid,
 				classname : 'mensa',

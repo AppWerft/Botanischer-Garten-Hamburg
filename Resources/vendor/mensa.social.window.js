@@ -30,15 +30,17 @@ exports.create = function(_title, _latlon) {
 		top : 0,
 		bottom : 0
 	}));
-	self.icon = Ti.UI.createImageView({
+	self.photoview = Ti.UI.createImageView({
 		height : BUTTSIZE * 5,
-		width : BUTTSIZE * 5,
+		width : Ti.UI.FILL,
 		bottom : Ti.UI.CONF.padding,
 		borderColor : 'silver',
 		borderWidth : 1,
 		borderradius : 5,
-		defaultImage : '/assets/camera.png',
+		image : '/assets/camera.png',
 		left : Ti.UI.CONF.padding,
+		right : Ti.UI.CONF.padding,
+		borderRadius : 7
 	});
 	self.comment = Ti.UI.createTextArea({
 		borderWidth : 2,
@@ -71,6 +73,7 @@ exports.create = function(_title, _latlon) {
 			fontWeight : 'bold'
 		},
 		borderRadius : 10,
+		bubbleParent : false,
 		width : BUTTSIZE * 1.4,
 		height : BUTTSIZE,
 		right : Ti.UI.CONF.padding,
@@ -78,7 +81,7 @@ exports.create = function(_title, _latlon) {
 	self.add(self.container);
 	self.container.add(self.comment);
 	self.container.add(self.slider);
-	self.add(self.icon);
+	self.add(self.photoview);
 	/*self.container.add(Ti.UI.createLabel({
 	 text : 'Bitte beachte die Persönlichkeitsrechte der Mitesser. Nur das Essen ist gemeinfrei.',
 	 height : Ti.UI.SIZE,
@@ -92,31 +95,59 @@ exports.create = function(_title, _latlon) {
 	 }));*/
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
+		if (self.button.getOpacity != 1)
+			return;
+		self.photoview.animate({
+			duration : 2500,
+			bottom : 400,
+			transform : Ti.UI.create2DMatrix({
+				scale : 0.1,
+				rotate : 180
+			}),
+			opacity : 0.1
+		});
 		require('vendor/mensa.cloud').postComment({
 			post : {
 				vote : parseInt(self.slider.value),
 				comment : self.comment.value || '',
 				dish : _title,
-				photo : (self.icon.newphoto) ? self.photo : null
+				photo : (self.photoview.newphoto) ? self.photo : null
 			},
 			onsuccess : function() {
 				self.button.show();
+				self.photoview.setBottom(Ti.UI.CONF.padding);
+				self.photoview.setOpacity(1);
+				self.photoview.setTransform(Ti.UI.create2DMatrix({
+					scale : 1,
+					rotate : 0
+				}));
 			}
 		});
 		self.button.hide();
 	});
-	self.icon.addEventListener('click', function() {
+	self.photoview.addEventListener('click', function() {
 		Ti.Media.showCamera({
 			allowEditing : true,
 			autohide : true,
 			mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 			showControls : true,
 			success : function(_e) {
-				self.icon.setImage(_e.media);
-				self.icon.newphoto = true;
-				// show
+				self.photoview.setImage(_e.media);
+				self.photoview.newphoto = true;
 				self.photo = _e.media;
-				// save
+			},
+			error : function() {
+				Ti.Media.openPhotoGallery({
+					success : function(_e) {
+						self.photoview.setImage(_e.media);
+						self.photoview.newphoto = true;
+						self.photo = _e.media;
+						Ti.Media.hideCamera();
+					},
+					saveToPhotoGallery : false,
+					allowEditing : true,
+					mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
+				});
 			}
 		})
 	});

@@ -40,7 +40,7 @@ exports.create = function(_options, _parent) {
 				top : 0,
 				width : 60,
 				height : 60,
-				image : 'assets/' + _options.standort + '.png'
+				image : '/assets/' + _options.standort + '.png'
 			}));
 	}
 	self.addEventListener('click', function(_e) {console.log(_options);
