@@ -95,8 +95,7 @@ exports.create = function(_title, _latlon) {
 	 }));*/
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
-		if (self.button.getOpacity != 1)
-			return;
+		self.button.hide();
 		self.photoview.animate({
 			duration : 2500,
 			bottom : 400,
@@ -111,7 +110,7 @@ exports.create = function(_title, _latlon) {
 				vote : parseInt(self.slider.value),
 				comment : self.comment.value || '',
 				dish : _title,
-				photo : (self.photoview.newphoto) ? self.photo : null
+				photo : (self.photoview.newphoto) ? self.photoview.toImage() : null
 			},
 			onsuccess : function() {
 				self.button.show();
@@ -121,9 +120,10 @@ exports.create = function(_title, _latlon) {
 					scale : 1,
 					rotate : 0
 				}));
+				self.photoview.newphoto = false;
 			}
 		});
-		self.button.hide();
+
 	});
 	self.photoview.addEventListener('click', function() {
 		Ti.Media.showCamera({

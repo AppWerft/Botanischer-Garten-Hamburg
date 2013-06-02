@@ -1,6 +1,7 @@
 var Cloud = require('ti.cloud');
 var mensa_userid, mensa_aclid, user_name = 'mu_' + Ti.Platform.id;
 const USER = 'mensa_userid', PW = 'qwertz';
+const TABLE = 'mensa';
 
 var createUser = function(_args, _callback) {
 	if (!Ti.App.Properties.hasProperty(USER)) {
@@ -67,7 +68,7 @@ createUser({}, function() {
 /// Functional modules
 exports.getDataByUserAndDish = function(_dish, _callback) {
 	Cloud.Objects.query({
-		classname : 'mensa',
+		classname : TABLE,
 		where : {
 			user_id : mensa_userid,
 			dish : _dish
@@ -83,7 +84,7 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 }
 exports.getVoting4Dish = function(_dish, _callback) {
 	Cloud.Objects.query({
-		classname : 'mensa',
+		classname : TABLE,
 		where : {
 			dish : _dish
 		}
@@ -109,14 +110,17 @@ exports.getVoting = function(_dish, _callback) {
 exports.postComment = function(_argc) {
 	function postPhoto(_argc) {
 		if (!_argc.post.photo && _argc.onsuccess && typeof (_argc.onsuccess) == 'function') {
+			console.log('no Photo to post');
 			_argc.onsuccess(null);
-			return
+			return;
 		}
+		console.log(_argc.post.photo);
 		Cloud.Photos.create({
 			photo : _argc.post.photo,
 			acl_id : mensa_aclid
 		}, function(e) {
 			Cloud.onsendstream = Cloud.ondatastream = null;
+			console.log(e);
 			if (e.success) {
 				if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
 					_argc.onsuccess(e.photos[0]);
@@ -127,19 +131,21 @@ exports.postComment = function(_argc) {
 		});
 	};
 	// Code start:
+	console.log('POSTING start');
 	var post = _argc.post;
 	postPhoto({
 		post : post,
 		onerror : function() {
 		},
 		onsuccess : function(_photo) {
+			console.log('onsuccess in postPhoto');
+			console.log(_photo);
 			if (_photo != null)
 				post.photo = _photo;
 			post.user_id = mensa_userid;
-			console.log(post);
 			Cloud.Objects.create({
 				acl_id : mensa_aclid,
-				classname : 'mensa',
+				classname : TABLE,
 				fields : post
 			}, function(e) {
 				if (e.success) {
