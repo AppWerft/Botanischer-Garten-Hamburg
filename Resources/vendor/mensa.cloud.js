@@ -20,7 +20,7 @@ var createUser = function(_args, _callback) {
 				if (e.error && e.message) {
 					console.log('Error :' + e.message);
 				}
-			}
+			} 
 		});
 	} else {
 		mensa_userid = Ti.App.Properties.getString(USER);
@@ -107,32 +107,32 @@ exports.getVoting = function(_dish, _callback) {
 	_callback(bar);
 }
 /* POSTING OF COMMENT AND PHOTO */
-exports.postComment = function(_argc) {
-	function postPhoto(_argc) {
-		if (!_argc.post.photo && _argc.onsuccess && typeof (_argc.onsuccess) == 'function') {
+exports.postComment = function(_args) {
+	function postPhoto(_args) {
+		if (!_args.post.photo && _args.onsuccess && typeof (_args.onsuccess) == 'function') {
 			console.log('no Photo to post');
-			_argc.onsuccess(null);
+			_args.onsuccess(null);
 			return;
 		}
-		console.log(_argc.post.photo);
+		console.log(_args.post.photo);
 		Cloud.Photos.create({
-			photo : _argc.post.photo,
+			photo : _args.post.photo,
 			acl_id : mensa_aclid
 		}, function(e) {
 			Cloud.onsendstream = Cloud.ondatastream = null;
 			console.log(e);
 			if (e.success) {
-				if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
-					_argc.onsuccess(e.photos[0]);
+				if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
+					_args.onsuccess(e.photos[0]);
 			} else {
-				if (_argc.onerror && typeof (_argc.onerror) == 'function')
-					_argc.onerror(null);
+				if (_args.onerror && typeof (_args.onerror) == 'function')
+					_args.onerror(null);
 			}
 		});
 	};
 	// Code start:
 	console.log('POSTING start');
-	var post = _argc.post;
+	var post = _args.post;
 	postPhoto({
 		post : post,
 		onerror : function() {
@@ -149,12 +149,12 @@ exports.postComment = function(_argc) {
 				fields : post
 			}, function(e) {
 				if (e.success) {
-					if (_argc.onsuccess && typeof (_argc.onsuccess) == 'function')
-						_argc.onsuccess();
+					if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
+						_args.onsuccess();
 				} else {
-					if (_argc.onerror && typeof (_argc.onerror) == 'function')
-						_argc.onerror();
-					_argc.onerror();
+					if (_args.onerror && typeof (_args.onerror) == 'function')
+						_args.onerror();
+					_args.onerror();
 				}
 			});
 		}
