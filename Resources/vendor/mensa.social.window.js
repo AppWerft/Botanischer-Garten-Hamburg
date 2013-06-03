@@ -4,10 +4,14 @@ exports.create = function(_title, _latlon) {
 	var dataid = undefined;
 	self.backgroundColor = 'white';
 	self.actind.show();
-	require('vendor/mensa.cloud').getDataByUserAndDish(_title, function(_data) {;
+	require('vendor/mensa.cloud').getDataByUserAndDish(_title, function(_data) {
 		if (_data) {
+			self.id = _data.id;
+			console.log(_data);
 			self.slider.setValue(_data.vote);
 			self.comment.setValue(_data.comment);
+			self.photoview.setImage(_data.photo_url);
+		} else {/* neues Ding */
 		}
 		if (self.actind)
 			self.actind.hide();
@@ -107,13 +111,16 @@ exports.create = function(_title, _latlon) {
 				opacity : 0.01
 			});
 		}
+		var scaledphoto = self.photoview.getImage();
+		self.backgroundImage = scaledphoto;
 		require('vendor/mensa.cloud').postComment({
 			post : {
 				vote : parseInt(self.slider.value),
 				comment : self.comment.value || '',
 				dish : _title,
-				photo : (self.photoview.newphoto) ? self.photoview.toImage() : null
+				photo : (self.photoview.newphoto) ? scaledphoto : null
 			},
+			id : (self.id) ? self.id : null,
 			onsuccess : function() {
 				self.button.show();
 				self.photoview.setBottom(Ti.UI.CONF.padding);

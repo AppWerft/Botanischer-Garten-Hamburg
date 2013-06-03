@@ -20,7 +20,7 @@ var createUser = function(_args, _callback) {
 				if (e.error && e.message) {
 					console.log('Error :' + e.message);
 				}
-			} 
+			}
 		});
 	} else {
 		mensa_userid = Ti.App.Properties.getString(USER);
@@ -74,14 +74,35 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 			dish : _dish
 		}
 	}, function(e) {
-		if (e.success) {
+		if (e.success && e.meta.total_results) {
 			console.log('===getDataByUserAndDish======');
-			console.log(e);
-			_callback((e.meta.total_results) ? e.mensa[0] : null);
-		} else
+			if (!e.mensa[0].photo) {// without photo
+				_callback(e.mensa[0])
+			} else {// width phoro
+				if (!e.mensa[0].photo_url) {// proccessed ?
+					Cloud.Photos.show({
+						photo_id : e.mensa[0].photo.id
+					}, function(_e) {
+						console.log('====callback of PHOTO.SHOW====');
+						if (_e.success && _e.photos) {
+							console.log(_e.photos[0]);
+							e.mensa[0].photo_url = _e.photos[0].urls.original;
+							_callback(e.mensa[0])
+						} else {
+							console.log(_e)
+						}
+					});
+				}
+				console.log('===comment with photo found found======');
+				_callback(e.mensa[0])
+			};
+		} else {
+			console.log('===nothing found======');
 			_callback(null);
+		}
 	});
 }
+
 exports.getVoting4Dish = function(_dish, _callback) {
 	Cloud.Objects.query({
 		classname : TABLE,
@@ -120,6 +141,7 @@ exports.postComment = function(_args) {
 			acl_id : mensa_aclid
 		}, function(e) {
 			Cloud.onsendstream = Cloud.ondatastream = null;
+			console.log('===create Photo======');
 			console.log(e);
 			if (e.success) {
 				if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
@@ -132,7 +154,7 @@ exports.postComment = function(_args) {
 	};
 	// Code start:
 	console.log('POSTING start');
-	var post = _args.post;
+	var post = _args.post, id = _args.id;
 	postPhoto({
 		post : post,
 		onerror : function() {
@@ -143,20 +165,36 @@ exports.postComment = function(_args) {
 			if (_photo != null)
 				post.photo = _photo;
 			post.user_id = mensa_userid;
-			Cloud.Objects.create({
-				acl_id : mensa_aclid,
-				classname : TABLE,
-				fields : post
-			}, function(e) {
-				if (e.success) {
-					if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
-						_args.onsuccess();
-				} else {
-					if (_args.onerror && typeof (_args.onerror) == 'function')
-						_args.onerror();
-					_args.onerror();
-				}
-			});
+
+			if (id == null) {
+				Cloud.Objects.create({
+					acl_id : mensa_aclid,
+					classname : TABLE,
+					fields : post
+				}, function(e) {
+					if (e.success) {
+						if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
+							_args.onsuccess();
+					} else {
+						if (_args.onerror && typeof (_args.onerror) == 'function')
+							_args.onerror();
+					}
+				});
+			} else {
+				Cloud.Objects.update({
+					classname : TABLE,
+					id : id,
+					fields : post
+				}, function(_e) {
+					if (_e.success) {
+						if (_args.onsuccess && typeof (_args.onsuccess) == 'function')
+							_args.onsuccess();
+					} else {
+						if (_args.onerror && typeof (_args.onerror) == 'function')
+							_args.onerror();
+					}
+				});
+			}
 		}
-	});
+	})
 };
