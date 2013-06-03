@@ -111,27 +111,28 @@ exports.create = function(_title, _latlon) {
 				opacity : 0.01
 			});
 		}
-		var scaledphoto = self.photoview.getImage();
-		self.backgroundImage = scaledphoto;
-		require('vendor/mensa.cloud').postComment({
-			post : {
-				vote : parseInt(self.slider.value),
-				comment : self.comment.value || '',
-				dish : _title,
-				photo : (self.photoview.newphoto) ? scaledphoto : null
-			},
-			id : (self.id) ? self.id : null,
-			onsuccess : function() {
-				self.button.show();
-				self.photoview.setBottom(Ti.UI.CONF.padding);
-				self.photoview.setOpacity(1);
-				self.photoview.setTransform(Ti.UI.create2DMatrix({
-					scale : 1,
-					rotate : 0
-				}));
-				self.photoview.newphoto = false;
-			}
+		var scaledphoto = self.photoview.toImage(function(_photo) {
+			require('vendor/mensa.cloud').postComment({
+				post : {
+					vote : parseInt(self.slider.value),
+					comment : self.comment.value || '',
+					dish : _title,
+					photo : (self.photoview.newphoto) ? _photo : null
+				},
+				id : (self.id) ? self.id : null,
+				onsuccess : function() {
+					self.button.show();
+					self.photoview.setBottom(Ti.UI.CONF.padding);
+					self.photoview.setOpacity(1);
+					self.photoview.setTransform(Ti.UI.create2DMatrix({
+						scale : 1,
+						rotate : 0
+					}));
+					self.photoview.newphoto = false;
+				}
+			});
 		});
+
 	});
 	self.photoview.addEventListener('click', function() {
 		Ti.Media.showCamera({
