@@ -44,6 +44,8 @@
         <module platform="iphone">me.izen.tabbar</module>
         <module platform="iphone">netfunctional.mapoverlay</module>
         <module platform="iphone">ag.calendar</module>
+        <module platform="iphone">ti.imagefactory</module>
+        <module platform="android">ti.imagefactory</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

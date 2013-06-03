@@ -131,11 +131,11 @@ exports.getVoting = function(_dish, _callback) {
 exports.postComment = function(_args) {
 	function postPhoto(_args) {
 		if (!_args.post.photo && _args.onsuccess && typeof (_args.onsuccess) == 'function') {
-			console.log('no Photo to post');
 			_args.onsuccess(null);
 			return;
 		}
 		console.log(_args.post.photo);
+		console.log( typeof _args.post.photo);
 		Cloud.Photos.create({
 			photo : _args.post.photo,
 			acl_id : mensa_aclid

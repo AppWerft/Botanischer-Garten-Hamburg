@@ -2,6 +2,7 @@ exports.create = function(_title, _latlon) {
 	var self = require('module/win').create(_title, true);
 	const BUTTSIZE = 40;
 	var dataid = undefined;
+	var ImageFactory = require('ti.imagefactory');
 	self.backgroundColor = 'white';
 	self.actind.show();
 	require('vendor/mensa.cloud').getDataByUserAndDish(_title, function(_data) {
@@ -100,7 +101,7 @@ exports.create = function(_title, _latlon) {
 	/* Events */
 	self.button.addEventListener('click', function(_e) {
 		self.button.hide();
-		if (self.photoview.newphoto) {
+		if (self.photo) {
 			self.photoview.animate({
 				duration : 4500,
 				bottom : 400,
@@ -111,26 +112,39 @@ exports.create = function(_title, _latlon) {
 				opacity : 0.01
 			});
 		}
-		var scaledphoto = self.photoview.toImage(function(_photo) {
-			require('vendor/mensa.cloud').postComment({
-				post : {
-					vote : parseInt(self.slider.value),
-					comment : self.comment.value || '',
-					dish : _title,
-					photo : (self.photoview.newphoto) ? _photo : null
-				},
-				id : (self.id) ? self.id : null,
-				onsuccess : function() {
-					self.button.show();
-					self.photoview.setBottom(Ti.UI.CONF.padding);
-					self.photoview.setOpacity(1);
-					self.photoview.setTransform(Ti.UI.create2DMatrix({
-						scale : 1,
-						rotate : 0
-					}));
-					self.photoview.newphoto = false;
-				}
-			});
+
+		require('vendor/mensa.cloud').postComment({
+			post : {
+				vote : parseInt(self.slider.value),
+				comment : self.comment.value || '',
+				dish : _title,
+				photo : (self.photo) ? ImageFactory.imageAsResized(self.photo, {
+					width : 320,
+					height : 320,
+					quality : ImageFactory.QUALITY_MEDIUM
+				}) : null
+			},
+			id : (self.id) ? self.id : null,
+			onsuccess : function() {
+				self.button.show();
+				self.photoview.setBottom(Ti.UI.CONF.padding);
+				self.photoview.setOpacity(1);
+				self.photoview.setTransform(Ti.UI.create2DMatrix({
+					scale : 1,
+					rotate : 0
+				}));
+				self.photo=null;
+			},
+			onerror : function() {
+				self.button.show();
+				self.photoview.setBottom(Ti.UI.CONF.padding);
+				self.photoview.setOpacity(1);
+				self.photoview.setTransform(Ti.UI.create2DMatrix({
+					scale : 1,
+					rotate : 0
+				}));
+				self.photo=null;
+			}
 		});
 
 	});
@@ -142,14 +156,13 @@ exports.create = function(_title, _latlon) {
 			showControls : true,
 			success : function(_e) {
 				self.photoview.setImage(_e.media);
-				self.photoview.newphoto = true;
 				self.photo = _e.media;
+				self.camerablob = _e.media;
 			},
 			error : function() {
 				Ti.Media.openPhotoGallery({
 					success : function(_e) {
 						self.photoview.setImage(_e.media);
-						self.photoview.newphoto = true;
 						self.photo = _e.media;
 						Ti.Media.hideCamera();
 					},
