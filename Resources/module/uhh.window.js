@@ -1,46 +1,29 @@
 exports.create = function() {
-	var self = require('module/win').create('UHH✦intern', true);
-	self.backgroundImage = 'Default.png';
-	self.rightButton = Ti.UI.createButton({
-		backgroundImage : '/assets/besteck.png',
-		width : 40,
-		height : 40
-	});
-	self.rightNavButton = self.rightButton;
-	self.tv = Ti.UI.createTableView({
-		backgroundColor : 'transparent'
-	});
-	self.add(self.tv);
-	var dialogView = require('uhhlogin/dialog').create();
-	dialogView.zIndex = 999;
-	self.addEventListener('focus', function() {
-		dialogView.show();
-	});
-	self.addEventListener('blur', function() {
-		dialogView.hide();
-	});
-	self.picker = require('module/mensa.picker').create(require('vendor/mensa.network').mensen, /*callback after changing*/
-	function(_data) {
-		if (self.picker)
-			self.picker.animate({
-				bottom : -280
-			});
-		self.tv.setData([]);
-		self.actind.setMessage('Erwarte Speiseplan …');
-		self.actind.show();
-		require('vendor/mensa.network').getMenue(_data.url, function(_menue) {
+	var mensa = {
+		title : 'Mensa Botanischer Garten',
+		url : 'hamburg/mensa-botanischer-garten',
+		wus : 'hamburg',
+		latlon : '53.5582243,9.8602935'
+	};
+	updateTable = function() {
+		console.log('updateTable');
+		console.log(mensa);
+		self.setTitle(mensa.title);
+		require('vendor/mensa.network').getMenue(mensa.url, function(_menue) {
 			self.actind.hide();
 			if (!_menue) {
 				self.tv.setData([]);
 				return;
 			}
-			self.setTitle(_data.title);
+			self.setTitle(mensa.title);
 			var sections = [];
 			for (var m = 0; m < _menue.length; m++) {
 				sections.push(Ti.UI.createTableViewSection({
 					headerTitle : _menue[m].name
 				}));
 				for (var i = 0; i < _menue[m].items.length; i++) {
+					var name = _menue[m].items[i].text;
+
 					var row = Ti.UI.createTableViewRow({
 						height : Ti.UI.SIZE,
 						backgroundColor : 'white',
@@ -76,8 +59,9 @@ exports.create = function() {
 							fontFamily : 'TheSans-B7Bold'
 						},
 						height : Ti.UI.CONF.fontsize_title * 2.2,
-						text : _menue[m].items[i].text
+						text : name
 					}));
+
 					container.add(Ti.UI.createLabel({
 						width : Ti.UI.FILL,
 						top : 0,
@@ -109,14 +93,50 @@ exports.create = function() {
 							}))
 						}
 					});
-
+					row.add(require('vendor/gallery').create(name));
 					sections[m].add(row);
 				}
 			}
 			self.tv.setData(sections);
 		});
+	}
+	var self = require('module/win').create('UHH✦intern', true);
+
+	self.backgroundImage = 'Default.png';
+	self.rightButton = Ti.UI.createButton({
+		backgroundImage : '/assets/besteck.png',
+		width : 40,
+		height : 40
+	});
+	self.rightNavButton = self.rightButton;
+	self.tv = Ti.UI.createTableView({
+		backgroundColor : 'transparent'
+	});
+	self.add(self.tv);
+	var dialogView = require('uhhlogin/dialog').create();
+	dialogView.zIndex = 999;
+	self.addEventListener('focus', function() {
+		dialogView.show();
+	});
+	self.addEventListener('blur', function() {
+		dialogView.hide();
+	});
+	self.picker = require('module/mensa.picker').create(require('vendor/mensa.network').mensen, function(_data) {
+		mensa = _data;
+		console.log('CANTEEN changed by picker');
+		console.log(mensa);
+		if (self.picker)
+			self.picker.animate({
+				bottom : -280
+			});
+		self.tv.setData([]);
+		self.actind.setMessage('Erwarte Speiseplan …');
+		self.actind.show();
+		updateTable(mensa);
 	});
 	self.add(self.picker);
+
+	self.addEventListener('focus', updateTable)
 	self.tv.addEventListener('click', function(_e) {
 		self.tab.open(require('vendor/mensa.social.window').create(_e.rowData.data.title, _e.rowData.data.latlon));
 	});

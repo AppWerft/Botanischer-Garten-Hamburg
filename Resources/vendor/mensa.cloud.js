@@ -64,6 +64,24 @@ createUser({}, function() {
 });
 //// End of Cloud initialisation
 
+function getPhoto(_item, _callback) {
+	if (!_item.photo || !_item.photo.id)
+		return;
+	if (_item.photo_url)
+		_callback(_item)
+	else {// proccessed ?
+		Cloud.Photos.show({
+			photo_id : _item.photo.id
+		}, function(_e) {
+			if (_e.success && _e.photos) {
+				_item.photo_url = _e.photos[0].urls;
+				_callback(_item)
+			} else { console.log('ERROR: ');
+			}
+		});
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 /// Functional modules
 exports.getDataByUserAndDish = function(_dish, _callback) {
@@ -103,24 +121,26 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 	});
 }
 
-exports.getVoting4Dish = function(_dish, _callback) {
+exports.getDataByDishes = function(_dish, _callback) {
 	Cloud.Objects.query({
 		classname : TABLE,
 		where : {
 			dish : _dish
 		}
 	}, function(e) {
-		console.log(e);
-		if (e.success) {
+		if (e.success && e.meta.total_results) {
 			for (var i = 0; i < e.mensa.length; i++) {
-				var mensa = e.mensa[i];
-				_callback(mensa);
+				getPhoto(e.mensa[i], function(_item) {
+					_callback(_item.photo_url);
+				});
 			}
+
 		} else {
-			//alert('Error:\n' + ((e.error && e.message) || JSON.stringify(e)));
+			_callback(null);
 		}
 	});
 }
+
 exports.getVoting = function(_dish, _callback) {
 	var bar = parseInt(Ti.Utils.md5HexDigest(_dish).replace(/[\D]+/g, '').substr(0, 3)) % 7;
 	if (!bar)

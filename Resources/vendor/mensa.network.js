@@ -19,7 +19,10 @@ function parseRes(_foo) {
 }
 
 exports.getMenue = function(_mensa, _callback) {
+	if (!_mensa)
+		_mensa = 'hamburg/mensa-botanischer-garten';
 	var url = 'http://rss.imensa.de/' + _mensa + '/speiseplan.rss';
+	console.log(url);
 	var xhr = Ti.Network.createHTTPClient({
 		timeout : 20000,
 		onload : function() {

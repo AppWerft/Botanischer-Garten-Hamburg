@@ -16,7 +16,7 @@ exports.create = function(_title, _latlon) {
 		}
 		if (self.actind)
 			self.actind.hide();
-		self.add(self.button);
+
 	});
 	self.container = Ti.UI.createView({
 		layout : 'vertical',
@@ -70,19 +70,6 @@ exports.create = function(_title, _latlon) {
 		min : 0,
 	});
 
-	self.button = Ti.UI.createButton({
-		bottom : Ti.UI.CONF.padding,
-		backgroundImage : '/assets/cloud.png',
-		color : 'white',
-		font : {
-			fontWeight : 'bold'
-		},
-		borderRadius : 10,
-		bubbleParent : false,
-		width : BUTTSIZE * 1.4,
-		height : BUTTSIZE,
-		right : Ti.UI.CONF.padding,
-	});
 	self.add(self.container);
 	self.container.add(self.comment);
 	self.container.add(self.slider);
@@ -99,55 +86,7 @@ exports.create = function(_title, _latlon) {
 	 bottom : Ti.UI.CONF.padding
 	 }));*/
 	/* Events */
-	self.button.addEventListener('click', function(_e) {
-		self.button.hide();
-		if (self.photo) {
-			self.photoview.animate({
-				duration : 4500,
-				bottom : 400,
-				transform : Ti.UI.create2DMatrix({
-					scale : 0.05,
-					rotate : 90
-				}),
-				opacity : 0.01
-			});
-		}
 
-		require('vendor/mensa.cloud').postComment({
-			post : {
-				vote : parseInt(self.slider.value),
-				comment : self.comment.value || '',
-				dish : _title,
-				photo : (self.photo) ? ImageFactory.imageAsResized(self.photo, {
-					width : 320,
-					height : 320,
-					quality : ImageFactory.QUALITY_MEDIUM
-				}) : null
-			},
-			id : (self.id) ? self.id : null,
-			onsuccess : function() {
-				self.button.show();
-				self.photoview.setBottom(Ti.UI.CONF.padding);
-				self.photoview.setOpacity(1);
-				self.photoview.setTransform(Ti.UI.create2DMatrix({
-					scale : 1,
-					rotate : 0
-				}));
-				self.photo=null;
-			},
-			onerror : function() {
-				self.button.show();
-				self.photoview.setBottom(Ti.UI.CONF.padding);
-				self.photoview.setOpacity(1);
-				self.photoview.setTransform(Ti.UI.create2DMatrix({
-					scale : 1,
-					rotate : 0
-				}));
-				self.photo=null;
-			}
-		});
-
-	});
 	self.photoview.addEventListener('click', function() {
 		Ti.Media.showCamera({
 			allowEditing : true,
@@ -155,9 +94,48 @@ exports.create = function(_title, _latlon) {
 			mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 			showControls : true,
 			success : function(_e) {
-				self.photoview.setImage(_e.media);
 				self.photo = _e.media;
-				self.camerablob = _e.media;
+				self.photoview.setImage(self.photo);
+				self.photoview.animate({
+					duration : 4500,
+					bottom : 400,
+					transform : Ti.UI.create2DMatrix({
+						scale : 0.05,
+						rotate : 10
+					}),
+					opacity : 0.01
+				});
+				require('vendor/mensa.cloud').postComment({
+					post : {
+						vote : parseInt(self.slider.value),
+						comment : self.comment.value || '',
+						dish : _title,
+						photo : (self.photo) ? ImageFactory.imageAsResized(self.photo, {
+							width : 320,
+							height : 320,
+							quality : ImageFactory.QUALITY_MEDIUM
+						}) : null
+					},
+					id : (self.id) ? self.id : null,
+					onsuccess : function() {
+						self.photoview.setBottom(Ti.UI.CONF.padding);
+						self.photoview.setOpacity(1);
+						self.photoview.setTransform(Ti.UI.create2DMatrix({
+							scale : 1,
+							rotate : 0
+						}));
+						self.photo = null;
+					},
+					onerror : function() {
+						self.photoview.setBottom(Ti.UI.CONF.padding);
+						self.photoview.setOpacity(1);
+						self.photoview.setTransform(Ti.UI.create2DMatrix({
+							scale : 1,
+							rotate : 0
+						}));
+						self.photo = null;
+					}
+				});
 			},
 			error : function() {
 				Ti.Media.openPhotoGallery({
@@ -167,7 +145,7 @@ exports.create = function(_title, _latlon) {
 						Ti.Media.hideCamera();
 					},
 					saveToPhotoGallery : false,
-					allowEditing : true,
+					allowEditing : false,
 					mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 				});
 			}
