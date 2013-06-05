@@ -19,6 +19,7 @@ exports.create = function(_name) {
 				height : Ti.UI.FILL,
 				width : 75,
 				image : _images.square_75,
+				bigimage : _images.original,
 				borderRadius : 7,
 				left : 1,
 				right : 1

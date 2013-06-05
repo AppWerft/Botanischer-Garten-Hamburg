@@ -76,7 +76,8 @@ function getPhoto(_item, _callback) {
 			if (_e.success && _e.photos) {
 				_item.photo_url = _e.photos[0].urls;
 				_callback(_item)
-			} else { console.log('ERROR: ');
+			} else {
+				console.log('ERROR: ');
 			}
 		});
 	}
@@ -94,25 +95,11 @@ exports.getDataByUserAndDish = function(_dish, _callback) {
 	}, function(e) {
 		if (e.success && e.meta.total_results) {
 			console.log('===getDataByUserAndDish======');
-			if (!e.mensa[0].photo) {// without photo
-				_callback(e.mensa[0])
-			} else {// width phoro
-				if (!e.mensa[0].photo_url) {// proccessed ?
-					Cloud.Photos.show({
-						photo_id : e.mensa[0].photo.id
-					}, function(_e) {
-						console.log('====callback of PHOTO.SHOW====');
-						if (_e.success && _e.photos) {
-							console.log(_e.photos[0]);
-							e.mensa[0].photo_url = _e.photos[0].urls.original;
-							_callback(e.mensa[0])
-						} else {
-							console.log(_e)
-						}
-					});
-				}
-				console.log('===comment with photo found found======');
-				_callback(e.mensa[0])
+			var item = e.mensa[0];
+			if (!item.photo) {// without photo
+				_callback(item)
+			} else {
+				getPhoto(item, _callback);
 			};
 		} else {
 			console.log('===nothing found======');
