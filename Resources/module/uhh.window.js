@@ -6,8 +6,6 @@ exports.create = function() {
 		latlon : '53.5582243,9.8602935'
 	};
 	updateTable = function() {
-		console.log('updateTable');
-		console.log(mensa);
 		self.setTitle(mensa.title);
 		require('vendor/mensa.network').getMenue(mensa.url, function(_menue) {
 			self.actind.hide();
@@ -29,7 +27,6 @@ exports.create = function() {
 		});
 	}
 	var self = require('module/win').create('UHH✦intern', true);
-
 	self.backgroundImage = 'Default.png';
 	self.rightButton = Ti.UI.createButton({
 		backgroundImage : '/assets/besteck.png',
@@ -43,12 +40,9 @@ exports.create = function() {
 	self.add(self.tv);
 	var dialogView = require('uhhlogin/dialog').create();
 	dialogView.zIndex = 999;
-
 	self.picker = require('module/mensa.picker').create(require('vendor/mensa.network').mensen, function(_data) {
 		Ti.App.Properties.setString('mensa', JSON.stringify(_data));
 		mensa = _data;
-		console.log('CANTEEN changed by picker');
-		console.log(mensa);
 		if (self.picker)
 			self.picker.animate({
 				bottom : -280
@@ -59,18 +53,39 @@ exports.create = function() {
 		updateTable(mensa);
 	});
 	self.add(self.picker);
-
 	self.addEventListener('focus', updateTable)
-
 	self.tv.addEventListener('click', function(_e) {
 		if (_e.source.bigimage) {
 			var bigimage = Ti.UI.createImageView({
 				width : Ti.UI.FILL,
+				transform : Ti.UI.create2DMatrix({
+					scale : 0.01
+				}),
 				image : _e.source.bigimage
 			});
+			bigimage.animate({
+				transform : Ti.UI.create2DMatrix({
+					scale : 1.1,
+					duration : 1500
+				}, function() {
+					bigimage.animate({
+						transform : Ti.UI.create2DMatrix({
+							scale : 1,
+							duration : 5000
+						})
+					})
+				})
+			});
 			bigimage.addEventListener('click', function() {
-				self.remove(bigimage);
-				bigimage = null;
+				bigimage.animate({
+					transform : Ti.UI.create2DMatrix({
+						scale : 0.01
+					})
+				}, function() {
+					self.remove(bigimage);
+					bigimage = null;
+				});
+
 			});
 			self.add(bigimage);
 		} else {

@@ -8,29 +8,34 @@ exports.getAreas = function() {
 }
 
 exports.getAll = function() {
-	return;
 	if (!link)
 		link = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = link.execute('SELECT * FROM flora ORDER BY id');
+	function saveQR(latin) {
+		var qrfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'qr', latin + '.png');
+		if (qrfile.exists())
+			return;
+		var xhr = Ti.Network.createHTTPClient({
+			onerror : function() {
+				console.log(this.status)
+			},
+			onload : function() {
+				qrfile.write(this.responseData);
+			}
+		});
+		var url = 'http://qrfree.kaywa.com/?l=1&s=14&d=' + encodeURI('lsghh://'+latin); 
+		console.log(url);
+		xhr.open('GET', url);
+		xhr.send(null);
+	}
+
+	var g = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'qr');
+	if (!g.exists()) {
+		g.createDirectory();
+	};
+	var resultSet = link.execute('SELECT DISTINCT gattung || "_" || art AS latin FROM flora');
 	while (resultSet.isValidRow()) {
-		var res = {
-			deutsch : resultSet.fieldByName('deutsch'),
-			familie : resultSet.fieldByName('familie'),
-			sorte : resultSet.fieldByName('sorte'),
-			art : resultSet.fieldByName('art'),
-			subart : resultSet.fieldByName('subart'),
-			id : resultSet.fieldByName('id'),
-			bereich : resultSet.fieldByName('bereich'),
-			unterbereich : resultSet.fieldByName('unterbereich'),
-			standort : resultSet.fieldByName('standort'),
-		};
-		var select = link.execute('SELECT total FROM flora2 WHERE id=?', res.id);
-		if (!select.isValidRow()) {
-			link.execute('INSERT INTO flora2 VALUES (total=0,id=?,deutsch=?,familie=?,sorte=?,art=?,subart=?,bereich=?,unterbereich=?,standort=?)', res.id, res.deutsch, res.familie, res.sorte, res.art, res.subart, res.bereich, res.unterbereich, res.standort);
-		} else {
-			link.execute('UPDATE flora2 set total=? WHERE id=?', res.id, select.fieldByName('total') + 1);
-		}
-		//var resultSet = link.execute('SELECT * FROM flora WHERE standort <> "" ORDER BY id LIMIT 0,200');
+		var latin = resultSet.fieldByName('latin');
+		saveQR(latin);
 		resultSet.next();
 	}
 	resultSet.close();

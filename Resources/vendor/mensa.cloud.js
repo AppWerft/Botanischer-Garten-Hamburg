@@ -134,6 +134,8 @@ exports.getVoting = function(_dish, _callback) {
 		bar = 2;
 	_callback(bar);
 }
+
+
 /* POSTING OF COMMENT AND PHOTO */
 exports.postComment = function(_args) {
 	function postPhoto(_args) {
@@ -184,7 +186,7 @@ exports.postComment = function(_args) {
 							_args.onsuccess();
 					} else {
 						if (_args.onerror && typeof (_args.onerror) == 'function')
-							_args.onerror();
+							_args.onerror();else console.log('no callback');
 					}
 				});
 			} else {
