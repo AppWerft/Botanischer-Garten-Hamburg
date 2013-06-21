@@ -2,10 +2,11 @@ function _parseKML(_kmlstring) {
 	var xml2json = require('ti.xml2json');
 	var json = xml2json.convert(_kmlstring);
 	var polygones = json.kml.Document.Folder.Placemark;
-	var vertices = {}, regions = {};
+	var vertices = {}, regions = {}, points = {};
 	for (var i = 0; i < polygones.length; i++) {
 		var coords = polygones[i].Polygon.outerBoundaryIs.LinearRing.coordinates.text.split(' ');
 		vertices[polygones[i].name.text] = [];
+		points[polygones[i].name.text] = [];
 		regions[polygones[i].name.text] = {};
 		var sumlat = 0, sumlon = 0;
 		for (var c = 0; c < coords.length - 1; c++) {
@@ -13,6 +14,7 @@ function _parseKML(_kmlstring) {
 				latitude : parseFloat(coords[c].split(',')[1]),
 				longitude : parseFloat(coords[c].split(',')[0])
 			});
+			points[polygones[i].name.text].push([parseFloat(coords[c].split(',')[1]), parseFloat(coords[c].split(',')[0])]);
 			sumlat += parseFloat(coords[c].split(',')[1]);
 			sumlon += parseFloat(coords[c].split(',')[0]);
 		}
@@ -21,6 +23,7 @@ function _parseKML(_kmlstring) {
 	}
 	return {
 		areas : vertices,
+		points : points,
 		centers_of_areas : regions
 	}
 }
@@ -30,5 +33,6 @@ exports._parseKML = _parseKML;
 exports.getPolygonsFromLocalKML = function(filename) {
 	var kmlstring = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, filename).read().toString();
 	var res = _parseKML(kmlstring);
+	console.log(JSON.stringify(res.points));
 	return res;
 }
