@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <head>
-<meta charset="utf-8">
-<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false&language=de"></script>
-<script type="text/javascript" src="app.js"></script><script type="text/javascript" src="polygonEdit.js"></script>
-<style>
-	* {padding:0;margin:0;font-family:Trebuchet MS, Arial,Helvetica}
-	#map {width:100%;  min-height: 100%; overflow: hidden !important; background:#ccc; padding:0; border:none;}
-	#display   {position:absolute;z-index:99999;right:10px;top:10px;padding:10px;background-color:black;opacity:0.8}
-	#display p {background-color:'#333';color:white}
-</style>
+	<meta charset="utf-8">
+	<script type="text/javascript" charset="utf-8" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&sensor=false&language=de"></script>
+	<script type="text/javascript" src="app.js"></script>
+	<script type="text/javascript" src="polygonEdit.js"></script>
+	<link rel="stylesheet" href="css/app.css" />
 </head>
 <body>
-<div id="map"></div><div id="display"></div>
+	<div id="map"></div>
+	<div id="display">
+		<p id="newpolygone">
+			+++ Neue Fläche
+		</p>
+	</div>
 </body>
 </html>

@@ -9,7 +9,7 @@ Map.prototype.create = function() {
 	this.activearea = null;
 	this.locked = false;
 	// for picker.
-	this.bereiche = require('module/botanicgarden.model').getBereiche();
+	this.bereiche = Ti.App.botgartenModel.getBereiche();
 	this.overlays_passive = {}, this.overlays_active = {};
 	var pickerButton = Ti.UI.createButton({
 		width : 50,

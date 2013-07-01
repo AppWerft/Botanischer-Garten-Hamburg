@@ -1,4 +1,4 @@
-exports.create = function(_ordnung) {
+exports.create = function() {
 	var self = require('module/win').create('Übersicht');
 	var rightButton = Ti.UI.createButton({
 		width : 42,
@@ -12,7 +12,7 @@ exports.create = function(_ordnung) {
 	});
 	self.rightNavButton = rightButton;
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
-	var ordnungen = require('module/botanicgarden.model').getFamilien(_ordnung);
+	var ordnungen = require('module/botanicgarden.model').getFamilien();
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
