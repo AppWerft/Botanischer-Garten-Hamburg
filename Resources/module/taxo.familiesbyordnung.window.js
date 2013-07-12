@@ -2,7 +2,7 @@ exports.create = function(_ordnung) {
 	var self = require('module/win').create(_ordnung);
 	var taxonomysections = [];
 
-	var familien = require('module/botanicgarden.model').getFamilienByOrdnung(_ordnung);
+	var familien = Ti.App.LokiModel.getFamilienByOrdnung(_ordnung);
 	console.log(familien);
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,

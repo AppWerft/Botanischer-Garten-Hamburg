@@ -12,7 +12,7 @@ exports.create = function() {
 	});
 	self.rightNavButton = rightButton;
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
-	var ordnungen = require('module/botanicgarden.model').getFamilien();
+	var ordnungen = Ti.App.LokiModel.getFamilien();
 	var template = {
 		widthdetail : require('module/TEMPLATES').activefamilyrow,
 		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
@@ -93,7 +93,7 @@ exports.create = function() {
 		timer = setTimeout(function() {
 			search.blur();
 		}, 10000);
-		var results = require('module/botanicgarden.model').search({
+		var results = Ti.App.LokiModel.search({
 			needle : _e.value,
 			limit : [0, 500]
 		});

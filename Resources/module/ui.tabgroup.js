@@ -14,11 +14,15 @@ exports.create = function() {
 		bottom : -50
 	});
 	tabGroup.open();
-	var Maptab = require('module/pickermap.window');
+	var Map_Module = require('module/lokimap.window');
+	var LokiMap = new Map_Module();
+	console.log(LokiMap);
+	console.log(LokiMap.createWindow());
+	
 	var mapTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
 		title : 'Übersicht',
-		window : new Maptab()
+		window : LokiMap.createWindow()
 	});
 	tabGroup.addTab(mapTab);
 

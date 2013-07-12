@@ -1,8 +1,8 @@
 exports.create = function(_bereich) {
 	var self = require('module/win').create(_bereich);
 	var plantsTemplate = require('module/TEMPLATES').plantrow;setTimeout(function(){
-	var section = undefined;;
-	require('module/botanicgarden.model').getArtenByBereich(_bereich, function(_items) {
+	var section = undefined;
+	Ti.App.LokiModel.getArtenByBereich(_bereich, function(_items) {
 		var data = [];
 		for (var i = 0; i < _items.length; i++) {
 			data.push({

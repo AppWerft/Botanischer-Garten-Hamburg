@@ -25,6 +25,7 @@
     <property name="ti.ui.defaultunit" type="string">system</property>
     <ios>
         <min-ios-ver>4.3</min-ios-ver>
+        
     </ios>
     <iphone>
         <orientations device="iphone">

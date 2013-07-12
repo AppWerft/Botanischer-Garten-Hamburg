@@ -1,7 +1,7 @@
 exports.create = function(_list) {
 	var self = require('module/win').create('Gefundene Familien');
 	var taxonomysections = [];
-	var familien = require('module/botanicgarden.model').getFamilienByList(_list);
+	var familien = Ti.App.LokiModel.getFamilienByList(_list);
 	return self;
 }/*
 exports.create = function(_familie) {
@@ -9,10 +9,10 @@ exports.create = function(_familie) {
 	var plantsTemplate = require('module/TEMPLATES').plantrow;
 	setTimeout(function() {
 		var sections = [];
-		require('module/botanicgarden.model').getGattungenByFamilie(_familie, function(_results) {
+		Ti.App.LokiModel.getGattungenByFamilie(_familie, function(_results) {
 			for (var i = 0; i < _results.length; i++) {
 				var data = [];
-				require('module/botanicgarden.model').getArtenByGattung(_results[i], function(_items) {
+				Ti.App.LokiModel.getArtenByGattung(_results[i], function(_items) {
 					for (var a = 0; a < _items.length; a++) {
 						data.push({
 							deutsch : {

@@ -1,15 +1,53 @@
 var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql';
-var botgartenLink = Ti.Database.install(DBFILE, DBNAME);
-
 var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
-//http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
-exports.getAreas = function() {
-	return Areas;
+
+var LokiModel = function() {
+	this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
+	return this;
 }
 
-exports.getFamilien = function() {
+module.exports = LokiModel;
+
+//http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
+LokiModel.prototype.getAreas = function(_args) {
+	try {
+		if (Ti.App.Properties.hasProperty('areas')) {
+			_args(JSON.parse(Ti.App.Properties.getString('areas')))
+			return;
+		}
+	} catch (E) {
+	}
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			var foo = JSON.parse(this.responseText);
+			var bar = {};
+			var keys = [];
+			for (var key in foo) {
+				keys.push(key);
+				bar[key] = [];
+				for (var i = 0; i <foo[key].length; i++) {
+					bar[key].push({
+						latitude : foo[key][i][0],
+						longitude : foo[key][i][1]
+					});
+				}
+			}
+			var result = {
+				area_names : keys,
+				area_centers : [],
+				area_arrays : bar
+			};
+			Ti.App.Properties.setString('areas', result)
+			_args.onload(result)
+		}
+	});
+	xhr.open('GET', 'http://lab.min.uni-hamburg.de/botanischergarten/api/');
+	xhr.send(null);
+}
+
+LokiModel.prototype.getFamilien = function() {
 	var sql = 'SELECT DISTINCT familie, count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie';
-	var resultSet = botgartenLink.execute(sql);
+	var resultSet = this.lokiLink.execute(sql);
 	var families = {};
 	while (resultSet.isValidRow()) {
 		families[resultSet.fieldByName('familie')] = resultSet.fieldByName('total');
@@ -32,9 +70,9 @@ exports.getFamilien = function() {
 	return res;
 }
 
-exports.getGattungenByFamilie = function(_familie, _callback) {
+LokiModel.prototype.getGattungenByFamilie = function(_familie, _callback) {
 	var sql = 'SELECT DISTINCT gattung FROM flora WHERE familie="' + _familie + '" ORDER BY gattung';
-	var resultSet = botgartenLink.execute(sql);
+	var resultSet = this.lokiLink.execute(sql);
 	if (!resultSet)
 		return [];
 	var results = [];
@@ -46,9 +84,7 @@ exports.getGattungenByFamilie = function(_familie, _callback) {
 	_callback(results);
 }
 
-exports.getAll = function() {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+LokiModel.prototype.getAll = function() {
 	function saveQR(latin) {
 		var qrfile = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'qr', latin + '.png');
 		if (qrfile.exists())
@@ -71,22 +107,22 @@ exports.getAll = function() {
 	if (!g.exists()) {
 		g.createDirectory();
 	};
-	var resultSet = botgartenLink.execute('SELECT DISTINCT gattung || "_" || art AS latin FROM flora');
+	var resultSet = this.lokiLink.execute('SELECT DISTINCT gattung || "_" || art AS latin FROM flora');
 	while (resultSet.isValidRow()) {
 		var latin = resultSet.fieldByName('latin');
 		saveQR(latin);
 		resultSet.next();
 	}
 	resultSet.close();
-	botgartenLink.close();
+	this.lokiLink.close();
 }
 
-exports.search = function(_options, _callback) {
+LokiModel.prototype.search = function(_options, _callback) {
 	if (_options.needle.length < 1)
 		return [];
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = botgartenLink.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
+	if (!this.lokiLink)
+		this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
+	var resultSet = this.lokiLink.execute('SELECT * FROM flora WHERE deutsch like "%' + _options.needle + '%" GROUP BY gattung,art,subart LIMIT ' + _options.limit.join(','));
 	var familien = {};
 	var results = [];
 	while (resultSet.isValidRow()) {
@@ -111,15 +147,15 @@ exports.search = function(_options, _callback) {
 		return results
 }
 
-exports.getDetail = function(_data, _callback) {
+LokiModel.prototype.getDetail = function(_data, _callback) {
 	try {
 		var areas = Areas.regions;
-		if (!botgartenLink)
-			botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+		if (!this.lokiLink)
+			this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
 		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
 		if (_data.subart)
 			q += ' AND subart="' + _data.subart + '"';
-		var resultSet = botgartenLink.execute(q);
+		var resultSet = this.lokiLink.execute(q);
 		var rowcount = 0;
 		// preparing of result:
 		var res = {
@@ -174,7 +210,7 @@ exports.getDetail = function(_data, _callback) {
 	}
 }
 
-exports.getDetailFromNet = function() {
+LokiModel.prototype.getDetailFromNet = function() {
 	var results = [];
 	var url = 'http://bghamburg.de/datenbank-detail?detail=' + _id;
 	var query = 'SELECT * FROM html WHERE url="' + url + '" AND xpath="//table"';
@@ -192,9 +228,9 @@ exports.getDetailFromNet = function() {
 
 		var q = 'UPDATE flora SET standort="' + res.standort + '"  WHERE id=' + _id;
 		try {
-			botgartenLink.execute('BEGIN TRANSACTION;');
-			botgartenLink.execute(q);
-			botgartenLink.execute('COMMIT;');
+			this.lokiLink.execute('BEGIN TRANSACTION;');
+			this.lokiLink.execute(q);
+			this.lokiLink.execute('COMMIT;');
 		} catch(E) {
 			console.log(E);
 		}
@@ -204,7 +240,7 @@ exports.getDetailFromNet = function() {
 	});
 }
 
-exports.getCalendar = function(_callback) {
+LokiModel.prototype.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
@@ -221,15 +257,13 @@ exports.getCalendar = function(_callback) {
 	xhr.send();
 }
 
-exports.getFamilienByOrdnung = function(_ordnung) {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+LokiModel.prototype.getFamilienByOrdnung = function(_ordnung) {
 	var familien = {};
 	var familienarray = require('depot/ordersfamilies').orders[_ordnung].split(' ');
 	for (var i = 0; i < familienarray.length; i++) {
 		familien[familienarray[i]] = [];
 		var sql = 'SELECT DISTINCT gattung,count(gattung) AS total FROM flora WHERE familie = "' + familienarray[i] + '" GROUP BY gattung';
-		var resultSet = botgartenLink.execute(sql);
+		var resultSet = this.lokiLink.execute(sql);
 		while (resultSet.isValidRow()) {
 			familien[familienarray[i]].push({
 				name : resultSet.fieldByName('gattung'),
@@ -242,14 +276,12 @@ exports.getFamilienByOrdnung = function(_ordnung) {
 	console.log(familien);
 	return familien;
 }
-exports.getFamilienByList = function(_list) {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+LokiModel.prototype.getFamilienByList = function(_list) {
 	var familien = {};
 	for (var i = 0; i < _list.length; i++) {
 		familien[_list[i]] = [];
 		var sql = 'SELECT DISTINCT * FROM flora WHERE familie = "' + _list[i] + '" GROUP BY gattung,art';
-		var resultSet = botgartenLink.execute(sql);
+		var resultSet = this.lokiLink.execute(sql);
 		while (resultSet.isValidRow()) {
 			familien[_list[i]].push({
 				gattung : resultSet.fieldByName('gattung'),
@@ -264,12 +296,9 @@ exports.getFamilienByList = function(_list) {
 	return familien;
 }
 
-
-exports.getArtenByGattung = function(_gattung, _callback) {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+LokiModel.prototype.getArtenByGattung = function(_gattung, _callback) {
 	var q = 'SELECT * FROM flora WHERE bereich <> "" AND gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
-	var resultSet = botgartenLink.execute(q);
+	var resultSet = this.lokiLink.execute(q);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -285,15 +314,13 @@ exports.getArtenByGattung = function(_gattung, _callback) {
 	return results;
 }
 
-exports.getArtenByBereich = function(_bereich, _callback) {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
+LokiModel.prototype.getArtenByBereich = function(_bereich, _callback) {
 	if (!_bereich)
 		return [];
 	var bereich = undefined;
 	bereich = _bereich;
 	var q = 'SELECT * FROM flora WHERE bereich LIKE "' + bereich + '" GROUP BY gattung,art,subart ORDER BY art';
-	var resultSet = botgartenLink.execute(q);
+	var resultSet = this.lokiLink.execute(q);
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push({
@@ -311,7 +338,7 @@ exports.getArtenByBereich = function(_bereich, _callback) {
 		return results
 };
 
-exports.savePOI = function(_poi) {
+LokiModel.prototype.savePOI = function(_poi) {
 	Ti.Geolocation.purpose = "Recieve User Location";
 	Ti.Geolocation.accuracy = Ti.Geolocation.ACCURACY_BEST;
 	Ti.Geolocation.distanceFilter = 10;
@@ -322,10 +349,8 @@ exports.savePOI = function(_poi) {
 	});
 };
 
-exports.getBereiche = function() {
-	if (!botgartenLink)
-		botgartenLink = Ti.Database.install(DBFILE, DBNAME);
-	var resultSet = botgartenLink.execute('SELECT bereich, count(bereich) AS total FROM flora WHERE bereich <> "" AND bereich <> "undefined" Group BY bereich ORDER BY total DESC');
+LokiModel.prototype.getBereiche = function() {
+	var resultSet = this.lokiLink.execute('SELECT bereich, count(bereich) AS total FROM flora WHERE bereich <> "" AND bereich <> "undefined" Group BY bereich ORDER BY total DESC');
 	var results = [];
 	while (resultSet.isValidRow()) {
 		results.push(resultSet.fieldByName('bereich'));
