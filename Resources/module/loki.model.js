@@ -37,7 +37,10 @@ LokiModel.prototype.getAreas = function(_args) {
 						lon : foo[key][0][1]
 					}
 				};
-				var sum = {lat:0,lon:0};
+				var sum = {
+					lat : 0,
+					lon : 0
+				};
 				var len = foo[key].length;
 				for (var i = 0; i < len; i++) {
 					var lat = foo[key][i][0];
@@ -57,9 +60,10 @@ LokiModel.prototype.getAreas = function(_args) {
 					if (lon > bound.ne.lon)
 						bound.ne.lon = lon;
 				}// for
-				regions[key].latitudeDelta = parseFloat(bound.ne.lat) - parseFloat(bound.sw.lat);
-				regions[key].longitudeDelta = parseFloat(bound.ne.lon) - parseFloat(bound.sw.lon);
-				regions[key].latitude = sum.lat/len;regions[key].longitude = sum.lon/len;
+				regions[key].latitudeDelta = (parseFloat(bound.ne.lat) - parseFloat(bound.sw.lat)) * 2;
+				regions[key].longitudeDelta = (parseFloat(bound.ne.lon) - parseFloat(bound.sw.lon)) * 2;
+				regions[key].latitude = sum.lat / len;
+				regions[key].longitude = sum.lon / len;
 			}
 			var result = {
 				area_regions : regions,

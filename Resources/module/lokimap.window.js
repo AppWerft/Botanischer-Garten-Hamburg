@@ -26,13 +26,10 @@ var Map = function() {
 		}
 	});
 	self.win.add(self.win.map);
-	// retrieving araas from KML-file:
-
-	// build all polygons:
-
 	self.win.map.addEventListener('complete', function() {
 		Ti.App.LokiModel.getAreas({
 			onload : function(_a) {
+
 				for (var name in _a.area_arrays) {
 					self.overlays_passive[name] = {
 						name : name,
@@ -56,13 +53,56 @@ var Map = function() {
 					self.win.map.addOverlay(self.overlays_passive[name]);
 				}
 				self.picker = require('module/areapicker').create({
-					onchange : function(_e) {
+					onchange : function(_name) {
+						self.win.setTitle(_name);
+						var region = _a.area_regions[_name];
+						region.animate = true;
+						self.win.map.setLocation(region);
+						if (self.win.map.annotation) {
+							self.win.map.removeAnnotation(self.win.map.annotation);
+							self.win.map.annotation = null;
+						}
+						self.win.map.annotation = OverlayMap.createAnnotation({
+							latitude : _a.area_regions[_name].latitude,
+							longitude : _a.area_regions[_name].longitude,
+							title : _name,
+							animate : true,
+							image : '/assets/null.png'
+						});
+						self.win.map.addAnnotation(self.win.map.annotation);
+						self.win.map.selectAnnotation(self.win.map.annotation);
 					},
 					area_names : _a.area_names
-				})
-				self.win.add(self.picker);
+				});
+				self.win.map.addEventListener('longpress', function(_e) {
+					var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+					var nameofclickedarea = undefined;
+					for (var i = 0; i < _a.area_names.length; i++) {
+						if (require('vendor/map.polygonclick').isPointInPoly(_a.area_arrays[_a.area_names[i]], clickpoint) === true) {
+							nameofclickedarea = _a.area_names[i];
+							break;
+						};
+					}
+					
+					
+					if (self.win.map.annotation) {
+						self.win.map.removeAnnotation(self.win.map.annotation);
+						self.win.map.annotation = null;
+					}
+
+					self.win.map.annotation = OverlayMap.createAnnotation({
+						latitude : _a.area_regions[nameofclickedarea].latitude,
+						longitude : _a.area_regions[nameofclickedarea].longitude,
+						title : nameofclickedarea,
+						image : '/assets/null.png'
+					});
+					self.win.map.addAnnotation(self.win.map.annotation);
+					self.win.map.selectAnnotation(self.win.map.annotation);
+
+				});
 			} //  onload
 		});
+
 		for (var i = 0; i < icons.length; i++) {
 			self.win.map.addAnnotation(OverlayMap.createAnnotation({
 				latitude : icons[i].latlon.split(',')[0],
@@ -83,7 +123,10 @@ var Map = function() {
 				})
 			}, 20000);
 		});
-		/*		self.win.map.addEventListener('longpress', function(_e) {
+
+		/*
+
+		 self.win.map.addEventListener('longpress', function(_e) {
 		 var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 		 var nameofclickedarea = undefined;
 		 for (var name in self.areas) {

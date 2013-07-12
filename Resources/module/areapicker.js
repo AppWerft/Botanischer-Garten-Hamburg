@@ -8,6 +8,9 @@ exports.create = function(_args) {
 	});
 	self.addEventListener('change', function(_e) {
 		var area = self.getSelectedRow(0).title;
+		self.animate({
+			opacity : 0
+		})
 		_args.onchange(area);
 	});
 	// trigger for picker, because picker has no click event:
