@@ -10,33 +10,63 @@ module.exports = LokiModel;
 
 //http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
 LokiModel.prototype.getAreas = function(_args) {
-	try {
-		if (Ti.App.Properties.hasProperty('areas')) {
-			_args(JSON.parse(Ti.App.Properties.getString('areas')))
-			return;
-		}
-	} catch (E) {
-	}
+	/*try {
+	 if (Ti.App.Properties.hasProperty('areas')) {
+	 _args(JSON.parse(Ti.App.Properties.getString('areas')))
+	 return;
+	 }
+	 } catch (E) {
+	 }*/
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var foo = JSON.parse(this.responseText);
-			var bar = {};
+			var arrays = {};
+			var regions = {};
 			var keys = [];
 			for (var key in foo) {
 				keys.push(key);
-				bar[key] = [];
-				for (var i = 0; i <foo[key].length; i++) {
-					bar[key].push({
-						latitude : foo[key][i][0],
-						longitude : foo[key][i][1]
+				arrays[key] = [];
+				regions[key] = {};
+				var bound = {
+					sw : {
+						lat : foo[key][0][0],
+						lon : foo[key][0][1]
+					},
+					ne : {
+						lat : foo[key][0][0],
+						lon : foo[key][0][1]
+					}
+				};
+				var sum = {lat:0,lon:0};
+				var len = foo[key].length;
+				for (var i = 0; i < len; i++) {
+					var lat = foo[key][i][0];
+					var lon = foo[key][i][1];
+					arrays[key].push({
+						latitude : lat,
+						longitude : lon
 					});
-				}
+					sum.lat += lat;
+					sum.lon += lon;
+					if (lat < bound.sw.lat)
+						bound.sw.al = lat;
+					if (lat > bound.ne.lat)
+						bound.ne.lat = lat;
+					if (lon < bound.sw.lon)
+						bound.sw.lon = lon;
+					if (lon > bound.ne.lon)
+						bound.ne.lon = lon;
+				}// for
+				regions[key].latitudeDelta = parseFloat(bound.ne.lat) - parseFloat(bound.sw.lat);
+				regions[key].longitudeDelta = parseFloat(bound.ne.lon) - parseFloat(bound.sw.lon);
+				regions[key].latitude = sum.lat/len;regions[key].longitude = sum.lon/len;
 			}
 			var result = {
+				area_regions : regions,
 				area_names : keys,
-				area_centers : [],
-				area_arrays : bar
+				area_arrays : arrays
 			};
+
 			Ti.App.Properties.setString('areas', result)
 			_args.onload(result)
 		}
