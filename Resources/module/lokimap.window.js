@@ -1,6 +1,7 @@
 //http://www.netfunctional.ca/apps/mapoverlay/documentation/
 var Map = function() {
 	var self = this;
+	var Picker;
 	this.win = require('module/win').create('Loki-Schmidt-Gartenplan');
 	this.activearea = null;
 	this.locked = false;
@@ -26,132 +27,117 @@ var Map = function() {
 		}
 	});
 	self.win.add(self.win.map);
-	self.win.map.addEventListener('complete', function() {
-		Ti.App.LokiModel.getAreas({
-			onload : function(_a) {
-
-				for (var name in _a.area_arrays) {
-					self.overlays_passive[name] = {
-						name : name,
-						type : "polygon",
-						points : _a.area_arrays[name],
-						strokeColor : "green",
-						strokeAlpha : 1,
-						fillColor : "green",
-						fillAlpha : 0
-					};
-					self.overlays_active[name] = {
-						name : name + '_',
-						type : "polygon",
-						points : _a.area_arrays[name],
-						strokeColor : "white",
-						strokeWidth : 2,
-						strokeAlpha : 1,
-						fillColor : "black",
-						fillAlpha : 0
-					};
-					self.win.map.addOverlay(self.overlays_passive[name]);
-				}
-				self.picker = require('module/areapicker').create({
-					onchange : function(_name) {
-						self.win.setTitle(_name);
-						var region = _a.area_regions[_name];
-						region.animate = true;
-						self.win.map.setLocation(region);
-						if (self.win.map.annotation) {
-							self.win.map.removeAnnotation(self.win.map.annotation);
-							self.win.map.annotation = null;
-						}
-						self.win.map.annotation = OverlayMap.createAnnotation({
-							latitude : _a.area_regions[_name].latitude,
-							longitude : _a.area_regions[_name].longitude,
-							title : _name,
-							animate : true,
-							image : '/assets/null.png'
-						});
-						self.win.map.addAnnotation(self.win.map.annotation);
-						self.win.map.selectAnnotation(self.win.map.annotation);
-					},
-					area_names : _a.area_names
-				});
-				self.win.map.addEventListener('longpress', function(_e) {
-					var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
-					var nameofclickedarea = undefined;
-					for (var i = 0; i < _a.area_names.length; i++) {
-						if (require('vendor/map.polygonclick').isPointInPoly(_a.area_arrays[_a.area_names[i]], clickpoint) === true) {
-							nameofclickedarea = _a.area_names[i];
-							break;
-						};
-					}
-					
-					
+	Ti.App.LokiModel.getAreas({
+		onload : function(_a) {
+			for (var name in _a.area_arrays) {
+				self.overlays_passive[name] = {
+					name : name,
+					type : "polygon",
+					points : _a.area_arrays[name],
+					strokeColor : "green",
+					strokeAlpha : 1,
+					fillColor : "green",
+					fillAlpha : 0
+				};
+				self.overlays_active[name] = {
+					name : name + '_',
+					type : "polygon",
+					points : _a.area_arrays[name],
+					strokeColor : "white",
+					strokeWidth : 2,
+					strokeAlpha : 1,
+					fillColor : "black",
+					fillAlpha : 0
+				};
+				self.win.map.addOverlay(self.overlays_passive[name]);
+			}
+			var pickermodule = require('module/areapicker');
+			Picker = new pickermodule({
+				onchange : function(_name) {
+					self.win.setTitle(_name);
+					var region = _a.area_regions[_name];
+					region.animate = true;
+					self.win.map.setLocation(region);
 					if (self.win.map.annotation) {
 						self.win.map.removeAnnotation(self.win.map.annotation);
 						self.win.map.annotation = null;
 					}
-
 					self.win.map.annotation = OverlayMap.createAnnotation({
-						latitude : _a.area_regions[nameofclickedarea].latitude,
-						longitude : _a.area_regions[nameofclickedarea].longitude,
-						title : nameofclickedarea,
+						latitude : _a.area_regions[_name].latitude,
+						longitude : _a.area_regions[_name].longitude,
+						title : _name,
+						layer : 'area',
+						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+
+						animate : true,
 						image : '/assets/null.png'
 					});
 					self.win.map.addAnnotation(self.win.map.annotation);
 					self.win.map.selectAnnotation(self.win.map.annotation);
-
-				});
-			} //  onload
-		});
-
-		for (var i = 0; i < icons.length; i++) {
-			self.win.map.addAnnotation(OverlayMap.createAnnotation({
-				latitude : icons[i].latlon.split(',')[0],
-				title : icons[i].title,
-				animate : true,
-				longitude : icons[i].latlon.split(',')[1],
-				image : 'assets/' + icons[i].name + '.png'
-			}));
-		}
-		self.win.leftNavButton = pickerButton;
-		pickerButton.addEventListener('click', function() {
-			self.picker.animate({
-				opacity : 1
+				},
+				area_names : _a.area_names
 			});
-			setTimeout(function() {
-				self.picker.animate({
-					opacity : 0
-				})
-			}, 20000);
-		});
-
-		/*
-
-		 self.win.map.addEventListener('longpress', function(_e) {
-		 var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
-		 var nameofclickedarea = undefined;
-		 for (var name in self.areas) {
-		 if (require('vendor/map.polygonclick').isPointInPoly(self.areas[name], clickpoint) === true) {
-		 nameofclickedarea = name;
-		 break;
-		 };
-		 }
-		 console.log(nameofclickedarea);
-		 self.setArea(nameofclickedarea);
-		 });
-		 self.win.map.addEventListener('click', function(_e) {
-		 if (!_e.clicksource && _e.title) {
-		 //self.setArea(_e.title);
-		 return;
-		 }
-		 if (_e.clicksource == 'pin' && _e.annotation.layer == 'area') {
-		 self.setArea(_e.annotation.title);
-		 }
-		 if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
-		 self.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
-		 }
-		 });
-		 */
+			self.win.add(Picker.getView());
+			self.win.map.addEventListener('longpress', function(_e) {
+				if (self.locked)
+					return;
+				self.locked = true;
+				if (self.win.map.annotation) {
+					self.win.map.removeAnnotation(self.win.map.annotation);
+					self.win.map.annotation = null;
+				}
+				var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+				var nameofclickedarea = undefined;
+				for (var i = 0; i < _a.area_names.length; i++) {
+					if (require('vendor/map.polygonclick').isPointInPoly(_a.area_arrays[_a.area_names[i]], clickpoint) === true) {
+						nameofclickedarea = _a.area_names[i];
+						break;
+					};
+				}
+				if (nameofclickedarea != undefined) {
+					self.win.map.annotation = OverlayMap.createAnnotation({
+						latitude : _a.area_regions[nameofclickedarea].latitude,
+						longitude : _a.area_regions[nameofclickedarea].longitude,
+						title : nameofclickedarea,
+						layer : 'area',
+						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+						image : '/assets/null.png'
+					});
+					self.win.map.addAnnotation(self.win.map.annotation);
+					self.win.map.selectAnnotation(self.win.map.annotation);
+				}
+				setTimeout(function() {
+					self.locked = false
+				}, 3000);
+			});
+		} //  onload
 	});
+
+	for (var i = 0; i < icons.length; i++) {
+		self.win.map.addAnnotation(OverlayMap.createAnnotation({
+			latitude : icons[i].latlon.split(',')[0],
+			title : icons[i].title,
+			animate : true,
+			longitude : icons[i].latlon.split(',')[1],
+			image : 'assets/' + icons[i].name + '.png'
+		}));
+	}
+	self.win.leftNavButton = pickerButton;
+	pickerButton.addEventListener('click', function() {
+		if (Picker) {
+			Picker.show();
+			setTimeout(function() {
+				Picker.hide();
+			}, 20000);
+		}
+	});
+
+	self.win.map.addEventListener('click', function(_e) {
+		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
+			self.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
+		}
+	});
+
 	return this;
 }
 
@@ -187,29 +173,7 @@ Map.prototype.createWindow = function() {
  });
  }
 
- if (this.activearea && this.overlays_active[this.activearea]) {
- this.win.map.removeOverlay(this.overlays_active[this.activearea]);
- this.win.map.addOverlay(this.overlays_passive[this.activearea]);
- }
- try {
- this.win.map.removeOverlay(this.overlays_passive[_area]);
- this.win.map.addOverlay(this.overlays_active[_area]);
- console.log('selectPin ' + _area);
- setTimeout(function() {
- self.win.map.selectAnnotation(_area);
- }, 700);
-
- this.activearea = _area;
- } catch(E) {
- }
- var regiondx = 0;
- for (var name in self.areas) {
- if (name == _area) {
- self.locked = true;
- self.picker.setSelectedRow(0, regiondx);
- setTimeout(function() {
- self.locked = false;
- }, 2000);
+ i
  }
  regiondx++;
  }
