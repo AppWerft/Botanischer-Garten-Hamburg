@@ -1,28 +1,7 @@
-* {
-	padding: 0;
-	margin: 0;
-	font-family: Trebuchet MS, Arial, Helvetica
-}
-#map {
-	width: 100%;
-	min-height: 100%;
-	overflow: hidden !important;
-	background: #ccc;
-	padding: 0;
-	border: none;
-}
-#display {
-	width: 160px;
-	position: absolute;
-	z-index: 99999;
-	right: 10px;
-	top: 10px;
-	background-color: black;
-	opacity: 0.8
-}
-#display p {
-	background-color: '#333';
-	color: white;
-	border: 1px solid gray;
-	padding: 7px
-}
+* {padding:0;margin:0;font-family:Trebuchet MS, Arial,Helvetica}
+	#map {width:100%;  min-height: 100%; overflow: hidden !important; background:#ccc; padding:0; border:none;}
+	#display   {width:160px;position:absolute;z-index:99999;right:10px;top:90px;background-color:black;opacity:0.8}
+	#display p {background-color:'#333';color:white;border:1px solid gray;padding:7px}
+	
+	#overlayslider {width:150px;position:absolute;z-index:999;right:20px;top:15px;}
+	#polygoneslider{width:150px;position:absolute;z-index:999;right:20px;top:50px;}

@@ -4,4 +4,4 @@ build.log
 tmp
 ._*
 .DS_Store
-app_conf.php
+webeditor/app_conf.php

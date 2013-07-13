@@ -33,18 +33,17 @@ function initialize() {
 			modified : false
 		});
 		google.maps.event.addListener(poly, 'click', function(_e) {
-			console.log('M=' + poly.modified + '  R=' + poly.run + '   K=' + key);
 			var id = 'v_' + poly.title.replace(/[^a-z]/g, '');
-			if (!poly.modified && poly.run) {
+			/*if (!poly.modified && poly.run) {
 				poly.run = false;
-				poly.stopEdit();
+				poly.setEditable (false);
 				$('#' + id).detach();
 				return;
-			}
+			}*/
 			if (poly.run) {
 				poly.run = false;
 				var ok = false;
-				poly.stopEdit();
+				poly.setEditable (false);	
 				if (!key) {
 					key = window.prompt("Um die Fläche zu speichern brauchts den geheimen Schlüssel.");
 				} else {
@@ -58,17 +57,17 @@ function initialize() {
 				$('#' + id + ' img').show();
 				$.ajax({
 					success : function() {
-						poly.modified = false;
+						console.log('SUCCRSS');
 						$('#' + id).detach();
 					},
 					url : 'api/',
 					dataType : 'json',
 					type : 'POST',
 					data : 'key=' + encodeURI(key) + '&name=' + poly.title + '&vertex=' + encodeURI(JSON.stringify(points))
-				});
+				});setTimeout(function(){$('#' + id).detach();},3000);
 			} else {;
-				poly.runEdit();
-				$('#display').append('<p id="' + id + '"><img style="display:none" src="css/ajax-loader.gif" /> ' + poly.title + '</p>');
+				poly.setEditable (true);	
+				$('#display').append('<p id="' + id + '"><img style="display:none" src="css/ajax-loader.gif" />' + poly.title + '</p>');
 				poly.run = true;
 			}
 		});
@@ -84,7 +83,7 @@ function initialize() {
 	$('#newpolygone').bind('click', function() {
 		var newtitle = window.prompt('Geben Sie den Namen der Fläche ein. Dann können Sie den Startpunkt auf der Karte wählen.');
 		if (!newtitle)
-			return;
+			return;console.log(newtitle);
 		var myListener = google.maps.event.addListener(map, 'click', function(_e) {
 			var marker = new google.maps.Marker({
 				position : _e.latLng,
@@ -98,5 +97,35 @@ function initialize() {
 			var delta = 0.0002;
 			createPolygone([[lat + delta, lng - delta], [lat + delta, lng + delta], [lat - delta, lng + delta], [lat - delta, lng - delta]], newtitle)
 		});
+	});
+	var PDF_Overlay = new google.maps.GroundOverlay(
+    	"http://lab.min.uni-hamburg.de/botanischergarten/gartenplan.png",
+    new google.maps.LatLngBounds(
+    	new google.maps.LatLng(53.5587, 9.8567),
+    	new google.maps.LatLng(53.5655, 9.8641)),
+    	{opacity:0.5,map:map,clickable:false}
+    );
+	PDF_Overlay.setMap(map); 
+	
+	$("#overlayslider").slider({
+			min:0,max:1,
+			value:0.5,
+			step: 0.01,
+			slide :function(event,ui){
+				PDF_Overlay.setOpacity(ui.value);
+				if (ui.value==0) {
+					PDF_Overlay.setMap(null)
+				} else PDF_Overlay.setMap(map);
+			}
+	});
+	$("#polygoneslider").slider({
+			min:0,max:1,
+			value:0.5,
+			step:0.01,
+			change :function(event,ui){console.log(ui.value);
+				for (var name in polygones) {console.log(polygones[name]);
+					polygones[name].setOptions({fillOpacity:0.6*ui.value,strokeOpacity:0.5*ui.value});
+				}	
+			}
 	});
 }
