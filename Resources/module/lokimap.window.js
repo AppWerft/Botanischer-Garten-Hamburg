@@ -2,20 +2,28 @@
 var Map = function() {
 	var self = this;
 	var Picker;
+	this.area = {};
 	this.win = require('module/win').create('Loki-Schmidt-Gartenplan');
 	this.activearea = null;
 	this.locked = false;
 	this.overlays_passive = {}, this.overlays_active = {};
+	this.OverlayMap = require('netfunctional.mapoverlay');
 	var pickerButton = Ti.UI.createButton({
-		width : 50,
-		height : 40,
+		width : 35,
+		height : 30,
 		backgroundImage : 'assets/picker.png'
 	});
+	var areaButton = Ti.UI.createButton({
+		width : 35,
+		height : 30,
+		backgroundImage : 'assets/areas.png'
+	});
 
+	this.win.rightNavButton = areaButton;
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
-	var OverlayMap = require('netfunctional.mapoverlay');
-	self.win.map = OverlayMap.createMapView({
+
+	self.win.map = this.OverlayMap.createMapView({
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
 		regionFit : true,
@@ -29,11 +37,12 @@ var Map = function() {
 	self.win.add(self.win.map);
 	Ti.App.LokiModel.getAreas({
 		onload : function(_a) {
-			for (var name in _a.area_arrays) {
+			self.area = _a;
+			for (var name in self.area.area_arrays) {
 				self.overlays_passive[name] = {
 					name : name,
 					type : "polygon",
-					points : _a.area_arrays[name],
+					points : self.area.area_arrays[name],
 					strokeColor : "green",
 					strokeAlpha : 1,
 					fillColor : "green",
@@ -42,7 +51,7 @@ var Map = function() {
 				self.overlays_active[name] = {
 					name : name + '_',
 					type : "polygon",
-					points : _a.area_arrays[name],
+					points : self.area.area_arrays[name],
 					strokeColor : "white",
 					strokeWidth : 2,
 					strokeAlpha : 1,
@@ -54,31 +63,9 @@ var Map = function() {
 			var pickermodule = require('module/areapicker');
 			Picker = new pickermodule({
 				onchange : function(_name) {
-					self.win.setTitle(_name);
-					var region = _a.area_regions[_name];
-					region.animate = true;
-					self.win.map.setLocation(region);
-					if (self.win.map.annotation) {
-						self.win.map.removeAnnotation(self.win.map.annotation);
-						self.win.map.annotation = null;
-					}
-					self.win.map.annotation = OverlayMap.createAnnotation({
-						latitude : _a.area_regions[_name].latitude,
-						longitude : _a.area_regions[_name].longitude,
-						title : _name,
-						layer : 'area',
-						animate : true,
-						image : '/assets/null.png'
-					});
-					var total = _a.area_regions[_name].total;
-					if (total > 0) {
-						self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
-						self.win.map.annotation.subtitle = total + ' Pflanzen';
-					}
-					self.win.map.addAnnotation(self.win.map.annotation);
-					self.win.map.selectAnnotation(self.win.map.annotation);
+					self.setArea(_name);
 				},
-				area_names : _a.area_names
+				area_names : self.area.area_names
 			});
 			self.win.add(Picker.getView());
 			self.win.map.addEventListener('longpress', function(_e) {
@@ -91,22 +78,22 @@ var Map = function() {
 				}
 				var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
 				var nameofclickedarea = undefined;
-				for (var i = 0; i < _a.area_names.length; i++) {
-					if (require('vendor/map.polygonclick').isPointInPoly(_a.area_arrays[_a.area_names[i]], clickpoint) === true) {
-						nameofclickedarea = _a.area_names[i];
+				for (var i = 0; i < self.area.area_names.length; i++) {
+					if (require('vendor/map.polygonclick').isPointInPoly(self.area.area_arrays[self.area.area_names[i]], clickpoint) === true) {
+						nameofclickedarea = self.area.area_names[i];
 						break;
 					};
 				}
 				if (nameofclickedarea != undefined) {
-					self.win.map.annotation = OverlayMap.createAnnotation({
-						latitude : _a.area_regions[nameofclickedarea].latitude,
-						longitude : _a.area_regions[nameofclickedarea].longitude,
+					self.win.map.annotation = self.OverlayMap.createAnnotation({
+						latitude : self.area.area_regions[nameofclickedarea].latitude,
+						longitude : self.area.area_regions[nameofclickedarea].longitude,
 						title : nameofclickedarea,
 						layer : 'area',
 						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
 						image : '/assets/null.png'
 					});
-					var total = _a.area_regions[nameofclickedarea].total;
+					var total = self.area.area_regions[nameofclickedarea].total;
 					if (total > 0) {
 						self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
 						self.win.map.annotation.subtitle = total + ' Pflanzen';
@@ -122,7 +109,7 @@ var Map = function() {
 	});
 
 	for (var i = 0; i < icons.length; i++) {
-		self.win.map.addAnnotation(OverlayMap.createAnnotation({
+		self.win.map.addAnnotation(self.OverlayMap.createAnnotation({
 			latitude : icons[i].latlon.split(',')[0],
 			title : icons[i].title,
 			animate : true,
@@ -139,13 +126,28 @@ var Map = function() {
 			}, 20000);
 		}
 	});
-
-	self.win.map.addEventListener('click', function(_e) {
+	areaButton.addEventListener('click', function() {
+		self.win.map.addOverlay({
+			name : 'loki_esri_map',
+			type : 'image',
+			northWestCoord : {
+				latitude : 53.5655,
+				longitude : 9.8641
+			},
+			southEastCoord : {
+				latitude : 53.5587,
+				longitude : 9.856730
+			},
+			alpha : 0.8,
+			img : 'assets/gartenplan.png'
+		});
+		console.log('========');
+	});
+	this.win.map.addEventListener('click', function(_e) {
 		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
 			self.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
 		}
 	});
-
 	return this;
 }
 
@@ -158,32 +160,31 @@ Map.prototype.createWindow = function() {
  *
  */
 
-/*
- Map.prototype.setArea = function(_area) {
- if (!_area || this.locked == true)
- return;
- this.locked = true;
- var self = this;
- setTimeout(function() {
- self.picker.animate({
- duration : 700,
- opacity : 0
- });
- self.locked = false;
- }, 100);
- if (this.centers_of_areas[_area] && this.centers_of_areas[_area].latitude) {
- this.win.map.setLocation({
- animate : true,
- latitude : this.centers_of_areas[_area].latitude,
- longitude : this.centers_of_areas[_area].longitude,
- latitudeDelta : this.win.map.getLatitudeDelta(),
- longitudeDelta : this.win.map.getLongitudeDelta()
- });
- }
+Map.prototype.setArea = function(_name) {
+	this.win.setTitle(_name);
+	var self = this;
+	var region = self.area.area_regions[_name];
+	var total = self.area.area_regions[_name].total;
+	region.animate = true;
+	self.win.map.setLocation(region);
+	if (self.win.map.annotation) {
+		self.win.map.removeAnnotation(self.win.map.annotation);
+		self.win.map.annotation = null;
+	}
+	self.win.map.annotation = self.OverlayMap.createAnnotation({
+		latitude : self.area.area_regions[_name].latitude,
+		longitude : self.area.area_regions[_name].longitude,
+		title : _name,
+		layer : 'area',
+		animate : true,
+		image : '/assets/null.png'
+	});
+	if (total > 0) {
+		self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
+		self.win.map.annotation.subtitle = total + ' Pflanzen';
+	}
+	self.win.map.addAnnotation(self.win.map.annotation);
+	self.win.map.selectAnnotation(self.win.map.annotation);
+}
 
- i
- }
- regiondx++;
- }
- }*/
 module.exports = Map;
