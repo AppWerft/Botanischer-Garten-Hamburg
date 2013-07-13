@@ -67,11 +67,14 @@ var Map = function() {
 						longitude : _a.area_regions[_name].longitude,
 						title : _name,
 						layer : 'area',
-						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
-
 						animate : true,
 						image : '/assets/null.png'
 					});
+					var total = _a.area_regions[_name].total;
+					if (total > 0) {
+						self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
+						self.win.map.annotation.subtitle = total + ' Pflanzen';
+					}
 					self.win.map.addAnnotation(self.win.map.annotation);
 					self.win.map.selectAnnotation(self.win.map.annotation);
 				},
@@ -103,6 +106,11 @@ var Map = function() {
 						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
 						image : '/assets/null.png'
 					});
+					var total = _a.area_regions[nameofclickedarea].total;
+					if (total > 0) {
+						self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
+						self.win.map.annotation.subtitle = total + ' Pflanzen';
+					}
 					self.win.map.addAnnotation(self.win.map.annotation);
 					self.win.map.selectAnnotation(self.win.map.annotation);
 				}

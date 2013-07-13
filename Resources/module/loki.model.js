@@ -1,4 +1,4 @@
-var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql';
+var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql', AREACACHE = false;
 var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 
 var LokiModel = function() {
@@ -10,13 +10,16 @@ module.exports = LokiModel;
 
 //http://www.colby.edu/info.tech/BI211/PlantFamilyID.html
 LokiModel.prototype.getAreas = function(_args) {
-	/*try {
-	 if (Ti.App.Properties.hasProperty('areas')) {
-	 _args(JSON.parse(Ti.App.Properties.getString('areas')))
-	 return;
-	 }
-	 } catch (E) {
-	 }*/
+	if (AREACACHE) {
+		try {
+			if (Ti.App.Properties.hasProperty('areas')) {
+				_args(JSON.parse(Ti.App.Properties.getString('areas')))
+				return;
+			}
+		} catch (E) {
+		}
+	}
+	var self = this;
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var foo = JSON.parse(this.responseText);
@@ -60,10 +63,19 @@ LokiModel.prototype.getAreas = function(_args) {
 					if (lon > bound.ne.lon)
 						bound.ne.lon = lon;
 				}// for
+				var sql = 'SELECT COUNT(*) total FROM flora WHERE bereich="' + key + '"';
+				var resultSet = self.lokiLink.execute(sql);
+				if (resultSet && resultSet.isValidRow()) {
+					regions[key].total = resultSet.fieldByName('total');
+					resultSet.close();
+				} else
+					regions[key].total = 0;
 				regions[key].latitudeDelta = (parseFloat(bound.ne.lat) - parseFloat(bound.sw.lat)) * 2;
 				regions[key].longitudeDelta = (parseFloat(bound.ne.lon) - parseFloat(bound.sw.lon)) * 2;
 				regions[key].latitude = sum.lat / len;
 				regions[key].longitude = sum.lon / len;
+				regions[key].key = key;
+				console.log(regions[key]);
 			}
 			var result = {
 				area_regions : regions,
