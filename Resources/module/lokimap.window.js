@@ -4,6 +4,7 @@ var Map = function() {
 	var Picker;
 	this.area = {};
 	this.win = require('module/win').create('Loki-Schmidt-Gartenplan');
+
 	this.activearea = null;
 	this.locked = false;
 	this.overlays_passive = {}, this.overlays_active = {};
@@ -22,11 +23,19 @@ var Map = function() {
 	this.win.rightNavButton = areaButton;
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
+	self.win.overlayslider = require('module/overlayslider').create({
+		onstop : function(_e) {
+			self.setAlphaGroundOverlay(_e);
+		},
+		onchange : function(_e) {
+		}
+	});
 
 	self.win.map = this.OverlayMap.createMapView({
+		top : 0,
 		mapType : Titanium.Map.HYBRID_TYPE,
 		userLocation : true,
-		regionFit : true,
+		regionFit : false,
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
@@ -35,6 +44,7 @@ var Map = function() {
 		}
 	});
 	self.win.add(self.win.map);
+	self.win.add(self.win.overlayslider);
 	Ti.App.LokiModel.getAreas({
 		onload : function(_a) {
 			self.area = _a;
@@ -118,6 +128,7 @@ var Map = function() {
 		}));
 	}
 	self.win.leftNavButton = pickerButton;
+	self.addGroundOverlay();
 	pickerButton.addEventListener('click', function() {
 		if (Picker) {
 			Picker.show();
@@ -126,22 +137,18 @@ var Map = function() {
 			}, 20000);
 		}
 	});
-	areaButton.addEventListener('click', function() {
-		self.win.map.addOverlay({
-			name : 'loki_esri_map',
-			type : 'image',
-			northWestCoord : {
-				latitude : 53.5655,
-				longitude : 9.8641
-			},
-			southEastCoord : {
-				latitude : 53.5587,
-				longitude : 9.856730
-			},
-			alpha : 0.8,
-			img : 'assets/gartenplan.png'
-		});
-		console.log('========');
+	areaButton.addEventListener('click', function(_e) {
+		if (!_e.source.overlayadded) {
+			self.win.overlayslider.animate({
+				top : 0
+			});
+			_e.source.overlayadded = true;
+		} else {
+			self.win.overlayslider.animate({
+				top : -40
+			});
+			_e.source.overlayadded = false;
+		}
 	});
 	this.win.map.addEventListener('click', function(_e) {
 		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
@@ -186,5 +193,35 @@ Map.prototype.setArea = function(_name) {
 	self.win.map.addAnnotation(self.win.map.annotation);
 	self.win.map.selectAnnotation(self.win.map.annotation);
 }
+var overlay = {
+	name : 'loki_esri_map',
+	type : 'image',
+	northWestCoord : {
+		latitude : 53.5655,
+		longitude : 9.856730
+	},
+	southEastCoord : {
+		latitude : 53.5587,
+		longitude : 9.8641
+	},
+	alpha : 0.1,
+	img : 'assets/gartenplan.png'
+};
 
+Map.prototype.addGroundOverlay = function() {
+	this.win.map.addOverlay(overlay);
+}
+Map.prototype.removeGroundOverlay = function() {
+	this.win.map.removeOverlay({
+		name : 'loki_esri_map'
+	});
+}
+Map.prototype.setAlphaGroundOverlay = function(alpha) {
+	overlay.alpha = alpha;
+	this.win.map.removeOverlay({
+		name : 'loki_esri_map'
+	});
+	this.win.map.addOverlay(overlay);
+
+}
 module.exports = Map;

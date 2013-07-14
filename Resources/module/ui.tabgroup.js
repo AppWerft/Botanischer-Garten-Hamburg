@@ -18,7 +18,7 @@ exports.create = function() {
 	var LokiMap = new Map_Module();
 	console.log(LokiMap);
 	console.log(LokiMap.createWindow());
-	
+
 	var mapTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
 		title : 'Übersicht',
@@ -33,25 +33,36 @@ exports.create = function() {
 	});
 	tabGroup.addTab(taxoTab);
 
+	/*	var panoTab = TabBar.createTab({
+	 icon : 'assets/panoramio.png',
+	 title : 'Panoramio',
+	 window : require('module/panoramio_map.window').create('')
+	 });
+	 tabGroup.addTab(panoTab);*/
+	var deltawin = Ti.UI.createWindow({});
+	var web = Ti.UI.createWebView({
+		url : 'http://www.pathkey.org/index_m.php',
+		disbaleBounce : true
+	});
+	deltawin.add(web);
+	var deltaTab = TabBar.createTab({
+		icon : 'assets/delta.png',
+		title : 'Delta',
+		window : deltawin
+	});
+	tabGroup.addTab(deltaTab);
+	var matrixTab = TabBar.createTab({
+		icon : 'assets/flowericon.png',
+		title : 'Taxomatrix',
+		window : require('module/taxo.filter.window').create('')
+	});
+	tabGroup.addTab(matrixTab);
 	var eventsTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
 		window : require('module/events.window').create('')
 	});
 	tabGroup.addTab(eventsTab);
-
-	var panoTab = TabBar.createTab({
-		icon : 'assets/panoramio.png',
-		title : 'Panoramio',
-		window : require('module/panoramio_map.window').create('')
-	});
-	tabGroup.addTab(panoTab);
-	var uhhTab = TabBar.createTab({
-		icon : 'assets/uhh.png',
-		title : 'Intern',
-		window : require('module/uhh.window').create('')
-	});
-	tabGroup.addTab(uhhTab);
 	//tabGroup.setActiveTab(1);
 	tabGroup.bottom = 0;
 }
