@@ -1,5 +1,5 @@
 {
-	"plants": [
+	"Plants": [
 		{
 			"url": "http://flora.huh.harvard.edu/china/delta/Justicia.ink",
 			"name": "Acanthaceae: Justicia of China",
@@ -905,10 +905,8 @@
 			"name": "Zingiberaceae: Alpinia of China",
 			"id": 33
 		}
-	]
-
-	,
-	"animals": [
+	],
+	"Animals": [
 		{
 			"url": "http://sharkeylab.org/sharkeylab/Misc/datasets/Agathidinae_Nov2010.ink",
 			"name": "Agathidinae Genera of Thailand",

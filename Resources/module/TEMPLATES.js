@@ -194,3 +194,32 @@ exports.familystrip = {
 		}
 	}]
 };
+
+exports.intkeys = {
+	properties : {
+		height : 60,
+		backgroundColor : '#fff',
+	},
+	childTemplates : [{
+		type : 'Ti.UI.View',
+		properties : {
+			backgroundColor : '#fff',
+			width : Ti.UI.FILL
+		}
+	}, {
+		type : 'Ti.UI.Label',
+		bindId : 'title',
+		properties : {
+			color : '#333',
+			font : {
+				fontSize : Ti.UI.CONF.fontsize_title,
+				fontWeight : 'bold',
+				fontFamily : 'TheSans-B7Bold'
+			},
+			left : Ti.UI.CONF.padding,
+			right : Ti.UI.CONF.padding,
+			width : Ti.UI.FILL,
+		}
+	}]
+};
+

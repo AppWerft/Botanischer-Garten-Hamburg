@@ -39,16 +39,11 @@ exports.create = function() {
 	 window : require('module/panoramio_map.window').create('')
 	 });
 	 tabGroup.addTab(panoTab);*/
-	var deltawin = Ti.UI.createWindow({});
-	var web = Ti.UI.createWebView({
-		url : 'http://www.pathkey.org/index_m.php',
-		disbaleBounce : true
-	});
-	deltawin.add(web);
+	
 	var deltaTab = TabBar.createTab({
 		icon : 'assets/delta.png',
-		title : 'Delta',
-		window : deltawin
+		title : 'iDelta',
+		window : require('module/intkeyslist.window').create('')
 	});
 	tabGroup.addTab(deltaTab);
 	var matrixTab = TabBar.createTab({
