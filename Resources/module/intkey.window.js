@@ -11,7 +11,7 @@ exports.create = function(_id) {
 			top : 10,
 			carouselType : Ti.App.Carousel.CAROUSEL_TYPE_CYLINDER,
 			views : views,
-			itemWidth : 290,
+			itemWidth : 280,
 			numberOfVisibleItems : 12,
 			wrap : true,
 		});
