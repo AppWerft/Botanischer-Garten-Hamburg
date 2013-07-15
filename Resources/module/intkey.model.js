@@ -12,8 +12,24 @@ Intkey.prototype.getKey = function(_id) {
 	if (f.exists()) {
 		var text = f.read().text;
 		var key = JSON.parse(text);
-		return key;
+		if (key.characters) {
+			for (var i = 0; i < key.characters.length; i++) {
+				var character = key.characters[i];
+				if (character.name == undefined)
+					continue;
+				try {
+					console.log(character.name.split(': '));
+					character.title = character.name.split(': ')[0].capitalize();
+					character.subtitle = character.name.split(': ')[1].capitalize();
+				} catch(E) {
+					character.title = character.name.capitalize();
+					character.subtitle = ' ';
+				}
+			}
+			return key;
+		}
+
 	}
-	return [];
+	return []
 }
 module.exports = Intkey;

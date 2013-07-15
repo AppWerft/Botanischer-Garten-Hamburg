@@ -1,60 +1,112 @@
 exports.create = function(_char) {
-	var self = Ti.UI.createView();
-	self.head = Ti.UI.createLabel({
+	var self = Ti.UI.createView({
+		width : 260,
+		
+		height : 340,
+		borderRadius : 8,
+		opacity : 0.9
+	});
+	self.head = Ti.UI.createView({
 		left : 0,
 		top : 0,
 		width : Ti.UI.FILL,
-		height : 60,
-		layout : 'vertical',
-		backgroundColor : '#009900',
+		height : 50,
+		backgroundColor : '#007700',
+	});
+	self.body = Ti.UI.createView({
+		left : 0,
+		top : 50,
+		width : Ti.UI.FILL,
+		backgroundColor : '#fff',
 	});
 	self.add(self.head);
-	try {
-		var t1 = _char.name.split(':')[0];
-		var t2 = _char.name.split(':')[1];
-	} catch(E) {
-		var t1 = _char.name;
-		var t2 = ' ';
-	}
-	self.head.add(Ti.UI.createLabel({
-		text : t1.capitalize(),
+	self.add(self.body);
+	self.head.add(Ti.UI.createImageView({
+		image : 'assets/intkey.png',
 		left : 10,
-		top : 8,
-		width : Ti.UI.FILL,
-		height : Ti.UI.SIZE,
-		backgroundColor : '#009900',
-		color : 'white',
+		width : 32,
+		height : 32,
+		left : 5
+	}));
+
+	self.textcontainer = Ti.UI.createView({
+		top : 5,
+		right : 10,
+		bottom : 5,
+		height : '100%',
+		width : '100%',
+		left : 50,
+	});
+	self.head.add(self.textcontainer)
+	self.textcontainer.add(Ti.UI.createLabel({
+		text : _char.title,
+		width : '100%',
+		height : Ti.UI.CONF.fontsize_title * 1.2,
+		top : 5,
+		left : 0,
+		color : '#fff',
 		font : {
 			fontSize : Ti.UI.CONF.fontsize_title,
-			fontWeight : 'bold',
 			fontFamily : 'TheSans-B7Bold'
 		},
 	}));
-	if (t2)
-		self.head.add(Ti.UI.createLabel({
-			text : t2.capitalize(),
-			left : 10,
-			top : 3,
+	if (_char.subtitle) {
+		self.textcontainer.add(Ti.UI.createLabel({
+			text : _char.subtitle,
+			left : 0,
 			width : Ti.UI.FILL,
-			height : Ti.UI.SIZE,
+			height : Ti.UI.CONF.fontsize_subtitle * 1.2,
+			top : 25,
 			color : 'white',
 			font : {
 				fontSize : Ti.UI.CONF.fontsize_subtitle,
-				fontWeight : 'bold',
 				fontFamily : 'TheSans-B7Bold'
 			},
 		}));
+	}
 	switch (_char.type) {
 		case 'UM':
-			var tv = Ti.UI.createTableView({
-				top : 60
-			});
+			var rows = [];
 			for (var i = 0; i < _char.states.length; i++) {
-				tv.appendRow(Ti.UI.createTableViewRow({
-					title : _char.states[i]
+				rows[i] = Ti.UI.createTableViewRow({
+					height : 40
+				});
+				rows[i].add(Ti.UI.createLabel({
+					font : {
+						fontSize : Ti.UI.CONF.fontsize_title,
+						fontWeight : 'bold',
+						fontFamily : 'TheSans-B7Bold'
+					},
+					left : 10,
+					top : 10,
+					bottom : 10,
+					text : _char.states[i]
 				}));
+
 			}
-			self.add(tv);
+			var tv = Ti.UI.createTableView({
+				data : rows,
+				top : 0,
+				height : 290
+			});
+			self.body.add(tv);
+			break;
+		case 'RN':
+			self.body.add(Ti.UI.createTextField({
+				top : 20,
+				left : 10,
+				height : 50,
+				font : {
+					fontSize : Ti.UI.CONF.fontsize_title,
+					fontWeight : 'bold',
+					fontFamily : 'TheSans-B7Bold'
+				},
+				borderRadius : 10,
+				borderWidth : 1,
+				right : 50
+			}));
+			break;
+		default:
 			break;
 	}
 	return self;

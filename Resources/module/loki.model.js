@@ -1,4 +1,4 @@
-var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql', AREACACHE = false;
+var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql', AREACACHE = true;
 var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 
 var LokiModel = function() {
@@ -13,7 +13,7 @@ LokiModel.prototype.getAreas = function(_args) {
 	if (AREACACHE) {
 		try {
 			if (Ti.App.Properties.hasProperty('areas')) {
-				_args(JSON.parse(Ti.App.Properties.getString('areas')))
+				_args.onload(JSON.parse(Ti.App.Properties.getString('areas')))
 				return;
 			}
 		} catch (E) {
@@ -75,7 +75,6 @@ LokiModel.prototype.getAreas = function(_args) {
 				regions[key].latitude = sum.lat / len;
 				regions[key].longitude = sum.lon / len;
 				regions[key].key = key;
-				console.log(regions[key]);
 			}
 			var result = {
 				area_regions : regions,

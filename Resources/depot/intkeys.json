@@ -652,11 +652,7 @@
 			"url": "http://flora.huh.harvard.edu/china/delta/Piper.ink",
 			"name": "Piperaceae: Piper of China",
 			"id": 51
-		}, {
-			"url": "http://flora.huh.harvard.edu/china/delta/families/families.ink",
-			"name": "Plant Families of China",
-			"id": 198
-		}, {
+		},{
 			"url": "http://flora.huh.harvard.edu/china/delta/Plantago.ink",
 			"name": "Plantaginaceae: Plantago of China",
 			"id": 19

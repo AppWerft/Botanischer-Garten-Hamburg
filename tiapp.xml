@@ -25,7 +25,6 @@
     <property name="ti.ui.defaultunit" type="string">system</property>
     <ios>
         <min-ios-ver>4.3</min-ios-ver>
-        
     </ios>
     <iphone>
         <orientations device="iphone">
@@ -47,6 +46,7 @@
         <module platform="iphone">ag.calendar</module>
         <module platform="iphone">ti.imagefactory</module>
         <module platform="android">ti.imagefactory</module>
+        <module platform="iphone">com.obscure.ticarousel</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

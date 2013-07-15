@@ -1,10 +1,8 @@
 exports.create = function(_familie) {
 	var self = require('module/win').create('iDelta');
 	var sections = [];
-	
 	var items = Ti.App.IntkeyModel.getList();
 	for (var type in items) {
-
 		var data = [];
 		for (var i = 0; i < items[type].length; i++) {
 			if (items[type][i].name != "") {
@@ -17,10 +15,8 @@ exports.create = function(_familie) {
 						accessoryType : Ti.UI.LIST_ACCESSORY_TYPE_DISCLOSURE
 					}
 				});
-				console.log(items[type][i]);
 			}
 		}
-
 		sections.push(Ti.UI.createListSection({
 			headerTitle : type,
 			items : data
