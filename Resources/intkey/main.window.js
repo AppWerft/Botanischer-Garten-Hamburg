@@ -1,5 +1,7 @@
 exports.create = function(_familie) {
 	var self = require('module/win').create('iDelta');
+	var IntkeyModel = require('intkey/intkey.model');
+	Ti.App.IntkeyModel = new IntkeyModel();
 	var sections = [];
 	var items = Ti.App.IntkeyModel.getList();
 	for (var type in items) {
@@ -31,9 +33,9 @@ exports.create = function(_familie) {
 		defaultItemTemplate : 'intkeys'
 	});
 	self.listView.addEventListener('itemclick', function(_e) {
-		self.tab.open(require('module/intkey.window').create(_e.itemId.id), {
-		   animate : true
-		 });
+		self.tab.open(require('intkey/intkey.window').create(_e.itemId.id), {
+			animate : true
+		});
 	});
 	self.add(self.listView);
 

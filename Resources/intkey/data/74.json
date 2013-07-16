@@ -1,0 +1,353 @@
+{
+	"id": 74,
+	"inkURL": "http://flora.huh.harvard.edu/china/delta/Hibiscus.ink",
+	"title": "Hibiscus of China 09:52 18-DEC-07",
+	"imagePath": "",
+	"characters": [
+		{
+			"type": "UM",
+			"states": ["climbing shrub", "herb", "shrub", "tree"],
+			"id": 1,
+			"name": "plant: habit",
+			"data": [4, 3,[3, 4], 4, 1, 3, 3, 3,[1, 4],[3, 4], 3,[3, 4],[3, 4], 3, 3, 3, 3, 2,[2, 3],[2, 3], 2, 2, 2, 2, 2
+			]
+		}, {
+			"type": "UM",
+			"states": ["deciduous", "evergreen"],
+			"id": 2,
+			"name": "plant: leaves: longevity",
+			"data": [0, 2, 1, 2, 0, 1, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+		}, {
+			"type": "RN",
+			"unit": "m tall",
+			"id": 3,
+			"name": "plant: height",
+			"data": ["6-9", "4-10", "1-5", "3-7", "3-5", "1-2", "1-3", "1-3", 0, "1-4", "1-3", "3-8", "2-5", "3-6", "1.5-4", "2-4", "0.5-2", "1-2.5", "1-2.1", "0.5-4", "0.5-1.5", "0.2-0.7", "1-2", "1.5-3", "0.5-0.7"]
+		}, {
+			"type": "UM",
+			"states": ["aculeate", "glabrous", "hairy", "puberulent", "scabrous", "stellate", "stellate hirsute", "stellate pilose", "stellate puberulent", "stellate tomentose", "strigose", "villous", "woolly pubescent"],
+			"id": 4,
+			"name": "branchlet: indumentum",
+			"data": [3,[2, 6, 9], 6,[2, 3], 9, 0, 2, 8, 6, 9, 0,[5, 11],[6, 13],[6, 13], 9, 9, 9,[2, 6], 10,[1, 12],[1, 3], 7, 2,[1, 2],[4, 6]
+			]
+		}, {
+			"type": "UM",
+			"states": ["auriculate", "filiform", "lanceolate", "linear", "oblong", "ovate", "silk-like", "subulate"],
+			"id": 5,
+			"name": "stipule: shape",
+			"data": [5, 5,[5, 6], 2, 3, 2, 8, 2,[3, 4], 2, 3, 0, 3, 2,[2, 8], 2, 2, 7, 2, 1, 3, 2, 2, 7, 3
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 6,
+			"name": "stipule: length",
+			"data": [0, "20-20", "15-15", 0, 0, "5-8", "2-2", "5-12", "10-10", "6-6", "5-5", 0, "5-8", "5-6", "6-6", "12-12", "3-4", 0, 0, "5-5", "5-14", "7-7", "10-10", "6-8", "3-8"]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 7,
+			"name": "petiole: length",
+			"data": ["150-300", "30-80", "10-25", "20-45", "20-40", "10-60", "10-20", "5-20", "50-70", "30-140", "60-110", "140-170", "50-200", "30-110", "5-25", "30-60", "10-25", "40-100", "20-60", "20-70", "20-80", "20-40", "20-80", "60-200", 0]
+		}, {
+			"type": "UM",
+			"states": ["cordate", "elliptic", "lanceolate", "oblong", "obovate", "orbicular", "ovate", "rhombic", "triangular"],
+			"id": 8,
+			"name": "leaf blade: shape",
+			"data": [[1, 6],[6, 7],[5, 6],[2, 4, 7],[1, 7],[6, 7],[2, 4], 7, 7, 0, 1, 6,[1, 6, 7], 0,[3, 7, 8, 9],[6, 7],[6, 7],[3, 7],[1, 6, 7], 0, 7, 0, 7, 1,[6, 7]
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 9,
+			"name": "leaf blade: length",
+			"data": [0, "80-150", "30-70", "80-150", "60-100", "50-80", "40-70", "40-90", "50-150", "50-140", "80-120", 0, 0, "80-120", "30-100", "70-120", "30-60", "100-180", "60-100", "50-100", "25-100", 0, 0, 0, "15-50"]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 10,
+			"name": "leaf blade: width",
+			"data": ["200-360", "80-150", "35-80", "60-70", "50-80", "50-100", "15-40", "20-50", "40-120", "60-150", "100-150", 0, "100-150", "70-110", "20-40", "70-120", "20-45", "40-80", "25-90", "50-110", "30-80", "30-60", 0, 0, 0]
+		}, {
+			"type": "RN",
+			"id": 11,
+			"name": "leaf blade: length: width ratio",
+			"data": [0, "1-1", "0.8-0.9", "1.3-2.2", "1.2-1.3", "0.8-1", "1.7-2.7", "1.8-2", "1.2-1.3", "0.8-1", "0.8-0.8", 0, 0, "1-1.2", "1.5-2.5", "1-1", "1.3-1.5", "2.2-2.5", "1.1-2.4", "0.9-1", "0.8-1.3", 0, 0, 0, 0]
+		}, {
+			"type": "UM",
+			"states": ["leathery", "papery"],
+			"id": 12,
+			"name": "leaf blade: texture",
+			"data": [0, 1, 0,[1, 2], 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["glabrescent", "glabrous", "glandular", "pilose", "prickly hairy", "puberulent", "scabrous", "stellate hairy", "stellate hirsute", "stellate pilose", "stellate puberulent", "stellate velutinous", "strigose", "tomentose"],
+			"id": 13,
+			"name": "leaf blade: abaxially: indumentum",
+			"data": [12, 11, 6, 2,[1, 11], 0, 2,[2, 4],[1, 8], 8, 0,[7, 13],[8, 14], 9,[2, 6], 11, 11, 14, 0, 13, 5, 5, 3, 2,[6, 10]
+			]
+		}, {
+			"type": "UM",
+			"states": ["glabrescent", "glabrous", "hirsute", "pilose", "prickly hairy", "puberulent", "scabrous", "stellate hirsute", "stellate puberulent", "stellate pubescent", "stellate scaly", "stellate velutinous", "strigose", "verrucose"],
+			"id": 14,
+			"name": "leaf blade: adaxially: indumentum",
+			"data": [12,[1, 11], 10, 2, 14, 0, 2, 2,[1, 10], 10, 0,[7, 13], 10, 8, 2, 9,[2, 9],[2, 6], 0, 13, 5,[2, 3], 0, 2, 4
+			]
+		}, {
+			"type": "IN",
+			"min": 3,
+			"max": 11,
+			"id": 15,
+			"name": "leaf: basal veins: number",
+			"data": [[7, 8, 9],[7, 9],[5, 6, 7],[3, 4, 5], 5, 0, 0, 0,[5, 6, 7], 5,[5, 6, 7, 8, 9, 10, 11], 0,[7, 8, 9, 10, 11], 5,[3, 4, 5], 0, 3, 0,[5, 6, 7], 5, 0, 0,[3, 4, 5],[5, 6, 7], 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["cordate", "cuneate", "obtuse", "rounded", "truncate"],
+			"id": 16,
+			"name": "leaf: base",
+			"data": [1, 1, 1,[2, 3], 1,[1, 5],[2, 3],[2, 4], 1,[1, 5], 0, 0, 0,[1, 4], 2, 2,[2, 4],[2, 4], 1, 0, 0, 0,[2, 4],[1, 4], 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["crenate", "crenulate", "dentate", "entire", "lobed", "repand", "serrate", "sinuate"],
+			"id": 17,
+			"name": "leaf: margin",
+			"data": [[4, 7],[1, 4],[2, 4], 4, 7, 3, 3,[3, 5],[3, 6], 5, 5, 5, 7, 7,[4, 5],[5, 7], 3, 3,[5, 7], 5, 5, 5,[5, 7],[5, 7],[3, 5]
+			]
+		}, {
+			"type": "UM",
+			"states": ["acuminate", "acute", "caudate", "obtuse"],
+			"id": 18,
+			"name": "leaf: apex",
+			"data": [1, 1, 1, 1,[1, 2],[2, 4],[1, 2], 1, 1, 1,[1, 4], 0, 1,[1, 4],[2, 4], 0, 4, 3,[1, 4], 0, 0, 0,[1, 4], 1, 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["axillary", "terminal"],
+			"id": 19,
+			"name": "inflorescence: arrangement",
+			"data": [2,[1, 2], 1, 0,[1, 2], 2, 1, 1,[1, 2], 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+			]
+		}, {
+			"type": "UM",
+			"states": ["cyme", "fascicled flowers", "panicle", "raceme-like", "solitary flowers"],
+			"id": 20,
+			"name": "inflorescence: type",
+			"data": [1,[1, 4],[4, 5], 0,[2, 3, 5], 5, 5, 5,[4, 5], 5, 5, 5, 5, 5, 5, 5, 5, 5,[1, 5], 5, 5, 5, 5, 5,[4, 5]
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 21,
+			"name": "pedicel: length",
+			"data": ["25-30", "10-30", "3-10", 0, "30-50", "25-60", "80-140", "30-70", "30-70", "20-120", "60-150", "110-130", "50-80", "10-30", "4-14", "10-25", "2-5", "40-80", "6-28", "10-50", "15-70", "25-40", 0, 0, 0]
+		}, {
+			"type": "IN",
+			"min": 0,
+			"max": 12,
+			"id": 22,
+			"name": "epicalyx lobes: number",
+			"data": [[10, 11, 12],[7, 8, 9, 10],[8, 9, 10], 9, 5, 6, 5,[6, 7], 5, 0,[4, 5], 8, 8,[5, 6],[6, 7, 8],[6, 7], 0,[10, 11, 12],[8, 9, 10],[8, 9, 10],[8, 9, 10, 11, 12], 12,[8, 9, 10, 11, 12],[7, 8, 9, 10], 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["filiform", "lanceolate", "linear", "oblanceolate", "oblong", "ovate", "spatulate", "triangular"],
+			"id": 23,
+			"name": "epicalyx lobe: shape",
+			"data": [1, 8, 8, 1, 0,[3, 4, 7], 2, 1, 6, 6, 6, 1, 1,[2, 3], 1,[2, 5], 0, 1, 1, 0, 0, 1, 2, 1, 0
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 24,
+			"name": "epicalyx lobe: length",
+			"data": ["25-25", "2-2.5", 0, "10-15", 0, "8-12", "1-2", "8-15", "4-14", 0, "20-20", "8-12", "10-16", "16-25", "6-20", "17-25", "4-6", "18-18", "6-10", 0, 0, "8-8", "5-15", "6-8", 0]
+		}, {
+			"type": "UM",
+			"states": ["campanulate", "cup-shaped", "tubular"],
+			"id": 25,
+			"name": "calyx: shape",
+			"data": [1, 0, 1, 1, 1, 2, 3, 1, 0, 1, 2, 0, 1, 1, 1, 1, 1, 0, 2, 2, 0, 1, 2, 1, 2]
+		}, {
+			"type": "IN",
+			"min": 5,
+			"max": 5,
+			"id": 26,
+			"name": "calyx: lobes: number",
+			"data": [5, 5, 5, 5, 5, 0, 5, 5, 0, 5, 5, 0, 5, 5, 5, 5, 5, 0, 5, 5, 0, 5, 5, 5, 5]
+		}, {
+			"type": "UM",
+			"states": ["lanceolate", "oblong", "ovate", "triangular"],
+			"id": 27,
+			"name": "calyx: lobe: shape",
+			"data": [1, 1, 0,[1, 2],[3, 4], 4, 0,[1, 3], 3,[1, 3], 3, 0, 3, 3, 4,[3, 4], 4, 0, 4,[1, 3], 0, 4, 4, 1, 1
+			]
+		}, {
+			"type": "UM",
+			"states": ["blue", "orange", "pink", "purple", "purple flushed abaxially", "red", "rose", "violet", "white", "yellow", "with red spots in center", "with purple center", "with purple-red center", "with red center", "with yellow in center"],
+			"id": 28,
+			"name": "corolla: color",
+			"data": [[10, 12],[10, 12],[2, 6, 10, 11], 0,[5, 9],[9, 15], 6,[2, 6, 7, 10],[3, 9, 15],[9, 13],[3, 9],[9, 12],[6, 9],[3, 9, 12],[1, 3, 4, 6, 8, 9], 4,[4, 6, 9],[3, 4, 6, 9, 14],[10, 13],[10, 14],[10, 12],[10, 12],[10, 14],[10, 14], 10
+			]
+		}, {
+			"type": "UM",
+			"states": ["campanulate", "funnel-shaped"],
+			"id": 29,
+			"name": "corolla: shape",
+			"data": [0, 1, 0, 0, 1, 0, 0, 2, 0, 0, 0, 2, 0, 1, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 30,
+			"name": "corolla: diam.",
+			"data": ["60-60", "60-75", "50-120", 0, "50-50", 0, 0, "60-100", "30-30", "100-120", "70-100", "60-90", "80-80", "60-80", "50-60", "70-90", "70-80", "100-140", "25-25", 0, "50-100", 0, "60-70", 0, 0]
+		}, {
+			"type": "UM",
+			"states": ["oblong", "obovate", "orbicular"],
+			"id": 31,
+			"name": "petal: shape",
+			"data": [0, 2, 2, 0, 2, 2, 0, 2, 0, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 0, 0, 2, 0,[1, 2], 0
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 32,
+			"name": "petal: length",
+			"data": [0, "40-45", "40-50", 0, "25-30", "40-45", "50-50", 0, "20-40", "50-70", "65-65", 0, 0, "60-60", "35-45", "60-70", 0, "100-100", "15-15", "35-35", 0, "20-20", 0, "60-60", "6-7"]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 33,
+			"name": "staminal column: length",
+			"data": ["30-30", "30-30", "15-20", 0, "15-15", "20-25", "90-100", "40-80", "10-10", "35-35", "35-40", 0, "25-30", "30-30", "30-30", "40-50", "40-40", "40-40", "8-8", 0, 0, "5-5", 0, "15-20", "4-4"]
+		}, {
+			"type": "UM",
+			"states": ["compressed", "conic", "cylindric", "ellipsoid", "globose", "oblong", "ovoid"],
+			"id": 34,
+			"name": "capsule: shape",
+			"data": [6,[5, 7], 7, 7, 4, 7,[3, 6], 7, 7,[6, 7], 5, 0,[1, 5], 0,[5, 7], 0,[4, 6],[2, 7], 5,[5, 7], 7,[5, 6],[5, 7], 5, 7
+			]
+		}, {
+			"type": "RN",
+			"unit": "mm",
+			"id": 35,
+			"name": "capsule: length",
+			"data": ["25-30", "20-20", "25-35", 0, "35-35", "23-23", "40-40", "25-25", "30-40", "25-25", 0, 0, 0, 0, 0, 0, "25-25", "25-30", 0, "12-12", "15-15", 0, 0, 0, "7-7"]
+		}, {
+			"type": "UM",
+			"states": ["glabrous", "hairy", "hirsute", "hispid", "scabrous", "spiny", "stellate hairy", "stellate puberulent", "stellate tomentose", "woolly"],
+			"id": 36,
+			"name": "capsule: indumentum",
+			"data": [[3, 5], 3, 3, 1, 9, 0, 0, 1, 7,[3, 9], 3, 0,[4, 10], 0, 8, 0,[4, 9], 0, 3,[3, 5], 2,[3, 5], 2, 6, 0
+			]
+		}, {
+			"type": "UM",
+			"states": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+			"id": 37,
+			"name": "flowering",
+			"data": [[3, 4, 5],[6, 7, 8], 0, 0, 12,[10, 11],[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 0,[7, 8],[7, 8, 9, 10, 11, 12], 0,[8, 9, 10], 6,[7, 8, 9, 10],[6, 7],[7, 8, 9, 10],[7, 8, 9],[7, 8],[1, 2, 3, 9, 10, 11, 12], 0,[7, 8, 9, 10],[6, 7, 8, 9, 10, 11],[9, 10, 11],[10, 11, 12]
+			]
+		}, {
+			"type": "RN",
+			"unit": "m",
+			"id": 38,
+			"name": "distribution: elevation",
+			"data": ["400-1000", "0-300", "0-100", "2000-2000", "500-1300", "1300-2100", 0, 0, "0-1400", "500-1100", "700-2000", 0, 0, "1300-1300", "0-1200", "500-1000", "600-1300", 0, "500-600", "300-1200", "1500-1500", 0, 0, 0, 0]
+		}, {
+			"type": "UM",
+			"states": ["Anhui", "Beijing", "Fujian", "Gansu", "Guangdong", "Guangxi", "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hong Kong", "Hubei", "Hunan", "Jiangsu", "Jiangxi", "Liaoning", "Shaanxi", "Shandong", "Shanghai", "Sichuan", "Taiwan", "Xizang", "Yunnan", "Zhejiang"],
+			"id": 39,
+			"name": "distribution: province",
+			"data": [24,[3, 5, 22, 8], 25, 8, 24,[21, 24],[3, 5, 6, 22, 8, 24],[3, 21, 5, 6, 8, 24], 24,[16, 6, 14],[21, 5, 6, 22, 8, 24], 22,[1, 3, 5, 6, 7, 9, 13, 14, 15, 17, 16, 19, 21, 22, 25, 24],[6, 7],[1, 3, 5, 6, 7, 8, 9, 11, 13, 14, 15, 16, 19, 18, 21, 23, 22, 25, 24],[16, 6, 7, 14],[18, 4],[19, 2, 20, 25, 24, 15], 24,[8, 24, 12], 24,[1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 15, 17, 16, 19, 18, 21, 20, 23, 22, 25, 24],[3, 5, 22, 8, 24],[17, 5, 25, 24, 9, 10, 15], 8
+			]
+		}, {
+			"type": "UM",
+			"states": ["Bangladesh", "Bhutan", "Cambodia", "India", "Indonesia", "Japan", "Kazakhstan", "Korea", "Kyrgyzstan", "Laos", "Malaysia", "Mongolia", "Myanmar", "Nepal", "Pakistan", "Philippines", "Sri Lanka", "Tajikistan", "Thailand", "Turkmenistan", "Uzbekistan", "Vietnam"],
+			"id": 40,
+			"name": "distribution: adjacent country",
+			"data": [[19, 3, 4, 5, 22, 11, 13, 15],[16, 19, 3, 4, 5, 22, 10, 11, 13],[4, 6, 8],[19, 5, 22, 10, 13], 0, 0, 0, 0,[1, 4, 13], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,[17, 16, 19, 2, 3, 4, 22, 10, 13],[17, 1, 19, 4, 13],[18, 21, 20, 7, 9, 12], 0, 4,[17, 2, 4, 11, 13, 14, 15]
+			]
+		}
+	],
+	"taxa": [
+		{
+			"id": 1,
+			"name": "Hibiscus macrophyllus"
+		}, {
+			"id": 2,
+			"name": "Hibiscus tiliaceus"
+		}, {
+			"id": 3,
+			"name": "Hibiscus hamabo"
+		}, {
+			"id": 4,
+			"name": "Hibiscus grewiifolius"
+		}, {
+			"id": 5,
+			"name": "Hibiscus austroyunnanensis"
+		}, {
+			"id": 6,
+			"name": "Hibiscus aridicola"
+		}, {
+			"id": 7,
+			"name": "Hibiscus schizopetalus"
+		}, {
+			"id": 8,
+			"name": "Hibiscus rosa-sinensis"
+		}, {
+			"id": 9,
+			"name": "Hibiscus fragrans"
+		}, {
+			"id": 10,
+			"name": "Hibiscus paramutabilis"
+		}, {
+			"id": 11,
+			"name": "Hibiscus indicus"
+		}, {
+			"id": 12,
+			"name": "Hibiscus taiwanensis"
+		}, {
+			"id": 13,
+			"name": "Hibiscus mutabilis"
+		}, {
+			"id": 14,
+			"name": "Hibiscus labordei"
+		}, {
+			"id": 15,
+			"name": "Hibiscus syriacus"
+		}, {
+			"id": 16,
+			"name": "Hibiscus sinosyriacus"
+		}, {
+			"id": 17,
+			"name": "Hibiscus leviseminus"
+		}, {
+			"id": 18,
+			"name": "Hibiscus moscheutos"
+		}, {
+			"id": 19,
+			"name": "Hibiscus yunnanensis"
+		}, {
+			"id": 20,
+			"name": "Hibiscus surattensis"
+		}, {
+			"id": 21,
+			"name": "Hibiscus hispidissimus"
+		}, {
+			"id": 22,
+			"name": "Hibiscus trionum"
+		}, {
+			"id": 23,
+			"name": "Hibiscus sabdariffa"
+		}, {
+			"id": 24,
+			"name": "Hibiscus cannabinus"
+		}, {
+			"id": 25,
+			"name": "Hibiscus lobatus"
+		}
+	],
+	"dataDir": "flora_huh_harvard_edu_china_delta_Hibiscus"
+}

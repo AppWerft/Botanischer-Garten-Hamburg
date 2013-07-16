@@ -1,5 +1,7 @@
 exports.create = function(_id) {
 	var self = require('module/win').create('iDelta');
+	
+
 	self.carousel = Ti.App.Carousel.createCarouselView({
 		top : 10,
 		carouselType : Ti.App.Carousel.CAROUSEL_TYPE_CYLINDER,
@@ -20,7 +22,7 @@ exports.create = function(_id) {
 	self.title = intkey.title;
 	var views = [];
 	for (var i = 0; i < intkey.characters.length; i++) {
-		views.push(require('module/intkey.character').create(intkey.characters[i]));
+		views.push(require('intkey/intkey.character').create(intkey.characters[i]));
 	}
 	self.carousel.views = views;
 	self.carousel.reloadData();

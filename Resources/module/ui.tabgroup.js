@@ -16,9 +16,6 @@ exports.create = function() {
 	tabGroup.open();
 	var Map_Module = require('module/lokimap.window');
 	var LokiMap = new Map_Module();
-	console.log(LokiMap);
-	console.log(LokiMap.createWindow());
-
 	var mapTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
 		title : 'Übersicht',
@@ -43,7 +40,7 @@ exports.create = function() {
 	var deltaTab = TabBar.createTab({
 		icon : 'assets/delta.png',
 		title : 'iDelta',
-		window : require('module/intkeyslist.window').create('')
+		window : require('intkey/main.window').create('')
 	});
 	tabGroup.addTab(deltaTab);
 	var matrixTab = TabBar.createTab({

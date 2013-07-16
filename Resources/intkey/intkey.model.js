@@ -8,7 +8,7 @@ Intkey.prototype.getList = function() {
 	return list;
 }
 Intkey.prototype.getKey = function(_id) {
-	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'intkeys', _id + '.json');
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'intkey/data', _id + '.json');
 	if (f.exists()) {
 		var text = f.read().text;
 		var key = JSON.parse(text);
