@@ -29,7 +29,12 @@ exports.create = function() {
 		window : require('module/taxo.allfamilies.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
-
+	var naturTab = TabBar.createTab({
+		icon : 'assets/natur.png',
+		title : 'Naturführer',
+		window : require('module/naturfuehrer.window').create('')
+	});
+	tabGroup.addTab(naturTab);
 	/*	var panoTab = TabBar.createTab({
 	 icon : 'assets/panoramio.png',
 	 title : 'Panoramio',
@@ -42,7 +47,7 @@ exports.create = function() {
 		title : 'iDelta',
 		window : require('intkey/main.window').create('')
 	});
-	tabGroup.addTab(deltaTab);
+	//tabGroup.addTab(deltaTab);
 	var matrixTab = TabBar.createTab({
 		icon : 'assets/flowericon.png',
 		title : 'Taxomatrix',
