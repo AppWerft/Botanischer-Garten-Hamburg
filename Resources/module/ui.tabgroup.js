@@ -32,7 +32,7 @@ exports.create = function() {
 	var naturTab = TabBar.createTab({
 		icon : 'assets/natur.png',
 		title : 'Naturführer',
-		window : require('module/naturfuehrer.window').create('')
+		window : require('module/dichotom.window').create({})
 	});
 	tabGroup.addTab(naturTab);
 	/*	var panoTab = TabBar.createTab({
