@@ -3,15 +3,18 @@ function html2utf8(foo) {
 }
 
 exports.create = function(_id) {
+	console.log('Memory: ' + Ti.Platform.availableMemory);
 	var self = require('module/win').create('Holzige Pflanzen');
 	self.setLayout('vertical');
 	if (_id) {
 		var leftButton = Ti.UI.createButton({
 			title : 'Zurück'
 		});
-		self.leftNavButton = leftButton;
+		self.setLeftNavButton(leftButton);
 		leftButton.addEventListener('click', function() {
-			self.close()
+			self.close({
+				transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
+			})
 		});
 	}
 	setTimeout(function() {
@@ -72,11 +75,21 @@ exports.create = function(_id) {
 					top : 10,
 					left : 0,
 					width : 80,
-					height : 80,
+					height : 60,
 					bubbleParent : false
 				});
-				rows[i].add(img);
+			} else {
+				var img = Ti.UI.createImageView({
+					image : 'assets/naturlogo.png',
+					top : 10,
+					left : 0,
+					width : 80,
+					height : 80,
+					opaycity : 0.5,
+					bubbleParent : false
+				});
 			}
+			rows[i].add(img);
 			rows[i].add(Ti.UI.createLabel({
 				width : Ti.UI.FILL,
 				left : (alt.media[0] && alt.media[0].url_420px) ? 10 : 10,
@@ -95,7 +108,14 @@ exports.create = function(_id) {
 		}
 		tv.setData(rows);
 		tv.addEventListener('click', function(_e) {
-			self.tab.open(require('module/dichotom.window').create(_e.rowData.next_id));
+			var next_id = _e.rowData.next_id;
+			if (!next_id || next_id.match(/_wikipage/i)) {
+				alert('Ende der Bestimmung');
+				return;
+			}
+			self.tab.open(require('module/dichotom.window').create(_e.rowData.next_id), {
+				transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
+			});
 		});
 		self.addEventListener('close', function() {
 			self = null;

@@ -24,11 +24,12 @@ Dichotom.prototype.getDecisionById = function(_id) {
 	}
 	// Findig  tree:
 	for (var i = 0; i < this.tree.content.length; i++) {
-		if (this.tree.content[i].type == 'decisiontree' && (this.tree.content[i].id == this.treeId || this.tree.content[i].id == this.treeId+'_')) {
+		if (this.tree.content[i].type == 'decisiontree' && (this.tree.content[i].id == this.treeId || this.tree.content[i].id == this.treeId + '_')) {
 			var decisions = this.tree.content[i].decision;
 			var meta = this.tree.content[i].metadata;
 			// Finding  decision
 			if (_id != undefined) {
+				console.log('==> Looking for "' + _id + '"');
 				for ( c = 0; c < decisions.length; c++) {
 					if (decisions[c].id == _id) {
 						return {
@@ -38,6 +39,7 @@ Dichotom.prototype.getDecisionById = function(_id) {
 					}
 				}
 			} else {
+				console.log('==> Looking for first entry of new tree "' + this.treeId + '"');
 				return {
 					alternatives : decisions[0].alternative,
 					meta : meta
