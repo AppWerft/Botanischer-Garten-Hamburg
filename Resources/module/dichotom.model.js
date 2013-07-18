@@ -1,53 +1,99 @@
-var Dichotom = function(_name) {
-	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'depot', _name + '.json');
-	this.tree = JSON.parse(f.read().text);
-	var key = this.tree.metadata.page_context_id.split('_');
-	key.pop();
-	this.treeId = key.join('_') + '_decisiontree';
+var Dichotom = function() {
+	this.dblink = Ti.Database.install('/depot/dichotoms.sql', 'dichotoms');
+	this.dichtom_id = null;
+	this.tree_id = null;
+	this.tree_metadata = null;
 	return this;
 }
 
-Dichotom.prototype.getDecisionById = function(_id) {
-	if (!_id) {
-		console.log('id initial setting to start-treeId "' + this.treeId + '"')
-		_id = this.treeId;
+Dichotom.prototype.importDichotom = function(_name) {
+	var self = this;
+	function html2utf8(foo) {
+		return foo.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 	}
-	var regex = /_decisiontree/i;
-	if (_id.match(regex)) {// new tre
-		console.log('Id was new treeId "' + _id + '"')
-		this.treeId = _id + '_';
-		// persist
-		_id = undefined;
-		// id is invalid, we take the first decision of tree
-	} else {
-		console.log('we leave in tree: ' + this.treeId);
-	}
-	// Findig  tree:
-	for (var i = 0; i < this.tree.content.length; i++) {
-		if (this.tree.content[i].type == 'decisiontree' && (this.tree.content[i].id == this.treeId || this.tree.content[i].id == this.treeId + '_')) {
-			var decisions = this.tree.content[i].decision;
-			var meta = this.tree.content[i].metadata;
-			// Finding  decision
-			if (_id != undefined) {
-				console.log('==> Looking for "' + _id + '"');
-				for ( c = 0; c < decisions.length; c++) {
-					if (decisions[c].id == _id) {
-						return {
-							alternatives : decisions[c].alternative,
-							meta : meta
-						};
-					}
-				}
-			} else {
-				console.log('==> Looking for first entry of new tree "' + this.treeId + '"');
-				return {
-					alternatives : decisions[0].alternative,
-					meta : meta
-				};
+
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'depot/dichotome', _name + '.json');
+	var data = JSON.parse(html2utf8(f.read().text));
+	var dichotomid = data.metadata.page_context_id.replace(/_wikipage/, '');
+	this.dblink.execute('DELETE  FROM  dichotoms WHERE dichotomid="' + dichotomid + '"');
+	this.dblink.execute('DELETE  FROM  decisiontrees WHERE dichotomid="' + dichotomid + '"');
+	this.dblink.execute('DELETE  FROM  decisions WHERE dichotomid="' + dichotomid + '"');
+	this.dblink.execute('INSERT INTO dichotoms (dichotomid,meta) VALUES (?,?)', dichotomid, JSON.stringify(data.metadata));
+	for (var i = 0; i < data.content.length; i++) {
+		if (data.content[i].type === 'decisiontree') {
+			var treeid = data.content[i].id;
+			this.dblink.execute('INSERT INTO decisiontrees (dichotomid,treeid,meta) VALUES (?,?,?)', dichotomid, treeid, JSON.stringify(data.content[i].metadata));
+			for (var d = 0; d < data.content[i].decision.length; d++) {
+				var decision = data.content[i].decision[d];
+				this.dblink.execute('INSERT INTO decisions (dichotomid,treeid,decisionid,decision) VALUES (?,?,?,?)', dichotomid, treeid, decision.id, JSON.stringify(decision.alternative));
 			}
 		}
 	}
-	return null;
+	data = null;
+}
+
+Dichotom.prototype.getAll = function() {
+	var resultset = this.dblink.execute('SELECT * FROM dichotoms');
+	var list = [];
+	while (resultset.isValidRow()) {
+
+		list.push({
+			id : resultset.fieldByName('dichotomid'),
+			meta : JSON.parse(resultset.fieldByName('meta'))
+		});
+		resultset.next();
+	}
+	resultset.close();
+	return list;
+}
+
+Dichotom.prototype.getDecisionById = function(_args) {
+	console.log('===================================');
+	console.log(_args);
+	if (_args.dichotom_id) {
+		this.dichotom_id = _args.dichotom_id;
+	}
+	if (!_args.next_id) {
+		var q = 'SELECT treeid,meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" LIMIT 0,1';
+		var resultset = this.dblink.execute(q);
+		this.tree_id = resultset.fieldByName('treeid');
+		this.tree_metadata = JSON.parse(resultset.fieldByName('meta'));
+		console.log('no nex_id ===> id initial setting to start-treeId "' + this.tree_id + '"')
+		resultset.close();
+	} else {
+		var regex = /_decisiontree/i;
+		if (_args.next_id.match(regex)) {// new tre
+			this.tree_id = _args.next_id + '_';
+			console.log('next_id was  new treeId ' + this.tree_id)
+			_args.next_id = undefined;
+		} else {
+			this.tree_id = _args.tree_id;
+		}
+	}
+	console.log('TREE_ID: ' + this.tree_id);
+	console.log(_args);
+	var q = 'SELECT meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.tree_id + '"';
+	var resultset = this.dblink.execute(q);
+	if (resultset.isValidRow()) {
+		var meta = JSON.parse(resultset.fieldByName('meta'));
+		resultset.close();
+	}
+	var q = 'SELECT decision FROM decisions WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.treeid + '"';
+	if (_args.next_id) {
+		q += ' AND decisionid ="' + _args.next_id + '"';
+	}
+	q += ' LIMIT 0,1';
+	//	console.log(q);
+	var resultset = this.dblink.execute(q);
+	if (resultset.isValidRow()) {
+		var alternatives = JSON.parse(resultset.fieldByName('decision'));
+		resultset.close();
+		return {
+			meta : meta,
+			alternatives : alternatives,
+			tree_id : this.tree_id
+		}
+	}
 
 }
 module.exports = Dichotom;

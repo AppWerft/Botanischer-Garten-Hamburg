@@ -25,14 +25,14 @@ exports.create = function() {
 
 	var taxoTab = TabBar.createTab({
 		icon : 'assets/cabinet.png',
-		title : 'Taxonomie',
+		title : 'Pflanzenliste',
 		window : require('module/taxo.allfamilies.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
 	var naturTab = TabBar.createTab({
 		icon : 'assets/natur.png',
 		title : 'Naturführer',
-		window : require('module/dichotom.window').create()
+		window : require('module/dichotom.list').create()
 	});
 	tabGroup.addTab(naturTab);
 	/*	var panoTab = TabBar.createTab({
@@ -50,7 +50,7 @@ exports.create = function() {
 	//tabGroup.addTab(deltaTab);
 	var matrixTab = TabBar.createTab({
 		icon : 'assets/flowericon.png',
-		title : 'Taxomatrix',
+		title : 'Familienfilter',
 		window : require('module/taxo.filter.window').create('')
 	});
 	tabGroup.addTab(matrixTab);

@@ -1,68 +1,63 @@
-function html2utf8(foo) {
-	return foo.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-}
-
-exports.create = function(_id) {
-	console.log('Memory: ' + Ti.Platform.availableMemory);
-	var self = require('module/win').create('Holzige Pflanzen');
+exports.create = function(_args) {
+	var self = require('module/win').create('');
 	self.setLayout('vertical');
-	if (_id) {
+	if (_args.next_id) {
 		var leftButton = Ti.UI.createButton({
 			title : 'Zurück'
 		});
 		self.setLeftNavButton(leftButton);
 		leftButton.addEventListener('click', function() {
 			self.close({
-				transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
+				animated : true
 			})
 		});
 	}
 	setTimeout(function() {
 		if (!Ti.App.Dichotom) {
 			var dichotom = require('module/dichotom.model');
-			Ti.App.Dichotom = new dichotom('holzigePflanzen');
+			Ti.App.Dichotom = new dichotom('');
 		}
-		var decision = Ti.App.Dichotom.getDecisionById(_id);
-
+		var decision = Ti.App.Dichotom.getDecisionById(_args);
 		if (!decision)
 			return self;
-		var alternatives = decision.alternatives;
-		var head = Ti.UI.createView({
-			top : -80,
-			backgroundColor : '#383',
-			height : Ti.UI.SIZE,
-			bottom : 0,
-			layout : 'horizontal'
-		});
-		if (decision.meta.icon_url)
-			head.add(Ti.UI.createImageView({
-				image : decision.meta.icon_url,
-				top : 0,
-				left : 5,
-				color : 'white',
+		if (decision.meta) {
+			var head = Ti.UI.createView({
+				top : -80,
+				backgroundColor : '#383',
+				height : Ti.UI.SIZE,
 				bottom : 0,
-				width : 80,
-				height : 80,
+				layout : 'horizontal'
+			});
+			if (decision.meta.icon_url)
+				head.add(Ti.UI.createImageView({
+					image : decision.meta.icon_url,
+					top : 0,
+					left : 5,
+					color : 'white',
+					bottom : 0,
+					width : 80,
+					height : 80,
+					height : Ti.UI.SIZE
+				}));
+			head.add(Ti.UI.createLabel({
+				text : decision.meta.title.striptags(),
+				top : 10,
+				left : 10,
+				right : 10,
+				color : 'white',
+				bottom : 10,
+				font : {
+					fontSize : 14
+				},
 				height : Ti.UI.SIZE
 			}));
-		head.add(Ti.UI.createLabel({
-			text : html2utf8(decision.meta.title),
-			top : 10,
-			left : 10,
-			right : 10,
-			color : 'white',
-			bottom : 10,
-			font : {
-				fontSize : 14
-			},
-			height : Ti.UI.SIZE
-		}));
-		self.add(head);
+			self.add(head);
+		}
 		var tv = Ti.UI.createTableView();
 		self.add(tv)
 		var rows = [];
-		for (var i = 0; i < alternatives.length; i++) {
-			var alt = alternatives[i];
+		for (var i = 0; i < decision.alternatives.length; i++) {
+			var alt = decision.alternatives[i];
 			rows[i] = Ti.UI.createTableViewRow({
 				hasChild : true,
 				layout : 'horizontal',
@@ -85,7 +80,7 @@ exports.create = function(_id) {
 					left : 0,
 					width : 80,
 					height : 80,
-					opaycity : 0.5,
+					opacity : 0.5,
 					bubbleParent : false
 				});
 			}
@@ -98,7 +93,7 @@ exports.create = function(_id) {
 				height : Ti.UI.SIZE,
 				bottom : 10,
 				color : '#444',
-				text : html2utf8(alternatives[i].statement),
+				text : alt.statement.striptags(),
 				font : {
 					fontSize : Ti.UI.CONF.fontsize_title,
 					fontWeight : 'bold',
@@ -113,9 +108,11 @@ exports.create = function(_id) {
 				alert('Ende der Bestimmung');
 				return;
 			}
-			self.tab.open(require('module/dichotom.window').create(_e.rowData.next_id), {
-				transition : Ti.UI.iPhone.AnimationStyle.CURL_DOWN
-			});
+			self.tab.open(require('module/dichotom.window').create({
+				next_id : _e.rowData.next_id,
+				dichotom_id : _args.dichotom_id,
+				tree_id : decision.tree_id
+			}));
 		});
 		self.addEventListener('close', function() {
 			self = null;
