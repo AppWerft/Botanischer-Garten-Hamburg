@@ -55,7 +55,6 @@ Dichotom.prototype.getDecisionById = function(_args) {
 	}
 	if (!_args.next_id) {
 		var q = 'SELECT treeid, meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" LIMIT 0,1';
-		console.log(q);
 		var resultset = this.dblink.execute(q);
 		this.tree_id = resultset.fieldByName('treeid');
 		console.log('no nex_id ===> id initial setting to start-treeId "' + this.tree_id + '"')
@@ -83,7 +82,6 @@ Dichotom.prototype.getDecisionById = function(_args) {
 		q += ' AND decisionid ="' + _args.next_id + '"';
 	}
 	q += ' LIMIT 0,1';
-	console.log(q);
 	var resultset = this.dblink.execute(q);
 	if (resultset.isValidRow()) {
 		var alternatives = JSON.parse(resultset.fieldByName('decision'));
@@ -92,6 +90,26 @@ Dichotom.prototype.getDecisionById = function(_args) {
 			meta : meta,
 			alternatives : alternatives,
 			tree_id : this.tree_id
+		}
+	} else {
+		this.tree_id = _args.tree_id;
+		var q = 'SELECT meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.tree_id + '"';
+		var resultset = this.dblink.execute(q);
+		if (resultset.isValidRow()) {
+			var meta = JSON.parse(resultset.fieldByName('meta'));
+			resultset.close();
+		}
+		var q = 'SELECT decision FROM decisions WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.tree_id + '" LIMIT 0,1';
+		console.log(q);
+		var resultset = this.dblink.execute(q);
+		if (resultset.isValidRow()) {
+			var alternatives = JSON.parse(resultset.fieldByName('decision'));
+			resultset.close();
+			return {
+				meta : meta,
+				alternatives : alternatives,
+				tree_id : this.tree_id
+			}
 		}
 	}
 

@@ -65,6 +65,7 @@ exports.create = function(_args) {
 				layout : 'horizontal',
 				backgroundColor : 'white',
 				next_id : alt.result.next_id,
+				item : alt,
 				height : Ti.UI.SIZE
 			});
 			if (alt.media[0] && alt.media[0].url_420px) {
@@ -108,7 +109,8 @@ exports.create = function(_args) {
 		tv.addEventListener('click', function(_e) {
 			var next_id = _e.rowData.next_id;
 			if (!next_id || next_id.match(/_wikipage/i)) {
-				alert('Ende der Bestimmung');
+				console.log(_e.rowData.item);
+				alert(_e.rowData.item.result.common_names);
 				return;
 			}
 			self.tab.open(require('module/dichotom.window').create({

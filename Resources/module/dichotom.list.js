@@ -14,7 +14,7 @@ exports.create = function() {
 		Ti.App.Dichotom.importDichotom('Solanaceae');
 */
 
-		Ti.App.Dichotom.importDichotom('hummeln');
+	//	Ti.App.Dichotom.importDichotom('Droseria');
 		var rows = [];
 		var list = Ti.App.Dichotom.getAll();
 		for (var i = 0; i < list.length; i++) {
