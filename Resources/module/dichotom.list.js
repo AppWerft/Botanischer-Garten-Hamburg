@@ -13,6 +13,8 @@ exports.create = function() {
 		Ti.App.Dichotom.importDichotom('Seggen_Binsen_Simsen');
 		Ti.App.Dichotom.importDichotom('Solanaceae');
 */
+
+		Ti.App.Dichotom.importDichotom('hummeln');
 		var rows = [];
 		var list = Ti.App.Dichotom.getAll();
 		for (var i = 0; i < list.length; i++) {

@@ -53,7 +53,9 @@ exports.create = function(_args) {
 			}));
 			self.add(head);
 		}
-		var tv = Ti.UI.createTableView();
+		var tv = Ti.UI.createTableView({
+			backgroundColor : 'transparent'
+		});
 		self.add(tv)
 		var rows = [];
 		for (var i = 0; i < decision.alternatives.length; i++) {
@@ -61,6 +63,7 @@ exports.create = function(_args) {
 			rows[i] = Ti.UI.createTableViewRow({
 				hasChild : true,
 				layout : 'horizontal',
+				backgroundColor : 'white',
 				next_id : alt.result.next_id,
 				height : Ti.UI.SIZE
 			});

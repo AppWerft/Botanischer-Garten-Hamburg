@@ -14,7 +14,7 @@ Dichotom.prototype.importDichotom = function(_name) {
 
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'depot/dichotome', _name + '.json');
 	var data = JSON.parse(html2utf8(f.read().text));
-	var dichotomid = data.metadata.page_context_id.replace(/_wikipage/, '');
+	var dichotomid = data.metadata.title.replace(/ /, '_');
 	this.dblink.execute('DELETE  FROM  dichotoms WHERE dichotomid="' + dichotomid + '"');
 	this.dblink.execute('DELETE  FROM  decisiontrees WHERE dichotomid="' + dichotomid + '"');
 	this.dblink.execute('DELETE  FROM  decisions WHERE dichotomid="' + dichotomid + '"');
