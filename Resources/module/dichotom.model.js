@@ -1,38 +1,77 @@
 var Dichotom = function() {
-	this.dblink = Ti.Database.install('/depot/dichotoms.sql', 'dichotoms');
+	this.dblink = Ti.Database.install('/depot/dichotom_skeleton.sql', 'dichotoms');
 	this.dichtom_id = null;
 	this.tree_id = null;
 	this.tree_metadata = null;
 	return this;
 }
 
-Dichotom.prototype.importDichotom = function(_name) {
-	var self = this;
-	function html2utf8(foo) {
-		return foo.replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-	}
-
-	var f = Ti.Filesystem.getFile(Ti.Filesystem.resourcesDirectory, 'depot/dichotome', _name + '.json');
-	var data = JSON.parse(html2utf8(f.read().text));
-	var dichotomid = data.metadata.title.replace(/ /, '_');
-	this.dblink.execute('DELETE  FROM  dichotoms WHERE dichotomid="' + dichotomid + '"');
-	this.dblink.execute('DELETE  FROM  decisiontrees WHERE dichotomid="' + dichotomid + '"');
-	this.dblink.execute('DELETE  FROM  decisions WHERE dichotomid="' + dichotomid + '"');
-	this.dblink.execute('INSERT INTO dichotoms (dichotomid,meta) VALUES (?,?)', dichotomid, JSON.stringify(data.metadata));
-	for (var i = 0; i < data.content.length; i++) {
-		if (data.content[i].type === 'decisiontree') {
-			var treeid = data.content[i].id;
-			this.dblink.execute('INSERT INTO decisiontrees (dichotomid,treeid,meta) VALUES (?,?,?)', dichotomid, treeid, JSON.stringify(data.content[i].metadata));
-			for (var d = 0; d < data.content[i].decision.length; d++) {
-				var decision = data.content[i].decision[d];
-				this.dblink.execute('INSERT INTO decisions (dichotomid,treeid,decisionid,decision) VALUES (?,?,?,?)', dichotomid, treeid, decision.id, JSON.stringify(decision.alternative));
-			}
+Dichotom.prototype.getAll = function(_args) {
+	var xhr = Ti.Network.createHTTPClient({
+		onload : function() {
+			var dichotoms = Ti.App.XML2JSON.convert(xhr.responseText).MediawikiTemplateIndexer.Wiki.Page;
+			_args.onload(dichotoms);
 		}
+	});
+	xhr.open('GET', 'http://offene-naturfuehrer.de/w/index.php?title=Special:TemplateParameterExport&action=submit&do=export&template=MobileKey');
+	xhr.send(null);
+}
+
+Dichotom.prototype.importDichotom = function(_args) {
+	var self = this;
+	_args.progress.show();
+	var url = _args.dichotom['Exchange_4_URI'].text;
+	try {
+		var mtime = _args.dichotom['Creation_Time'].text;
+	} catch(E) {
+		var mtime = 0;
 	}
+	var dichotomid = Ti.Utils.md5HexDigest(_args.dichotom.Title.text);
+	_args.row.dichotom_id = dichotomid;
+	var dichotom_is_actual = false;
+	var resultset = this.dblink.execute('SELECT mtime FROM dichotoms WHERE dichotomid=?', dichotomid);
+	if (resultset.isValidRow())
+		if (mtime == resultset.fieldByName('mtime'))
+			dichotom_is_actual = true;
+	resultset.close();
+	if (dichotom_is_actual) {
+		_args.progress.hide();
+		_args.row.hasChild = true;
+		return;
+	}
+	var xhr = Ti.Network.createHTTPClient({
+		ondatastream : function(_e) {
+			_args.progress.value = _e.progress;
+		},
+		onload : function() {
+			var data = JSON.parse(xhr.responseText.striptags());
+			self.dblink.execute('DELETE  FROM  dichotoms WHERE dichotomid="' + dichotomid + '"');
+			self.dblink.execute('DELETE  FROM  decisiontrees WHERE dichotomid="' + dichotomid + '"');
+			self.dblink.execute('DELETE  FROM  decisions WHERE dichotomid="' + dichotomid + '"');
+			self.dblink.execute('INSERT INTO dichotoms (dichotomid,meta,mtime) VALUES (?,?,?)', dichotomid, JSON.stringify(data.metadata), mtime);
+			for (var i = 0; i < data.content.length; i++) {
+				if (data.content[i].type === 'decisiontree') {
+					var treeid = data.content[i].id;
+					self.dblink.execute('INSERT INTO decisiontrees (dichotomid,treeid,meta) VALUES (?,?,?)', dichotomid, treeid, JSON.stringify(data.content[i].metadata));
+					for (var d = 0; d < data.content[i].decision.length; d++) {
+						var decision = data.content[i].decision[d];
+						if (decision.id)
+							self.dblink.execute('INSERT INTO decisions (dichotomid,treeid,decisionid,decision) VALUES (?,?,?,?)', dichotomid, treeid, decision.id, JSON.stringify(decision.alternative));
+						else
+							console.log(decision);
+					}
+				}
+			}
+			_args.progress.hide();
+			_args.row.hasChild = true;
+		}
+	});
+	xhr.open('GET', url);
+	xhr.send(null);
 	data = null;
 }
 
-Dichotom.prototype.getAll = function() {
+Dichotom.prototype._getAll = function() {
 	var resultset = this.dblink.execute('SELECT * FROM dichotoms');
 	var list = [];
 	while (resultset.isValidRow()) {
@@ -69,8 +108,6 @@ Dichotom.prototype.getDecisionById = function(_args) {
 			this.tree_id = _args.tree_id;
 		}
 	}
-	console.log('TREE_ID: ' + this.tree_id);
-	console.log(_args);
 	var q = 'SELECT meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.tree_id + '"';
 	var resultset = this.dblink.execute(q);
 	if (resultset.isValidRow()) {
