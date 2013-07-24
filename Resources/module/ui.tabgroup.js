@@ -44,7 +44,7 @@ exports.create = function() {
 	
 	var deltaTab = TabBar.createTab({
 		icon : 'assets/delta.png',
-		title : 'iDelta',
+		title : 'iDelta',    
 		window : require('intkey/main.window').create('')
 	});
 	tabGroup.addTab(deltaTab);
