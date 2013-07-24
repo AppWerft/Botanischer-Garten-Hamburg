@@ -1,9 +1,13 @@
 exports.create = function() {
 	var self = require('module/win').create('Offener Naturführer');
 	//	Ti.App.Dichotom.importDichotom('Droseria');
-	var rows = [];
+	var tv = Ti.UI.createTableView({
+		backgroundColor : 'transparent'
+	});
+	self.add(tv);
 	var list = Ti.App.Dichotom.getAll({
 		onload : function(_list) {
+			var rows = [];
 			for (var i = 0; i < _list.length; i++) {
 				var item = _list[i].Template;
 				if (!item['Exchange_4_Format'])
@@ -61,11 +65,6 @@ exports.create = function() {
 			tv.setData(rows);
 		}
 	});
-	var tv = Ti.UI.createTableView({
-		data : rows,
-		backgroundColor : 'transparent'
-	});
-	self.add(tv);
 	tv.addEventListener('click', function(_e) {
 		if (_e.rowData.hasChild == false)
 			return;

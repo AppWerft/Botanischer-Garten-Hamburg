@@ -47,13 +47,13 @@ exports.create = function() {
 		title : 'iDelta',
 		window : require('intkey/main.window').create('')
 	});
-	//tabGroup.addTab(deltaTab);
+	tabGroup.addTab(deltaTab);
 	var matrixTab = TabBar.createTab({
 		icon : 'assets/flowericon.png',
 		title : 'Familienfilter',
 		window : require('module/taxo.filter.window').create('')
 	});
-	tabGroup.addTab(matrixTab);
+	//tabGroup.addTab(matrixTab);
 	var eventsTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',

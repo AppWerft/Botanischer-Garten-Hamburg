@@ -10,7 +10,6 @@ exports.create = function(_args) {
 			animated : true
 		})
 	});
-
 	var decision = Ti.App.Dichotom.getDecisionById(_args);
 	if (!decision)
 		return self;
@@ -30,7 +29,7 @@ exports.create = function(_args) {
 				color : 'white',
 				bottom : 0,
 				width : 80,
-				height : 80,
+				height : 90,
 				height : Ti.UI.SIZE
 			}));
 		head.add(Ti.UI.createLabel({
@@ -43,13 +42,13 @@ exports.create = function(_args) {
 			font : {
 				fontSize : 14
 			},
-			height : Ti.UI.SIZE
+			height : 70
 		}));
 		self.add(head);
 	}
 	var tv = Ti.UI.createTableView({
 		backgroundColor : 'transparent',
-		top : (decision.meta) ? 80 : 0
+		top : (decision.meta) ? 90 : 0
 	});
 	self.add(tv)
 	var rows = [];
@@ -57,7 +56,7 @@ exports.create = function(_args) {
 		var alt = decision.alternatives[i];
 		rows[i] = Ti.UI.createTableViewRow({
 			hasChild : true,
-			layout : 'horizontal',
+			layout : 'vertical',
 			backgroundColor : 'white',
 			next_id : alt.result.next_id,
 			item : alt,
@@ -67,20 +66,13 @@ exports.create = function(_args) {
 			var img = Ti.UI.createImageView({
 				image : alt.media[0].url_420px,
 				top : 10,
-				left : 0,
-				width : 80,
+				left : 10,
+				width : Ti.UI.FILL,
 				height : 'auto',
-				bubbleParent : false
+				bubbleParent : true
 			});
-			setTimeout(function() {
-				console.log(img.getSize().width);
-				console.log(img.getSize().height)
-			}, 1000);
-			if (img.size.getWidth() > img.size.getHeight()) {
-				img.setWidth(300);
-				row.setLayout('vertical');
-			}
 		} else {
+			rows[i].layout = 'horizontal';
 			var img = Ti.UI.createImageView({
 				image : 'assets/naturlogo.png',
 				top : 10,
@@ -88,19 +80,19 @@ exports.create = function(_args) {
 				width : 80,
 				height : 80,
 				opacity : 0.5,
-				bubbleParent : false
+				bubbleParent : true 
 			});
 		}
 		rows[i].add(img);
 		rows[i].add(Ti.UI.createLabel({
 			width : Ti.UI.FILL,
-			left : (alt.media[0] && alt.media[0].url_420px) ? 10 : 10,
+			left : 10,
 			top : 10,
 			right : 10,
 			height : Ti.UI.SIZE,
 			bottom : 10,
 			color : '#444',
-			text : alt.statement.striptags(),
+			text : alt.statement.striptags().entities2utf8(),
 			font : {
 				fontSize : Ti.UI.CONF.fontsize_title,
 				fontWeight : 'bold',
@@ -125,6 +117,5 @@ exports.create = function(_args) {
 	self.addEventListener('close', function() {
 		self = null;
 	})
-
 	return self;
 }

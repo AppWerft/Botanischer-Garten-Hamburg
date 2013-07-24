@@ -1,5 +1,4 @@
 var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql', AREACACHE = true;
-var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 
 var LokiModel = function() {
 	this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
@@ -17,10 +16,13 @@ LokiModel.prototype.getAreas = function(_args) {
 				return;
 			}
 		} catch (E) {
+			console.log(E);
 		}
 	}
 	var self = this;
+	console.log('Try to get new areas');
 	var xhr = Ti.Network.createHTTPClient({
+		timeout : 20000,
 		onload : function() {
 			var foo = JSON.parse(this.responseText);
 			var arrays = {};
@@ -81,9 +83,8 @@ LokiModel.prototype.getAreas = function(_args) {
 				area_names : keys,
 				area_arrays : arrays
 			};
-
-			Ti.App.Properties.setString('areas', result)
-			_args.onload(result)
+			Ti.App.Properties.setString('areas', JSON.stringify(result))
+			_args.onload(result);
 		}
 	});
 	xhr.open('GET', 'http://lab.min.uni-hamburg.de/botanischergarten/api/');
@@ -287,6 +288,10 @@ LokiModel.prototype.getDetailFromNet = function() {
 
 LokiModel.prototype.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
+	if (Ti.Network.online === false) {
+		alert('Zur Zeit ist das Telefon nicht im Netz. Nur ein Teil der Funktionen stehen zur Verfügung.');
+		return;
+	}
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			try {

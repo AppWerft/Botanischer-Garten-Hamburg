@@ -13,6 +13,6 @@ String.prototype.striptags = function() {
 }
 
 String.prototype.entities2utf8 = function() {
-	return this.replace(/undefined/g,' ').replace(/&amp;/g,'&').replace(/&nbsp;/g,' ');
+	return this.replace(/undefined/g,' ').replace(/&amp;/g,'&').replace(/&nbsp;/g,' ').replace(/&gt;/g,'>').replace(/&lt;/g,'<').replace(/&#160;/g,' ');
 }
 

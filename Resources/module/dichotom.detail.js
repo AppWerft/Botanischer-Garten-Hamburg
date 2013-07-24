@@ -2,6 +2,10 @@ exports.create = function(_item) {
 	console.log(_item.media);
 	var self = Ti.UI.createWindow({
 		navBarHidden : true,
+		transform : Ti.UI.create2DMatrix({
+			scale : 0.1
+		}),
+		borderRadius : 6
 	});
 	self.add(Ti.UI.createView({
 		backgroundColor : 'black',
@@ -27,5 +31,11 @@ exports.create = function(_item) {
 			height : 'auto'
 		}));
 	}
+	self.animate(Ti.UI.createAnimation({
+		duration : 500,
+		transform : Ti.UI.create2DMatrix({
+			scale : 1
+		})
+	}));
 	return self;
 }

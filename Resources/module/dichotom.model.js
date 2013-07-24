@@ -1,5 +1,5 @@
 var Dichotom = function() {
-	this.dblink = Ti.Database.install('/depot/dichotom_skeleton.sql', 'dichotoms');
+	this.dblink = Ti.Database.install('/depot/dichotoms.sql', 'dichotoms');
 	this.dichtom_id = null;
 	this.tree_id = null;
 	this.tree_metadata = null;
@@ -7,9 +7,13 @@ var Dichotom = function() {
 }
 
 Dichotom.prototype.getAll = function(_args) {
+	if (Ti.App.Properties.hasProperty('dichotoms')) {
+		_args.onload(JSON.parse(Ti.App.Properties.getString('dichotoms')));
+	}
 	var xhr = Ti.Network.createHTTPClient({
 		onload : function() {
 			var dichotoms = Ti.App.XML2JSON.convert(xhr.responseText).MediawikiTemplateIndexer.Wiki.Page;
+			Ti.App.Properties.setString('dichotoms', JSON.stringify(dichotoms));
 			_args.onload(dichotoms);
 		}
 	});
@@ -86,13 +90,73 @@ Dichotom.prototype._getAll = function() {
 	return list;
 }
 
+Dichotom.prototype.cacheImages = function(_dichotom_id) {
+	function getImage(_args) {
+		var xhr = Ti.Network.createHTTPClient({
+			onload : function(_e) {
+				
+				_args.file.write(_e.responseData);
+			},
+			onerror : function(_e) {
+				console.log(_e.error);
+			}
+		});
+		xhr.open('GET', _args.url);
+		xhr.send(null);
+	}
+
+	var q = 'SELECT decision FROM decisions WHERE dichotomid = "' + _dichotom_id + '"';
+	var resultset = this.dblink.execute(q);
+	var images = [];
+	while (resultset.isValidRow()) {
+		var decision = JSON.parse(resultset.fieldByName('decision'));
+		if (decision) {
+			for (var a = 0; a < decision.length; a++) {
+				if (decision[a].media && decision[a].media[0] && decision[a].media[0]['url_420px']) {
+					images.push(decision[a].media && decision[a].media[0]['url_420px']);
+				}
+			}
+		}
+		resultset.next();
+	}
+	resultset.close();
+	if (!images.length)
+		return;
+	var dialog = Ti.UI.createAlertDialog({
+		cancel : 1,
+		buttonNames : ['Ja, runterladen', 'Nein, Abbruch'],
+		message : images.length + ' Bilder gefunden. Möchten Sie die Bilder für den Freiimfelde-Gebrauch herunterladen?',
+		title : 'Für netzlosen Gebrauch vorbereiten …'
+	});
+	dialog.addEventListener('click', function(e) {
+		if (e.index !== e.source.cancel) {
+			for (var i = 0; i < images.length; i++) {
+				var filename = Ti.Utils.md5HexDigest(images[i]) + '@2x.png';
+				var file = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'ic', filename);
+				if (!file.exists()) {
+					var g = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'ic');
+					if (!g.exists()) {
+						g.createDirectory();
+					};
+					getImage({
+						url : images[i],
+						filename : filename,
+						file : file
+					});
+				}
+			};
+		}
+
+	});
+	dialog.show();
+}
+
 Dichotom.prototype.getDecisionById = function(_args) {
-	console.log('===================================');
-	console.log(_args);
 	if (_args.dichotom_id) {
 		this.dichotom_id = _args.dichotom_id;
 	}
 	if (!_args.next_id) {
+		this.cacheImages(this.dichotom_id);
 		var q = 'SELECT treeid, meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" LIMIT 0,1';
 		var resultset = this.dblink.execute(q);
 		this.tree_id = resultset.fieldByName('treeid');
