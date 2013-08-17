@@ -25,4 +25,4 @@ exports.create = function(r) {
 		bottom : 5
 	}));
 	return self;
-}
+};

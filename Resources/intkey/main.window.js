@@ -1,5 +1,5 @@
 exports.create = function(_familie) {
-	var self = require('module/win').create('iDelta');
+	var self = require('ui/win').create('iDelta');
 	var IntkeyModel = require('intkey/intkey.model');
 	Ti.App.IntkeyModel = new IntkeyModel();
 	var sections = [];
@@ -28,7 +28,7 @@ exports.create = function(_familie) {
 	self.listView = Ti.UI.createListView({
 		sections : sections,
 		templates : {
-			'intkeys' : require('module/TEMPLATES').intkeys
+			'intkeys' : require('ui/TEMPLATES').intkeys
 		},
 		defaultItemTemplate : 'intkeys'
 	});
@@ -40,4 +40,4 @@ exports.create = function(_familie) {
 	self.add(self.listView);
 
 	return self;
-}
+}; 

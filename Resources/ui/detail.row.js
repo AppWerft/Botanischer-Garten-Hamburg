@@ -4,7 +4,7 @@ exports.create = function(_options, _parent) {
 		height : Ti.UI.SIZE,
 		familie : (_options.label == 'Familie') ? _options.text : null,
 		bereich : (_options.label == 'Bereich') ? _options.bereich : null,
-		hasChild : (_options.label == 'Bereich' || _options.label == 'Familie' ||_options.label == 'Ordnung' ) ? true : false,
+		hasChild : (_options.label == 'Bereich' || _options.label == 'Familie' || _options.label == 'Ordnung' ) ? true : false,
 	});
 	self.add(Ti.UI.createLabel({
 		text : _options.label,
@@ -43,19 +43,20 @@ exports.create = function(_options, _parent) {
 				image : '/assets/' + _options.standort + '.png'
 			}));
 	}
-	self.addEventListener('click', function(_e) {console.log(_options);
+	self.addEventListener('click', function(_e) {
+		console.log(_options);
 		switch (_options.label) {
 			case 'Bereich':
-				_parent.tab.open(require('module/bereich.window').create(_options.area));
+				_parent.tab.open(require('ui/bereich.window').create(_options.area));
 				break;
 			case 'Ordnung':
-				_parent.tab.open(require('module/taxo.familiesbyordnung.window').create(_options.text));
+				_parent.tab.open(require('ui/taxo.familiesbyordnung.window').create(_options.text));
 				break;
 			case 'Familie':
-				_parent.tab.open(require('module/taxo.gattungoffamily.window').create(_options.text));
+				_parent.tab.open(require('ui/taxo.gattungoffamily.window').create(_options.text));
 				break;
 		}
 	});
 
 	return self;
-}
+};

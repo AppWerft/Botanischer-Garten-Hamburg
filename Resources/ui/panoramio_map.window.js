@@ -1,5 +1,5 @@
 exports.create = function() {
-	var self = require('module/win').create('Panoramio-Bilder');
+	var self = require('ui/win').create('Panoramio-Bilder');
 	var LAT = 53.5614057, LON = 9.8614097, DELTA = 0.004;
 	var Panoramio = require('vendor/panoramio');
 	var locked = false;
@@ -41,7 +41,7 @@ exports.create = function() {
 	self.add(self.map);
 	self.map.addEventListener('click', function(_e) {
 		if (_e.clicksource != 'pin') {
-			self.tab.open(require('module/panoramioimage.window').create(_e.annotation));
+			self.tab.open(require('ui/panoramioimage.window').create(_e.annotation));
 		}
 	});
 	self.addEventListener('focus', function() {
@@ -72,4 +72,4 @@ exports.create = function() {
 		}
 	})
 	return self;
-}
+};

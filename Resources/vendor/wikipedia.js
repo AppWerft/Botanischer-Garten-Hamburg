@@ -1,6 +1,5 @@
 //https://ru.wikipedia.org/w/api.php?action=query&list=search&srsearch=Asimina+triloba&srprop=timestamp&format=json
 exports.search4Article = function(_lang, _item, _callback) {
-
 	var post = {
 		action : 'query',
 		list : 'search',

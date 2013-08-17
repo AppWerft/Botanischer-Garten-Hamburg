@@ -1,12 +1,12 @@
 exports.create = function(_ordnung) {
-	var self = require('module/win').create(_ordnung);
+	var self = require('ui/win').create(_ordnung);
 	var taxonomysections = [];
 
 	var familien = Ti.App.LokiModel.getFamilienByOrdnung(_ordnung);
 	console.log(familien);
 	var template = {
-		widthdetail : require('module/TEMPLATES').activefamilyrow,
-		widthoutdetail : require('module/TEMPLATES').passivefamilyrow
+		widthdetail : require('ui/TEMPLATES').activefamilyrow,
+		widthoutdetail : require('ui/TEMPLATES').passivefamilyrow
 	};
 	self.listview_of_orders = Ti.UI.createListView({
 		templates : {
@@ -49,8 +49,8 @@ exports.create = function(_ordnung) {
 			return;
 		var detail = item.properties.itemId;
 		if (detail.familie)
-			self.tab.open(require('module/taxo.gattungoffamily.window').create(detail.familie));
+			self.tab.open(require('ui/taxo.gattungoffamily.window').create(detail.familie));
 
 	});
 	return self;
-}
+};

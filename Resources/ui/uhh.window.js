@@ -26,7 +26,7 @@ exports.create = function() {
 			self.tv.setData(sections);
 		});
 	}
-	var self = require('module/win').create('UHH✦intern', true);
+	var self = require('ui/win').create('UHH✦intern', true);
 	self.backgroundImage = 'Default.png';
 	self.rightButton = Ti.UI.createButton({
 		backgroundImage : '/assets/besteck.png',
@@ -40,7 +40,7 @@ exports.create = function() {
 	self.add(self.tv);
 	var dialogView = require('uhhlogin/dialog').create();
 	dialogView.zIndex = 999;
-	self.picker = require('module/mensa.picker').create(require('vendor/mensa.network').mensen, function(_data) {
+	self.picker = require('ui/mensa.picker').create(require('vendor/mensa.network').mensen, function(_data) {
 		Ti.App.Properties.setString('mensa', JSON.stringify(_data));
 		mensa = _data;
 		if (self.picker)
@@ -105,4 +105,4 @@ exports.create = function() {
 
 	});
 	return self;
-}
+};

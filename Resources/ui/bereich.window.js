@@ -1,5 +1,5 @@
 exports.create = function(_bereich) {
-	var self = require('module/win').create(_bereich);
+	var self = require('ui/win').create(_bereich);
 	var backButton = Ti.UI.createButton({
 		title : 'Back'
 	});
@@ -9,7 +9,7 @@ exports.create = function(_bereich) {
 		backgroundImage : '/assets/mappin.png'
 	});
 	mapButton.addEventListener('click', function() {
-		var Map_Module = require('module/lokimap.window');
+		var Map_Module = require('ui/lokimap.window');
 		var LokiMap = new Map_Module();
 		self.tab.open(LokiMap.createWindow());
 	});
@@ -21,7 +21,7 @@ exports.create = function(_bereich) {
 			transition : Titanium.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT
 		});
 	});
-	var plantsTemplate = require('module/TEMPLATES').plantrow;
+	var plantsTemplate = require('ui/TEMPLATES').plantrow;
 	setTimeout(function() {
 		var section = undefined;
 		Ti.App.LokiModel.getArtenByBereich(_bereich, function(_items) {
@@ -55,11 +55,11 @@ exports.create = function(_bereich) {
 			defaultItemTemplate : 'plants',
 		});
 		self.listView.addEventListener('itemclick', function(_e) {
-			self.tab.open(require('module/detail.window').create(_e.itemId), {
+			self.tab.open(require('ui/detail.window').create(_e.itemId), {
 				animate : true
 			});
 		});
 		self.add(self.listView);
 	}, 10);
 	return self;
-}
+};

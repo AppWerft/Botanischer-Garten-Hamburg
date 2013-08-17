@@ -6,7 +6,7 @@ exports.create = function(_args) {
 	self.add(Ti.UI.createView({
 		backgroundColor : 'black',
 		opacity : 0.6
-	}))
+	}));
 	var slider = Titanium.UI.createSlider({
 		min : 0,
 		max : 1,
@@ -21,4 +21,4 @@ exports.create = function(_args) {
 		_args.onstop(e.value);
 	});
 	return self;
-}
+};

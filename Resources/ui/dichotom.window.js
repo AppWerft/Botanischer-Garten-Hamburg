@@ -1,5 +1,5 @@
 exports.create = function(_args) {
-	var self = require('module/win').create('');
+	var self = require('ui/win').create('');
 	self.setTitle(_args.dichotom_title);
 	var leftButton = Ti.UI.createButton({
 		title : 'Zurück'
@@ -104,11 +104,11 @@ exports.create = function(_args) {
 	tv.addEventListener('click', function(_e) {
 		var next_id = _e.rowData.next_id;
 		if (!next_id || next_id.match(/_wikipage/i)) {
-			var win = require('module/dichotom.detail').create(_e.rowData.item);
+			var win = require('ui/dichotom.detail').create(_e.rowData.item);
 			win.open();
 			return;
 		}
-		self.tab.open(require('module/dichotom.window').create({
+		self.tab.open(require('ui/dichotom.window').create({
 			next_id : _e.rowData.next_id,
 			dichotom_id : _args.dichotom_id,
 			tree_id : decision.tree_id
@@ -118,4 +118,4 @@ exports.create = function(_args) {
 		self = null;
 	})
 	return self;
-}
+};

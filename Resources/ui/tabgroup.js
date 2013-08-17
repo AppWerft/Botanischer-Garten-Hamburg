@@ -14,7 +14,7 @@ exports.create = function() {
 		bottom : -50
 	});
 	tabGroup.open();
-	var Map_Module = require('module/lokimap.window');
+	var Map_Module = require('ui/lokimap.window');
 	var LokiMap = new Map_Module();
 	var mapTab = TabBar.createTab({
 		icon : 'assets/signpost.png',
@@ -26,19 +26,19 @@ exports.create = function() {
 	var taxoTab = TabBar.createTab({
 		icon : 'assets/cabinet.png',
 		title : 'Pflanzenliste',
-		window : require('module/taxo.allfamilies.window').create('')
+		window : require('ui/taxo.allfamilies.window').create('')
 	});
 	tabGroup.addTab(taxoTab);
-	var naturTab = TabBar.createTab({
+	/*var naturTab = TabBar.createTab({
 		icon : 'assets/natur.png',
 		title : 'Naturführer',
-		window : require('module/dichotom.list').create()
+		window : require('ui/dichotom.list').create()
 	});
-	tabGroup.addTab(naturTab);
+	tabGroup.addTab(naturTab);*/
 	/*	var panoTab = TabBar.createTab({
 	 icon : 'assets/panoramio.png',
 	 title : 'Panoramio',
-	 window : require('module/panoramio_map.window').create('')
+	 window : require('ui/panoramio_map.window').create('')
 	 });
 	 tabGroup.addTab(panoTab);*/
 	
@@ -51,15 +51,15 @@ exports.create = function() {
 	var matrixTab = TabBar.createTab({
 		icon : 'assets/flowericon.png',
 		title : 'Familienfilter',
-		window : require('module/taxo.filter.window').create('')
+		window : require('ui/taxo.filter.window').create('')
 	});
 	//tabGroup.addTab(matrixTab);
 	var eventsTab = TabBar.createTab({
 		icon : 'assets/calendar.png',
 		title : 'Veranstaltungen',
-		window : require('module/events.window').create('')
+		window : require('ui/events.window').create('')
 	});
 	tabGroup.addTab(eventsTab);
 	//tabGroup.setActiveTab(1);
 	tabGroup.bottom = 0;
-}
+};

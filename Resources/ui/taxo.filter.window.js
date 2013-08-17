@@ -1,13 +1,13 @@
 exports.create = function(_ordnung) {
 	const BUTTONHEIGHT = 65, BUTTONWIDTH = 75;
-	var self = require('module/win').create('Familienfilter');
+	var self = require('ui/win').create('Familienfilter');
 	var sections = [];
-	var areas = require('module/taxonomy.model').getFilter('en');
+	var areas = require('model/taxonomy.model').getFilter('en');
 	setTimeout(function() {
 		self.listview_of_filterquestions = Ti.UI.createListView({
 			templates : {
-				'filterrow' : require('module/TEMPLATES').filterrow,
-				'filterrow_selected' : require('module/TEMPLATES').filterrow_selected
+				'filterrow' : require('ui/TEMPLATES').filterrow,
+				'filterrow_selected' : require('ui/TEMPLATES').filterrow_selected
 			},
 			defaultItemTemplate : 'filterrow'
 		});
@@ -49,7 +49,7 @@ exports.create = function(_ordnung) {
 			data : []
 		});
 		okButton.addEventListener('click', function() {
-			self.tab.open(require('module/taxo.familiesbyfilter.window').create(okButton.data));
+			self.tab.open(require('ui/taxo.familiesbyfilter.window').create(okButton.data));
 		});
 		// Maps the plai	nTemplate object to the 'plain' style name);
 		var familysection = Ti.UI.createListSection();
@@ -60,7 +60,7 @@ exports.create = function(_ordnung) {
 			bottom : 0,
 			separatorStyle : '#8a8',
 			templates : {
-				'familystrip' : require('module/TEMPLATES').familystrip,
+				'familystrip' : require('ui/TEMPLATES').familystrip,
 			},
 			defaultItemTemplate : 'familystrip',
 			sections : [familysection]
@@ -106,7 +106,7 @@ exports.create = function(_ordnung) {
 					}
 				}
 			}
-			require('module/taxonomy.model').searchFamilies(plantproperties, function(_familydata) {
+			require('ui/taxonomy.model').searchFamilies(plantproperties, function(_familydata) {
 				var count = _familydata.length;
 				var data = [];
 				for (var i = 0; i < count; i++) {
@@ -142,4 +142,4 @@ exports.create = function(_ordnung) {
 		self.add(self.listview_of_filterquestions);
 	}, 0);
 	return self;
-}
+};

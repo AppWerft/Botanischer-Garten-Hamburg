@@ -27,11 +27,11 @@ var Picker = function(_args) {
 	}
 	this.view.add([column]);
 	return this;
-}
+};
 
 Picker.prototype.getView = function() {
 	return this.view;
-}
+};
 
 Picker.prototype.show = function() {
 	this.view.animate({
@@ -40,7 +40,7 @@ Picker.prototype.show = function() {
 			duration : 700
 		})
 	});
-}
+};
 
 Picker.prototype.hide = function() {
 	this.view.animate({
@@ -49,5 +49,5 @@ Picker.prototype.hide = function() {
 			duration : 700
 		})
 	});
-}
+};
 module.exports = Picker;

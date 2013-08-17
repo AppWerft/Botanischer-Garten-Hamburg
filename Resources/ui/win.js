@@ -16,7 +16,8 @@ exports.create = function(_title, _noswipe) {
 		borderRadius : 8,
 		width : 280,
 		message : 'Bitte etwas Geduld … ',
-		height : 80,zIndex:999,
+		height : 80,
+		zIndex : 999,
 		opacity : 0.8,
 		font : {
 			fontSize : 12
@@ -32,4 +33,4 @@ exports.create = function(_title, _noswipe) {
 		self = null;
 	});
 	return self;
-}
+};

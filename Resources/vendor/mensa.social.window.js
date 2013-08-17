@@ -1,5 +1,5 @@
 exports.create = function(_title, _latlon) {
-	var self = require('module/win').create(_title, true);
+	var self = require('ui/win').create(_title, true);
 	const BUTTSIZE = 40;
 	var dataid = undefined;
 	var ImageFactory = require('ti.imagefactory');
@@ -150,4 +150,4 @@ exports.create = function(_title, _latlon) {
 	}
 
 	return self;
-}
+};

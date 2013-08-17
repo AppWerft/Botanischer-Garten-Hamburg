@@ -1,5 +1,5 @@
 exports.create = function() {
-	var self = require('module/win').create('Übersicht');
+	var self = require('ui/win').create('Übersicht');
 	var rightButton = Ti.UI.createButton({
 		width : 42,
 		height : 36,
@@ -8,15 +8,15 @@ exports.create = function() {
 		backgroundImage : '/assets/flower.png'
 	});
 	rightButton.addEventListener('click', function() {
-		self.tab.open(require('module/taxo.filter.window').create());
+		self.tab.open(require('ui/taxo.filter.window').create());
 	});
 	self.rightNavButton = rightButton;
 	var taxonomysections = [], searchresultsections = [], timer = undefined;
 	var ordnungen = Ti.App.LokiModel.getFamilien();
 	var template = {
-		widthdetail : require('module/TEMPLATES').activefamilyrow,
-		widthoutdetail : require('module/TEMPLATES').passivefamilyrow,
-		searchresult : require('module/TEMPLATES').plantrow,
+		widthdetail : require('ui/TEMPLATES').activefamilyrow,
+		widthoutdetail : require('ui/TEMPLATES').passivefamilyrow,
+		searchresult : require('ui/TEMPLATES').plantrow,
 	};
 	self.listview_of_taxonomy = Ti.UI.createListView({
 		top : 45,
@@ -136,12 +136,12 @@ exports.create = function() {
 			return;
 		var detail = item.properties.itemId;
 		if (detail.familie)
-			self.tab.open(require('module/taxo.gattungoffamily.window').create(detail.familie));
+			self.tab.open(require('ui/taxo.gattungoffamily.window').create(detail.familie));
 		if (detail.searchresult)
-			self.tab.open(require('module/detail.window').create(detail.searchresult));
+			self.tab.open(require('ui/detail.window').create(detail.searchresult));
 
 	});
 
 	self.add(self.listview_of_taxonomy);
 	return self;
-}
+};

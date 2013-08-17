@@ -1,5 +1,5 @@
 exports.create = function() {
-	var self = require('module/win').create('Offener Naturführer');
+	var self = require('ui/win').create('Offener Naturführer');
 	//	Ti.App.Dichotom.importDichotom('Droseria');
 	var tv = Ti.UI.createTableView({
 		backgroundColor : 'transparent'
@@ -68,10 +68,10 @@ exports.create = function() {
 	tv.addEventListener('click', function(_e) {
 		if (_e.rowData.hasChild == false)
 			return;
-		self.tab.open(require('module/dichotom.window').create({
+		self.tab.open(require('ui/dichotom.window').create({
 			dichotom_id : _e.rowData.dichotom.id,
 			dichotom_title : _e.rowData.dichotom.Title.text
 		}));
 	});
 	return self;
-}
+};

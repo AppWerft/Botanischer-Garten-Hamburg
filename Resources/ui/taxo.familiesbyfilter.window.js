@@ -1,12 +1,12 @@
 exports.create = function(_list) {
-	var self = require('module/win').create('Gefundene Familien');
+	var self = require('ui/win').create('Gefundene Familien');
 	var taxonomysections = [];
 	var familien = Ti.App.LokiModel.getFamilienByList(_list);
 	return self;
 }/*
 exports.create = function(_familie) {
-	var self = require('module/win').create(_familie);
-	var plantsTemplate = require('module/TEMPLATES').plantrow;
+	var self = require('ui/win').create(_familie);
+	var plantsTemplate = require('ui/TEMPLATES').plantrow;
 	setTimeout(function() {
 		var sections = [];
 		Ti.App.LokiModel.getGattungenByFamilie(_familie, function(_results) {
@@ -44,7 +44,7 @@ exports.create = function(_familie) {
 			layout : 'vertical'
 		});
 		self.listView.addEventListener('itemclick', function(_e) {
-			self.tab.open(require('module/detail.window').create(_e.itemId), {
+			self.tab.open(require('ui/detail.window').create(_e.itemId), {
 				animate : true
 			});
 		});

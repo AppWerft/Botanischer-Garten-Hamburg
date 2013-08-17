@@ -1,5 +1,5 @@
 exports.create = function() {
-	var self = require('module/win').create('Kalender');
+	var self = require('ui/win').create('Kalender');
 
 	Ti.Calendar = require('ag.calendar');
 	Ti.Calendar.dataSource("coredata");
@@ -163,4 +163,4 @@ exports.create = function() {
 		calendarView.selectTodaysDate();
 	}, 1000);
 	return self;
-}
+};

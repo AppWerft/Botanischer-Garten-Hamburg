@@ -1,5 +1,5 @@
 exports.create = function(_img, _title) {
-	var win = require('module/win').create(_title);
+	var win = require('ui/win').create(_title);
 	win.backButtonTitle = 'Zurück';
 	var imgView = Ti.UI.createImageView({
 		image : _img[0],
@@ -54,4 +54,4 @@ exports.create = function(_img, _title) {
 		console.log(_e);
 	});
 	return win;
-}
+};

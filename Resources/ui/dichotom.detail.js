@@ -1,5 +1,4 @@
 exports.create = function(_item) {
-	console.log(_item.media);
 	var self = Ti.UI.createWindow({
 		navBarHidden : true,
 		transform : Ti.UI.create2DMatrix({
@@ -38,4 +37,4 @@ exports.create = function(_item) {
 		})
 	}));
 	return self;
-}
+};

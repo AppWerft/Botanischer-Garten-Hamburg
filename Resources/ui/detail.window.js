@@ -13,13 +13,13 @@ exports.create = function(_data) {
 			url : _img[0]
 		});
 		img.addEventListener('click', function(_e) {
-			win.tab.open(require('module/image.window').create(_img, win.title))
+			win.tab.open(require('ui/image.window').create(_img, win.title))
 		})
 		row.add(img);
 		win.tv.data = sections;
 	}
 
-	var win = require('module/win').create('');
+	var win = require('ui/win').create('');
 	var sections = [];
 	win.tv = Ti.UI.createTableView({
 		backgroundColor : 'transparent',
@@ -41,35 +41,35 @@ exports.create = function(_data) {
 		}), Ti.UI.createTableViewSection({
 			headerTitle : 'Wikipedia-Artikel'
 		})];
-		sections[1].add(require('module/detail.row').create({
+		sections[1].add(require('ui/detail.row').create({
 			label : 'Ordnung',
 			text : plant.ordnung,
 		}, win));
-		sections[1].add(require('module/detail.row').create({
+		sections[1].add(require('ui/detail.row').create({
 			label : 'Familie',
 			text : plant.familie
 		}, win));
-		sections[1].add(require('module/detail.row').create({
+		sections[1].add(require('ui/detail.row').create({
 			label : 'Gattung Art',
 			text : latein
 		}, win));
 		win.title = plant.deutsch;
 		if (plant.unterart)
-			sections[1].add(require('module/detail.row').create({
+			sections[1].add(require('ui/detail.row').create({
 				label : 'Unterart',
 				text : plant.unterart
 			}));
 		if (plant.sorte)
-			sections[1].add(require('module/detail.row').create({
+			sections[1].add(require('ui/detail.row').create({
 				label : 'Sorte',
 				text : plant.sorte
 			}));
-		sections[1].add(require('module/detail.row').create({
+		sections[1].add(require('ui/detail.row').create({
 			label : 'Deutscher Name',
 			text : plant.deutsch
 		}));
 		for (var area in standorte) {
-			sections[2].add(require('module/detail.row').create({
+			sections[2].add(require('ui/detail.row').create({
 				label : 'Bereich',
 				text : area + ' [' + standorte[area] + ']',
 				area : area,
@@ -90,7 +90,7 @@ exports.create = function(_data) {
 		}
 		wikirow.addEventListener('click', function(_e) {
 			if (_e.source.url) {
-				win.tab.open(require('module/web.window').create(_e.source.url));
+				win.tab.open(require('ui/web.window').create(_e.source.url));
 			}
 		});
 		sections[4].add(wikirow);
@@ -115,7 +115,7 @@ exports.create = function(_data) {
 		};
 		for (var lang in languages) {
 			require('vendor/wikipedia').search4Article(lang, latein, function(_data) {
-				sections[3].add(require('module/detail.row').create({
+				sections[3].add(require('ui/detail.row').create({
 					label : languages[_data.lang],
 					text : _data.title,
 					textalign : (_data.dir == 'rtl') ? 'right' : 'left'
@@ -142,4 +142,4 @@ exports.create = function(_data) {
 		});
 	});
 	return win;
-}
+};

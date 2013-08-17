@@ -3,7 +3,7 @@ var Map = function() {
 	var self = this;
 	var Picker;
 	this.area = {};
-	this.win = require('module/win').create('Loki-Schmidt-Gartenplan');
+	this.win = require('ui/win').create('Loki-Schmidt-Gartenplan');
 
 	this.activearea = null;
 	this.locked = false;
@@ -23,7 +23,7 @@ var Map = function() {
 	this.win.rightNavButton = areaButton;
 	Ti.include('/depot/icons.js');
 	// special Map with overlays
-	self.win.overlayslider = require('module/overlayslider').create({
+	self.win.overlayslider = require('ui/overlayslider').create({
 		onstop : function(_e) {
 			self.setAlphaGroundOverlay(_e);
 		},
@@ -39,8 +39,8 @@ var Map = function() {
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
-			latitudeDelta : 0.005,
-			longitudeDelta : 0.005
+			latitudeDelta : 0.008,
+			longitudeDelta : 0.008
 		}
 	});
 	self.win.add(self.win.map);
@@ -49,6 +49,7 @@ var Map = function() {
 		onload : function(_a) {
 			self.area = _a;
 			for (var name in self.area.area_arrays) {
+				/*
 				self.overlays_passive[name] = {
 					name : name,
 					type : "polygon",
@@ -68,9 +69,9 @@ var Map = function() {
 					fillColor : "black",
 					fillAlpha : 0
 				};
-				self.win.map.addOverlay(self.overlays_passive[name]);
+				self.win.map.addOverlay(self.overlays_passive[name]);*/
 			}
-			var pickermodule = require('module/areapicker');
+			var pickermodule = require('ui/areapicker');
 			Picker = new pickermodule({
 				onchange : function(_name) {
 					self.setArea(_name);
@@ -152,15 +153,15 @@ var Map = function() {
 	});
 	this.win.map.addEventListener('click', function(_e) {
 		if (_e.clicksource == 'rightButton' && _e.annotation.layer == 'area') {
-			self.win.tab.open(require('module/bereich.window').create(_e.annotation.title));
+			self.win.tab.open(require('ui/bereich.window').create(_e.annotation.title));
 		}
 	});
 	return this;
-}
+};
 
 Map.prototype.createWindow = function() {
 	return this.win;
-}
+};
 /*
  *
  *
@@ -192,7 +193,8 @@ Map.prototype.setArea = function(_name) {
 	}
 	self.win.map.addAnnotation(self.win.map.annotation);
 	self.win.map.selectAnnotation(self.win.map.annotation);
-}
+};
+
 var overlay = {
 	name : 'loki_esri_map',
 	type : 'image',
@@ -210,12 +212,12 @@ var overlay = {
 
 Map.prototype.addGroundOverlay = function() {
 	this.win.map.addOverlay(overlay);
-}
+};
 Map.prototype.removeGroundOverlay = function() {
 	this.win.map.removeOverlay({
 		name : 'loki_esri_map'
 	});
-}
+};
 Map.prototype.setAlphaGroundOverlay = function(alpha) {
 	overlay.alpha = alpha;
 	this.win.map.removeOverlay({
@@ -223,5 +225,5 @@ Map.prototype.setAlphaGroundOverlay = function(alpha) {
 	});
 	this.win.map.addOverlay(overlay);
 
-}
+};
 module.exports = Map;

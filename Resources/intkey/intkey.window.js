@@ -1,5 +1,5 @@
 exports.create = function(_id) {
-	var self = require('module/win').create('iDelta');
+	var self = require('ui/win').create('iDelta');
 	
 
 	self.carousel = Ti.App.Carousel.createCarouselView({
@@ -12,7 +12,7 @@ exports.create = function(_id) {
 	});
 
 	self.add(self.carousel);
-	//self.add(require('module/intkey.character').create(intkey.characters[1]));
+	//self.add(require('ui/intkey.character').create(intkey.characters[1]));
 
 	self.addEventListener('close', function() {
 		self.removeAllChildren();
@@ -27,4 +27,4 @@ exports.create = function(_id) {
 	self.carousel.views = views;
 	self.carousel.reloadData();
 	return self;
-}
+};
