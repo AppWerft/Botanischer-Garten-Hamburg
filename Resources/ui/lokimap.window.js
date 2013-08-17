@@ -39,8 +39,8 @@ var Map = function() {
 		region : {
 			latitude : 53.5614057,
 			longitude : 9.8614097,
-			latitudeDelta : 0.008,
-			longitudeDelta : 0.008
+			latitudeDelta : 0.005,
+			longitudeDelta : 0.005
 		}
 	});
 	self.win.add(self.win.map);
@@ -49,7 +49,7 @@ var Map = function() {
 		onload : function(_a) {
 			self.area = _a;
 			for (var name in self.area.area_arrays) {
-				/*
+				
 				self.overlays_passive[name] = {
 					name : name,
 					type : "polygon",
@@ -69,7 +69,7 @@ var Map = function() {
 					fillColor : "black",
 					fillAlpha : 0
 				};
-				self.win.map.addOverlay(self.overlays_passive[name]);*/
+				self.win.map.addOverlay(self.overlays_passive[name]);
 			}
 			var pickermodule = require('ui/areapicker');
 			Picker = new pickermodule({
@@ -206,7 +206,7 @@ var overlay = {
 		latitude : 53.5587,
 		longitude : 9.8641
 	},
-	alpha : 0.1,
+	alpha : 0.6,
 	img : 'assets/gartenplan.png'
 };
 
