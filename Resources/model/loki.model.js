@@ -1,9 +1,9 @@
 var DBNAME = 'flora1', DBFILE = '/depot/floradb.sql', AREACACHE = true;
-
+var Areas = require('vendor/KMLTools').getPolygonsFromLocalKML('depot/Botanischer Garten Hamburg.kml');
 var LokiModel = function() {
 	this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
 	return this;
-}
+};
 
 module.exports = LokiModel;
 
@@ -12,7 +12,7 @@ LokiModel.prototype.getAreas = function(_args) {
 	if (AREACACHE) {
 		try {
 			if (Ti.App.Properties.hasProperty('areas')) {
-				_args.onload(JSON.parse(Ti.App.Properties.getString('areas')))
+				_args.onload(JSON.parse(Ti.App.Properties.getString('areas')));
 				return;
 			}
 		} catch (E) {
@@ -83,13 +83,13 @@ LokiModel.prototype.getAreas = function(_args) {
 				area_names : keys,
 				area_arrays : arrays
 			};
-			Ti.App.Properties.setString('areas', JSON.stringify(result))
+			Ti.App.Properties.setString('areas', JSON.stringify(result));
 			_args.onload(result);
 		}
 	});
 	xhr.open('GET', 'http://lab.min.uni-hamburg.de/botanischergarten/api/');
 	xhr.send(null);
-}
+};
 
 LokiModel.prototype.getFamilien = function() {
 	var sql = 'SELECT DISTINCT familie, count(familie) AS total FROM flora WHERE familie NOT LIKE "?%" GROUP BY familie';
@@ -114,7 +114,7 @@ LokiModel.prototype.getFamilien = function() {
 		}
 	}
 	return res;
-}
+};
 
 LokiModel.prototype.getGattungenByFamilie = function(_familie, _callback) {
 	var sql = 'SELECT DISTINCT gattung FROM flora WHERE familie="' + _familie + '" ORDER BY gattung';
@@ -128,7 +128,7 @@ LokiModel.prototype.getGattungenByFamilie = function(_familie, _callback) {
 	}
 	resultSet.close();
 	_callback(results);
-}
+};
 
 LokiModel.prototype.getAll = function() {
 	function saveQR(latin) {
@@ -137,7 +137,7 @@ LokiModel.prototype.getAll = function() {
 			return;
 		var xhr = Ti.Network.createHTTPClient({
 			onerror : function() {
-				console.log(this.status)
+				console.log(this.status);
 			},
 			onload : function() {
 				qrfile.write(this.responseData);
@@ -161,7 +161,7 @@ LokiModel.prototype.getAll = function() {
 	}
 	resultSet.close();
 	this.lokiLink.close();
-}
+};
 
 LokiModel.prototype.search = function(_options, _callback) {
 	if (_options.needle.length < 1)
@@ -188,17 +188,17 @@ LokiModel.prototype.search = function(_options, _callback) {
 	}
 	resultSet.close();
 	if (_callback && typeof (_callback) === 'function')
-		_callback(results)
+		_callback(results);
 	else
-		return results
-}
+		return results;
+};
 
 LokiModel.prototype.getDetail = function(_data, _callback) {
 	try {
 		var areas = Areas.regions;
 		if (!this.lokiLink)
 			this.lokiLink = Ti.Database.install(DBFILE, DBNAME);
-		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"'
+		var q = 'SELECT * FROM flora WHERE unterbereich <> "" AND gattung="' + _data.gattung + '" AND art="' + _data.art + '"';
 		if (_data.subart)
 			q += ' AND subart="' + _data.subart + '"';
 		var resultSet = this.lokiLink.execute(q);
@@ -236,7 +236,7 @@ LokiModel.prototype.getDetail = function(_data, _callback) {
 					gattung : resultSet.fieldByName('gattung'),
 					standort : resultSet.fieldByName('standort'),
 					ordnung : ordnung
-				}
+				};
 			}
 			// collecting of area datas
 			var bereich = resultSet.fieldByName('bereich');
@@ -252,9 +252,9 @@ LokiModel.prototype.getDetail = function(_data, _callback) {
 			_callback(res);
 		resultSet.close();
 	} catch(E) {
-		console.log(E)
+		console.log(E);
 	}
-}
+};
 
 LokiModel.prototype.getDetailFromNet = function() {
 	var results = [];
@@ -284,7 +284,7 @@ LokiModel.prototype.getDetailFromNet = function() {
 		if (_callback)
 			_callback(res);
 	});
-}
+};
 
 LokiModel.prototype.getCalendar = function(_callback) {
 	var url = 'http://bghamburg.de/veranstaltungen?format=feed&type=rss&limit=100';
@@ -305,7 +305,7 @@ LokiModel.prototype.getCalendar = function(_callback) {
 	});
 	xhr.open('GET', url);
 	xhr.send();
-}
+};
 
 LokiModel.prototype.getFamilienByOrdnung = function(_ordnung) {
 	var familien = {};
@@ -323,9 +323,10 @@ LokiModel.prototype.getFamilienByOrdnung = function(_ordnung) {
 		}
 		resultSet.close();
 	}
-	console.log(familien);
 	return familien;
-}
+};
+
+
 LokiModel.prototype.getFamilienByList = function(_list) {
 	var familien = {};
 	for (var i = 0; i < _list.length; i++) {
@@ -344,7 +345,7 @@ LokiModel.prototype.getFamilienByList = function(_list) {
 	}
 	console.log(familien);
 	return familien;
-}
+};
 
 LokiModel.prototype.getArtenByGattung = function(_gattung, _callback) {
 	var q = 'SELECT * FROM flora WHERE bereich <> "" AND gattung="' + _gattung + '" GROUP BY gattung,art,subart ORDER BY art';
@@ -362,7 +363,7 @@ LokiModel.prototype.getArtenByGattung = function(_gattung, _callback) {
 	resultSet.close();
 	_callback(results);
 	return results;
-}
+};
 
 LokiModel.prototype.getArtenByBereich = function(_bereich, _callback) {
 	if (!_bereich)
@@ -385,7 +386,7 @@ LokiModel.prototype.getArtenByBereich = function(_bereich, _callback) {
 	if (_callback && typeof (_callback) == 'function')
 		_callback(results);
 	else
-		return results
+		return results;
 };
 
 LokiModel.prototype.savePOI = function(_poi) {
@@ -408,5 +409,5 @@ LokiModel.prototype.getBereiche = function() {
 	}
 	resultSet.close();
 	return (results);
-}
+};
 

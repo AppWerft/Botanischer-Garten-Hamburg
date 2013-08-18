@@ -46,6 +46,7 @@
         <module platform="iphone">ti.imagefactory</module>
         <module platform="android">ti.imagefactory</module>
         <module platform="iphone">com.obscure.ticarousel</module>
+        <module platform="iphone">ti.xml2json</module>
     </modules>
     <deployment-targets>
         <target device="blackberry">false</target>

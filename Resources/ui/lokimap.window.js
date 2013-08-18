@@ -49,7 +49,7 @@ var Map = function() {
 		onload : function(_a) {
 			self.area = _a;
 			for (var name in self.area.area_arrays) {
-				
+
 				self.overlays_passive[name] = {
 					name : name,
 					type : "polygon",
@@ -79,15 +79,21 @@ var Map = function() {
 				area_names : self.area.area_names
 			});
 			self.win.add(Picker.getView());
+
+			/* area clicking */
 			self.win.map.addEventListener('longpress', function(_e) {
-				if (self.locked)
+				if (self.locked) {
+					console.log('Info: map long pressed');
 					return;
+				}
 				self.locked = true;
 				if (self.win.map.annotation) {
+					console.log('Info: removing old annotation');
 					self.win.map.removeAnnotation(self.win.map.annotation);
 					self.win.map.annotation = null;
 				}
 				var clickpoint = require('vendor/map.polygonclick').getClickPosition(_e);
+				console.log('Info: clickpoint=' + JSON.stringify(clickpoint));
 				var nameofclickedarea = undefined;
 				for (var i = 0; i < self.area.area_names.length; i++) {
 					if (require('vendor/map.polygonclick').isPointInPoly(self.area.area_arrays[self.area.area_names[i]], clickpoint) === true) {
@@ -95,6 +101,7 @@ var Map = function() {
 						break;
 					};
 				}
+				console.log('Info: clickpoint=' + nameofclickedarea);
 				if (nameofclickedarea != undefined) {
 					self.win.map.annotation = self.OverlayMap.createAnnotation({
 						latitude : self.area.area_regions[nameofclickedarea].latitude,
@@ -113,7 +120,7 @@ var Map = function() {
 					self.win.map.selectAnnotation(self.win.map.annotation);
 				}
 				setTimeout(function() {
-					self.locked = false
+					self.locked = false;
 				}, 3000);
 			});
 		} //  onload

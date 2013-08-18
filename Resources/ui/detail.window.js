@@ -13,8 +13,8 @@ exports.create = function(_data) {
 			url : _img[0]
 		});
 		img.addEventListener('click', function(_e) {
-			win.tab.open(require('ui/image.window').create(_img, win.title))
-		})
+			win.tab.open(require('ui/image.window').create(_img, win.title));
+		});
 		row.add(img);
 		win.tv.data = sections;
 	}
@@ -86,7 +86,7 @@ exports.create = function(_data) {
 				left : i * 100,
 				url : 'http://' + wikilangs[i] + '.m.wikipedia.org/wiki/' + plant.deutsch.replace(/ /, '_'),
 				image : 'assets/wiki' + wikilangs[i] + '.png'
-			}))
+			}));
 		}
 		wikirow.addEventListener('click', function(_e) {
 			if (_e.source.url) {
