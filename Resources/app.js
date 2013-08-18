@@ -1,5 +1,4 @@
 (function() {
-	Ti.App.XML2JSON = require('ti.xml2json');
 	Ti.App.Carousel = require('com.obscure.ticarousel');
 	Ti.include('/vendor/prototypes.js');
 //	var dichotom = require('model/dichotom.model');

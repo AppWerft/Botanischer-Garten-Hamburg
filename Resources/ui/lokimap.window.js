@@ -55,7 +55,7 @@ var Map = function() {
 					type : "polygon",
 					points : self.area.area_arrays[name],
 					strokeColor : "green",
-					strokeAlpha : 1,
+					strokeAlpha : 0,
 					fillColor : "green",
 					fillAlpha : 0
 				};
@@ -65,7 +65,7 @@ var Map = function() {
 					points : self.area.area_arrays[name],
 					strokeColor : "white",
 					strokeWidth : 2,
-					strokeAlpha : 1,
+					strokeAlpha : 0,
 					fillColor : "black",
 					fillAlpha : 0
 				};
@@ -101,12 +101,12 @@ var Map = function() {
 						longitude : self.area.area_regions[nameofclickedarea].longitude,
 						title : nameofclickedarea,
 						layer : 'area',
-						rightButton : Titanium.UI.iPhone.SystemButton.DISCLOSURE,
+						rightButton : Ti.UI.iPhone.SystemButton.DISCLOSURE,
 						image : '/assets/null.png'
 					});
 					var total = self.area.area_regions[nameofclickedarea].total;
 					if (total > 0) {
-						self.win.map.annotation.rightButton = Titanium.UI.iPhone.SystemButton.DISCLOSURE;
+						self.win.map.annotation.rightButton = Ti.UI.iPhone.SystemButton.DISCLOSURE;
 						self.win.map.annotation.subtitle = total + ' Pflanzen';
 					}
 					self.win.map.addAnnotation(self.win.map.annotation);
