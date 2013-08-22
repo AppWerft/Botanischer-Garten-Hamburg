@@ -16,3 +16,6 @@ exports.toLatLon = function(foo) {
 		longitude : num7 * 57.295779513082323
 	};
 };
+exports.toWGS84 = function(foo) {
+	
+};
