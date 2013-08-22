@@ -20,7 +20,7 @@ exports.getClickPosition = function(_options) {
 		latitude : region.latitude + region.latitudeDelta / 2 - y * parseFloat(region.latitudeDelta) / height,
 		longitude : region.longitude - region.longitudeDelta / 2 + x * parseFloat(region.longitudeDelta) / width
 	};
-}
+};
 
 exports.isPointInPoly = function(poly, pt) {
 	var len = poly.length;
@@ -28,7 +28,8 @@ exports.isPointInPoly = function(poly, pt) {
 		((poly[i].latitude <= pt.latitude && pt.latitude < poly[j].latitude) || (poly[j].latitude <= pt.latitude && pt.latitude < poly[i].latitude)) && (pt.longitude < (poly[j].longitude - poly[i].longitude) * (pt.latitude - poly[i].latitude) / (poly[j].latitude - poly[i].latitude) + poly[i].longitude) && ( found = !found);
 	}
 	return found;
-}
+};
+
 
 
 exports.isInCircle = function(_options) {
