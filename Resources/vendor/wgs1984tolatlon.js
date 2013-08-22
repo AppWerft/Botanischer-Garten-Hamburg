@@ -15,6 +15,7 @@ exports.toLatLon = function(_foo) {
 		longitude : num7 * 57.295779513082323
 	};
 };
+
 exports.toWGS84 = function(_foo) {
 	var lat = _foo.lat || _foo.latitude;
 	var lon = _foo.lon || _foo.lng || _foo.longitude;
