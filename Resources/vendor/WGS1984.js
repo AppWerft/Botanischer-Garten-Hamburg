@@ -24,4 +24,4 @@ exports.toWGS84 = function(_foo) {
 	var a = lon * 0.017453292519943295;
 	return [6378137.0 * lat * 0.017453292519943295, 3189068.5 * Math.log((1.0 + Math.sin(a)) / (1.0 - Math.sin(a)))];
 
-};
+}; 
