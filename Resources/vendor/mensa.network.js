@@ -1,5 +1,6 @@
 function parseRes(_foo) {
-	var menue = [], h1 = [], li = [], res = [], regex = [/<h1>(.*?)<\/h1>[\s]*<ul>(.*?)<\/ul>/g, /<li>(.*?)[\s]*\((.*?)\)<\/li>/g];
+	console.log(_foo);
+	var menue = [], h1 = [], li = [], res = [], regex = [/<h1>(.*?)<\/h1>[\s]*<ul>(.*?)<\/ul>/gm, /<li>(.*?)[\s]*\((.*?)\)<\/li>/gm];
 	while ( h1 = regex[0].exec(_foo)) {
 		var group = {
 			name : h1[1],
@@ -15,6 +16,7 @@ function parseRes(_foo) {
 		menue.push(group);
 		h1 = [];
 	}
+	console.log(menue);
 	return (menue);
 }
 
@@ -22,17 +24,16 @@ exports.getMenue = function(_mensa, _callback) {
 	if (!_mensa)
 		_mensa = 'hamburg/mensa-botanischer-garten';
 	var url = 'http://rss.imensa.de/' + _mensa + '/speiseplan.rss';
-	console.log(url);
 	var xhr = Ti.Network.createHTTPClient({
 		timeout : 20000,
 		onload : function() {
 			try {
-				var json = Ti.XML2JSON.convert(this.responseText).rss;
-				html = json.channel.item['content:encoded'].text.replace(/&amp;/g, '&').replace(/ style="(.*?)"/g, '').replace(/  /g, '').replace(/…/g, '');
+				var XMLTools = require("vendor/XMLTools");
+				var xml = new XMLTools(this.responseText.replace(/[\s]+/gm,' '));
+				var json = xml.toObject().channel.item['content:encoded'];
+				html = json.replace(/&amp;/g, '&').replace(/ style="(.*?)"/g, '').replace(/  /g, '').replace(/…/g, '').replace(/<p>.*?<\/p>/gm,'');
 				if (_callback && typeof (_callback) == 'function')
 					_callback(parseRes(html));
-				//var json = html2json(html);
-				//console.log(json);
 			} catch(E) {
 				console.log(E);
 				_callback(null);
@@ -44,7 +45,8 @@ exports.getMenue = function(_mensa, _callback) {
 	});
 	xhr.open('GET', url);
 	xhr.send();
-}
+};
+
 exports.mensen = [{
 	wus : 'BLS Hamburg',
 	sw : 'hamburg',

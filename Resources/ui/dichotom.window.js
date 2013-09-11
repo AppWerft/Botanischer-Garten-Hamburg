@@ -8,7 +8,7 @@ exports.create = function(_args) {
 	leftButton.addEventListener('click', function() {
 		self.close({
 			animated : true
-		})
+		});
 	});
 	var decision = Ti.App.Dichotom.getDecisionById(_args);
 	if (!decision)
@@ -50,7 +50,7 @@ exports.create = function(_args) {
 		backgroundColor : 'transparent',
 		top : (decision.meta) ? 90 : 0
 	});
-	self.add(tv)
+	self.add(tv);
 	var rows = [];
 	for (var i = 0; i < decision.alternatives.length; i++) {
 		var alt = decision.alternatives[i];
@@ -116,6 +116,6 @@ exports.create = function(_args) {
 	});
 	self.addEventListener('close', function() {
 		self = null;
-	})
+	});
 	return self;
 };

@@ -4,7 +4,7 @@ var Dichotom = function() {
 	this.tree_id = null;
 	this.tree_metadata = null;
 	return this;
-}
+};
 
 Dichotom.prototype.getAll = function(_args) {
 	if (Ti.App.Properties.hasProperty('dichotoms')) {
@@ -19,7 +19,7 @@ Dichotom.prototype.getAll = function(_args) {
 	});
 	xhr.open('GET', 'http://offene-naturfuehrer.de/w/index.php?title=Special:TemplateParameterExport&action=submit&do=export&template=MobileKey');
 	xhr.send(null);
-}
+};
 
 Dichotom.prototype.importDichotom = function(_args) {
 	var self = this;
@@ -73,7 +73,7 @@ Dichotom.prototype.importDichotom = function(_args) {
 	xhr.open('GET', url);
 	xhr.send(null);
 	data = null;
-}
+};
 
 Dichotom.prototype._getAll = function() {
 	var resultset = this.dblink.execute('SELECT * FROM dichotoms');
@@ -88,7 +88,7 @@ Dichotom.prototype._getAll = function() {
 	}
 	resultset.close();
 	return list;
-}
+};
 
 Dichotom.prototype.cacheImages = function(_dichotom_id) {
 	function getImage(_args) {
@@ -149,7 +149,7 @@ Dichotom.prototype.cacheImages = function(_dichotom_id) {
 
 	});
 	dialog.show();
-}
+};
 
 Dichotom.prototype.getDecisionById = function(_args) {
 	if (_args.dichotom_id) {
@@ -160,13 +160,13 @@ Dichotom.prototype.getDecisionById = function(_args) {
 		var q = 'SELECT treeid, meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" LIMIT 0,1';
 		var resultset = this.dblink.execute(q);
 		this.tree_id = resultset.fieldByName('treeid');
-		console.log('no nex_id ===> id initial setting to start-treeId "' + this.tree_id + '"')
+		console.log('no nex_id ===> id initial setting to start-treeId "' + this.tree_id + '"');
 		resultset.close();
 	} else {
 		var regex = /_decisiontree/i;
 		if (_args.next_id.match(regex)) {// new tre
 			this.tree_id = _args.next_id + '_';
-			console.log('next_id was  new treeId ' + this.tree_id)
+			console.log('next_id was  new treeId ' + this.tree_id);
 			_args.next_id = undefined;
 		} else {
 			this.tree_id = _args.tree_id;
@@ -191,7 +191,7 @@ Dichotom.prototype.getDecisionById = function(_args) {
 			meta : meta,
 			alternatives : alternatives,
 			tree_id : this.tree_id
-		}
+		};
 	} else {
 		this.tree_id = _args.tree_id;
 		var q = 'SELECT meta FROM decisiontrees WHERE dichotomid = "' + this.dichotom_id + '" AND treeid="' + this.tree_id + '"';
@@ -210,9 +210,8 @@ Dichotom.prototype.getDecisionById = function(_args) {
 				meta : meta,
 				alternatives : alternatives,
 				tree_id : this.tree_id
-			}
+			};
 		}
 	}
-
-}
+};
 module.exports = Dichotom;

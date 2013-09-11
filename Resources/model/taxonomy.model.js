@@ -22,8 +22,7 @@ exports.getPropertiesOfFamily = function(_family, _lang) {
 			ndx = counter;
 		};
 	}
-
-}
+};
 
 exports.searchFamilies = function(_ids, _callback) {
 	Ti.include('/depot/punchcards.js');
@@ -35,7 +34,7 @@ exports.searchFamilies = function(_ids, _callback) {
 			name : familyNames[counter]
 		};
 	}
-	var cols = PunchCards[0].length, rows = PunchCards.length
+	var cols = PunchCards[0].length, rows = PunchCards.length;
 	for (var loop = 0; loop < foo.length; loop++) {// alle Parameter
 		for (var row = 0; row < rows; row++) {// alle Spalten (Parameter)
 			if (foo[loop] == row + 1) {// relevante Eigenschaft
@@ -55,13 +54,13 @@ exports.searchFamilies = function(_ids, _callback) {
 	if (_callback && typeof (_callback) === 'function')
 		_callback(res);
 	return res;
-}
+};
 
 exports.searchFamiliesRemote = function(_ids, _callback) {
 	return;
 	var params = [];
 	for (var i = 0; i < _ids.length; i++) {
-		params.push('T=P' + _ids[i])
+		params.push('T=P' + _ids[i]);
 	}
 	var post = params.join('&');
 	var xhr = Ti.Network.createHTTPClient({

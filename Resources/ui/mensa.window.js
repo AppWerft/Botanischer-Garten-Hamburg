@@ -25,7 +25,7 @@ exports.create = function() {
 			}
 			self.tv.setData(sections);
 		});
-	}
+	};
 	var self = require('ui/win').create('UHH✦intern', true);
 	self.backgroundImage = 'Default.png';
 	self.rightButton = Ti.UI.createButton({
@@ -73,7 +73,7 @@ exports.create = function() {
 							scale : 1,
 							duration : 5000
 						})
-					})
+					});
 				})
 			});
 			bigimage.addEventListener('click', function() {

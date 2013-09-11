@@ -8,7 +8,7 @@ for (var counter = 0; counter < familyNames.length; counter++) {
 		name : familyNames[counter]
 	};
 }
-var cols = PunchCards[0].length, rows = PunchCards.length
+var cols = PunchCards[0].length, rows = PunchCards.length;
 for (var loop = 0; loop < foo.length; loop++) {// alle Parameter
 	for (var row = 0; row < rows; row++) {// alle Spalten (Parameter)
 		if (foo[loop] == row + 1) {// relevante Eigenschaft

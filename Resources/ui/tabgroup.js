@@ -42,12 +42,19 @@ exports.create = function() {
 	 });
 	 tabGroup.addTab(panoTab);*/
 	
-	var deltaTab = TabBar.createTab({
+	/*var deltaTab = TabBar.createTab({
 		icon : 'assets/delta.png',
 		title : 'iDelta',    
 		window : require('intkey/main.window').create('')
 	});
 	tabGroup.addTab(deltaTab);
+	*/
+	var mensaTab = TabBar.createTab({
+		icon : 'assets/fork-and-knife.png',
+		title : 'Mensa',    
+		window : require('ui/mensa.window').create('')
+	});
+	tabGroup.addTab(mensaTab);
 	var matrixTab = TabBar.createTab({
 		icon : 'assets/flowericon.png',
 		title : 'Familienfilter',

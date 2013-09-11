@@ -55,6 +55,6 @@ exports.create = function(_mensen, _callback) {
 		url : 'hamburg/mensa-botanischer-garten',
 		wus : 'hamburg',
 		latlon : '53.5582243,9.8602935'
-	})
+	});
 	return self;
-}
+};

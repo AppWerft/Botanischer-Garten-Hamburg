@@ -7,7 +7,7 @@ exports.create = function() {
 	self.rightNavButton = calbutton;
 	calbutton.addEventListener('click', function() {
 		self.tab.open(require('ui/calendar.window').create())
-	})
+	});
 	self.tv = Ti.UI.createTableView({
 		top : 0,
 		height : Ti.UI.FILL,
@@ -51,7 +51,7 @@ exports.create = function() {
 			}));
 		}
 		self.tv.setData(rows);
-	})
+	});
 
 	self.tv.addEventListener('click', function(_e) {
 		var win = require('ui/win').create(_e.rowData.titletext, true);

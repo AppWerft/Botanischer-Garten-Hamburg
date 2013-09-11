@@ -84,7 +84,7 @@ exports.create = function(_ordnung) {
 			top : 10,
 			right : 5
 		});
-		self.familylist.add(self.total)
+		self.familylist.add(self.total);
 		self.listview_of_filterquestions.addEventListener('itemclick', function(_e) {
 			var item = _e.section.getItemAt(_e.itemIndex);
 			if (!item.selected) {
@@ -106,7 +106,7 @@ exports.create = function(_ordnung) {
 					}
 				}
 			}
-			require('ui/taxonomy.model').searchFamilies(plantproperties, function(_familydata) {
+			require('model/taxonomy.model').searchFamilies(plantproperties, function(_familydata) {
 				var count = _familydata.length;
 				var data = [];
 				for (var i = 0; i < count; i++) {

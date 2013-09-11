@@ -3,7 +3,7 @@ exports.create = function(r) {
 		hasChild : true,
 		data : r,
 		layout : 'vertical',
-		backgroundColor : 'white',
+		backgroundColor : '#fff',
 		height : Ti.UI.SIZE
 	});
 	self.add(Ti.UI.createLabel({
@@ -30,4 +30,4 @@ exports.create = function(r) {
 		bottom : Ti.UI.CONF.padding
 	}));
 	return self;
-}
+};
